@@ -14,4 +14,4 @@
 - 西山 大輝
 
 ## URL
-
+https://enpitut2019.github.io/MedicalPaymentService/patient-client/dist/
