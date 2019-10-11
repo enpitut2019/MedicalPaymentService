@@ -9,15 +9,12 @@
         <td>options <input type="text" v-model="inputOptions"></td>
       </tr>
       <input type="button" @click="generate" value="生成">
-      <vue-qrcode v-if="targetText" :value="targetText" :options="option" tag="img"></vue-qrcode>
-      <p>qrcode_message is {{ targetText }}</p>
-      <!-- <qrcode value="https://www.1stg.me" /> -->
+      <vue-qrcode v-if="encrypted_strings" :value="encrypted_strings" :options="option" tag="img"></vue-qrcode>
   </div>
 </template>
 
 <script>
 import VueQrcode from "@chenfengyuan/vue-qrcode";
-// import Qrcode from 'vue-qrcode';
 export default {
   components: {
     VueQrcode
@@ -30,6 +27,8 @@ export default {
       inputAge: "",
       inputOptions: "",
       targetText: "",
+      encrypted_strings: "",
+      txt_key: localStorage.getItem('passPhrase'),
       option: {
         errorCorrectionLevel: "M",
         maskPattern: 0,
@@ -45,7 +44,12 @@ export default {
   },
   methods: {
     generate: function() {
+      let CryptoJS = require("crypto-js");
+      let AES = require("crypto-js/aes");
       this.targetText = this.inputName + ',' + this.inputAddress + ',' + this.inputSex + ',' + this.inputAge + ',' + this.inputOptions;
+      let utf8_plain = CryptoJS.enc.Utf8.parse(this.targetText);
+      let encrypted = CryptoJS.AES.encrypt(utf8_plain, this.txt_key);
+      this.encrypted_strings = this.txt_key + "," + encrypted.toString();
     }
   }
 };
