@@ -1,4 +1,4 @@
-pragma solidity ^0.5.10;
+pragma solidity ^0.5.11;
 pragma experimental ABIEncoderV2;
 
 import "./Examination.sol";
@@ -24,6 +24,7 @@ contract Hospital{
     function startExamination(string memory _passportNo, string memory _patientData, bytes memory _signature, string memory _patientPassPhrase) public{
         Examination tmp = new Examination(_patientData, _signature, _patientPassPhrase, msg.sender, tokenAddress);
         examinationList[msg.sender].push(ExaminationInfo(_passportNo, tmp, now));
+        // 署名を検証してアドレスを出す
         emit StartExamination(address(tmp), msg.sender, tmp.getPatientAddress());
     }
     

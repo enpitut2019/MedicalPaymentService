@@ -1,20 +1,23 @@
-pragma solidity ^0.5.10;
+pragma solidity ^0.5.11;
 pragma experimental ABIEncoderV2;
 
 import "./Library.sol";
-import "./UsingERC20.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
 
-contract Examination is UsingERC20, Library{
-    address hospitalAddress;
-    address patientAddress;
-    uint256 medicalCost;
-    uint256 unpaidCost;
-    bool signCompleted;
-    string patientData;
-    string patientPassPhrase;
-    // contractで消費したETH（usedGas*gasPriceの合計）
-    uint256 usedETH;
-    address public test;
+/** @dev 診療ごとに発行されるコントラクト
+  */
+contract Examination is Library {
+    address private hospitalAddress;
+    address private patientAddress;
+    uint256 private medicalCost;
+    uint256 private unpaidCost;
+    bool private signCompleted;
+    string private patientData;
+    string private patientPassPhrase;
+    uint256 private usedEther;
+    ERC20Detailed internal ERC20Token;
+
     event SetMedicalCost(uint256 medicalCost);
     event SignMedicalCost(bool signed);
     event WithDraw(uint256 unpaidCost);
@@ -27,48 +30,69 @@ contract Examination is UsingERC20, Library{
       * @param _hospitalAddress 病院のアドレス
       * @param _tokenAddress 使用するERC20準拠Tokenのコントラクトアドレス
       */
-    constructor(string memory _patientData, bytes memory _signature, string memory _patientPassPhrase, address _hospitalAddress, address _tokenAddress) UsingERC20(_tokenAddress) public countUsedETH{
-        hospitalAddress = _hospitalAddress;
+    constructor(string memory _patientData, bytes memory _signature, string memory _patientPassPhrase, address _hospitalAddress, address _tokenAddress) public countUsedETH{
         patientData = _patientData;
-        patientPassPhrase = _patientPassPhrase;
         patientAddress = recoverAddress(_patientData, _signature);
+        patientPassPhrase = _patientPassPhrase;
+        hospitalAddress = _hospitalAddress;
+        ERC20Token = ERC20Detailed(_tokenAddress);
     }
-    
+
+    /** @dev 病院のみが操作可能
+      */
     modifier onlyOwner() {
         require(hospitalAddress == msg.sender);
         _;
     }
     
+    /** @dev 消費したGas量とトランザクションのGasPriceからスマートコントラクトで使用したEther量を記録
+      */
     modifier countUsedETH() {
-        usedETH += gasleft()*tx.gasprice;
+        usedEther += gasleft()*tx.gasprice;
         _;
     }
     
-    //Hospital Contaractから呼ぶ
-    function getPatientAddress() public view returns(address){
-        return patientAddress;
-    }
-    
-    /** @dev 患者から署名付きの患者データを受け取ってスマートコントラクトを初期化
+    /** @dev 患者の情報を取得
       * @return address 患者のアドレス
       * @return string 患者の暗号化済み特記事項
       * @return string 患者の暗号鍵をさらに病院の暗号鍵で暗号化したもの
+      */
+    function getPatientInfo() public view returns (address, string memory, string memory) {
+        return (patientAddress, patientData, patientPassPhrase);
+    }
+
+    /** @dev 支払状況の取得
       * @return uint256 デポジット金額
       * @return uint256 登録された医療費
       * @return uint256 未収金金額
-      * @return bool 署名済みか？
-      * @return uint256 contractで消費したETH
-      * @return TokenData 使用するERC20Tokenの情報
+      * @return bool 医療費が確定しているか
       */
-    function getContractData() public view returns(address, string memory, string memory, uint256, uint256, uint256, bool, uint256, TokenData memory){
-        return (patientAddress, patientData, patientPassPhrase, ERC20Token.balanceOf(address(this)), medicalCost, unpaidCost, signCompleted, usedETH, getTokenData());
+    function getPaymentStatus() public view returns (uint256 balance, uint256 medicalCost, uint256 unpaidCost, bool signCompleted) {
+        return (ERC20Token.balanceOf(address(this)), medicalCost, unpaidCost, signCompleted);
+    }
+
+    /** @dev 使用しているERC20トークンの情報を取得
+      * @return name トークンの名前
+      * @return symbol トークンの単位
+      * @return decimals トークンの小数点以下の桁数
+      */
+    function getTokenData() public view returns (string memory name, string memory symbol, uint8 decimals) {
+        name = ERC20Token.name();
+        symbol = ERC20Token.symbol();
+        decimals = ERC20Token.decimals();
     }
     
+    /** @dev コントラクトで使用したEther量を返す
+      * @return uint256 Ether量
+      */
+    function getUsedEther() public view returns (uint256) {
+        return usedEther;
+    }
+
     /** @dev フォールバック関数
       */
     function () external{
     }
-    
     
     /** @dev 医療費の登録
       * @param _medicalCost 医療費 
@@ -83,36 +107,31 @@ contract Examination is UsingERC20, Library{
       * @param _signature 文字列に変換した医療費に対する患者の署名
       */
     function signMedicalCost(bytes memory _signature) public onlyOwner countUsedETH{
-        require(signCompleted == false);
-        /* これはいらない */
-        require(medicalCost != 0);
-        // 署名が患者によって行われているか
-        require(recoverAddress(uintToString(medicalCost), _signature) == patientAddress);
+        require(signCompleted == false, "医療費が既に確定");
+        require(recoverAddress(uintToString(medicalCost), _signature) == patientAddress, "患者による署名でない");
         unpaidCost = medicalCost;
         signCompleted = true;
         emit SignMedicalCost(true);
     }
     
     /** @dev 明細登録後の医療費の引き出し
-             余った分は患者に返金される
       */
     function withDraw() public onlyOwner countUsedETH{
         require(signCompleted == true);
         uint256 tokenBalance = ERC20Token.balanceOf(address(this));
         
-        if(tokenBalance == 0){
+        if(tokenBalance == 0) {
             // 何もしない
-        }else if(tokenBalance <= unpaidCost){
+        }else if(tokenBalance <= unpaidCost) {
             ERC20Token.transfer(hospitalAddress, tokenBalance);
-            unpaidCost -= tokenBalance; 
-            emit WithDraw(unpaidCost);
+            unpaidCost -= tokenBalance;
         }else{
             ERC20Token.transfer(hospitalAddress, unpaidCost);
-            emit WithDraw(0);
             unpaidCost = 0;
             // 余った分は返金
             refund();
         }
+        emit WithDraw(unpaidCost);
     }
     
     /** @dev トークン残高全てを患者へ送金
