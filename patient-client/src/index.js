@@ -11,7 +11,7 @@ import "./style.css";
 const router = new VueRouter({
     mode: "history",
     base: "MedicalPaymentService/patient-client/dist/",
-    routes: [{ path: "/", component: Top }, { path: "/about", component: About }]
+    routes: [{ path: "/", component: Top }, { path: "/about", name: "detail", component: About }]
 });
 
 new Vue({
