@@ -67,7 +67,7 @@ contract Examination{
       * @return uint256 未収金金額
       * @return bool 医療費が確定しているか
       */
-    function getPaymentStatus() public view returns (uint256 balance, uint256 medicalCost, uint256 unpaidCost, bool signCompleted) {
+    function getPaymentStatus() public view returns (uint256, uint256, uint256, bool) {
         return (ERC20Token.balanceOf(address(this)), medicalCost, unpaidCost, signCompleted);
     }
 
