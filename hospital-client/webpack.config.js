@@ -16,6 +16,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ["vue-style-loader", "css-loader"]
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                use: ['file-loader']
             }
         ]
     },
@@ -25,7 +29,8 @@ module.exports = {
         host: '0.0.0.0',
         disableHostCheck: true,
         contentBase: `${__dirname}/dist`,
-        historyApiFallback: true
+        historyApiFallback: true,
+        liveReload: false
     },
     plugins: [new VueLoaderPlugin()]
 };

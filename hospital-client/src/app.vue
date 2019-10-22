@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <router-link to="/">top</router-link>
-    <router-link to="/about">about</router-link>
-    <router-view></router-view>
+  <div class="app">
+    <transition mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
