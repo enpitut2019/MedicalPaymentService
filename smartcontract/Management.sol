@@ -3,7 +3,7 @@ pragma experimental ABIEncoderV2;
 
 import "./Examination.sol";
 
-contract Hospital{
+contract Management{
     
     event StartExamination(address contractAddress, address hospitalAddress, address patientAddress);
     address tokenAddress = 0x0abcd3eE0378B6BB406cFa8Ea4521E7B03b89713; // TestUSD
@@ -11,7 +11,6 @@ contract Hospital{
     mapping (address => ExaminationInfo[]) examinationList;
 
     struct ExaminationInfo{
-        string passportNo;
         Examination examinationContract;
         uint256 start;
     }
@@ -21,9 +20,9 @@ contract Hospital{
       * @param _signature _patientDataに対する患者の署名
       * @param _patientPassPhrase 患者の暗号鍵をさらに病院の暗号鍵で暗号化したもの
       */
-    function startExamination(string memory _passportNo, string memory _patientData, bytes memory _signature, string memory _patientPassPhrase) public{
+    function startExamination(string memory _patientData, bytes memory _signature, string memory _patientPassPhrase) public{
         Examination tmp = new Examination(_patientData, _signature, _patientPassPhrase, msg.sender, tokenAddress);
-        examinationList[msg.sender].push(ExaminationInfo(_passportNo, tmp, now));
+        examinationList[msg.sender].push(ExaminationInfo(tmp, now));
         // 署名を検証してアドレスを出す
         emit StartExamination(address(tmp), msg.sender, tmp.getPatientAddress());
     }

@@ -1,13 +1,13 @@
 pragma solidity ^0.5.11;
 pragma experimental ABIEncoderV2;
 
-import "./Library.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/cryptography/ECDSA.sol";
 
 /** @dev 診療ごとに発行されるコントラクト
   */
-contract Examination is Library {
+contract Examination{
     address private hospitalAddress;
     address private patientAddress;
     uint256 private medicalCost;
@@ -140,5 +140,35 @@ contract Examination is Library {
         uint256 tokenBalance = ERC20Token.balanceOf(address(this));
         ERC20Token.transfer(patientAddress, tokenBalance);
         emit Refund(tokenBalance);
+    }
+    
+    function getPatientAddress() public view returns (address){
+        return patientAddress;
+    } 
+    
+    function recoverAddress(string memory _message, bytes memory signature) private pure returns (address) {
+        bytes memory prefix = "\x19Ethereum Signed Message:\n";
+        string memory length = uintToString(bytes(_message).length);
+        bytes32 prefixHash = keccak256(abi.encodePacked(prefix, length, _message));
+        address signer = ECDSA.recover(prefixHash, signature);
+        require(signer != address(0));
+        return signer;
+    }
+    
+    function uintToString(uint256 v) private pure returns (string memory) {
+        if(v == 0) return "0";
+        uint maxlength = 100;
+        bytes memory reversed = new bytes(maxlength);
+        uint256 i = 0;
+        while (v != 0) {
+            uint256 remainder = v % 10;
+            v = v / 10;
+            reversed[i++] = bytes1(uint8(48 + remainder));
+        }
+        bytes memory s = new bytes(i);
+        for (uint256 j = 0; j < i; j++) {
+            s[j] = reversed[i - 1 - j];
+        }
+        return string(s);
     }
 }
