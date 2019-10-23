@@ -15,6 +15,6 @@
 
 ## URL
 病院側
-https://enpitut2019.github.io/MedicalPaymentService/hospital-client/dist/  
+https://dist.kota.now.sh/  
 患者側
 https://enpitut2019.github.io/MedicalPaymentService/patient-client/dist/
