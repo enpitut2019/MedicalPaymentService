@@ -4,7 +4,7 @@ Vue.use(VueRouter);
 
 import App from "./app.vue";
 import Top from "./top.vue";
-import About from "./about.vue";
+import About from "./detail.vue";
 
 import "./style.css";
 
