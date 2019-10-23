@@ -6,20 +6,30 @@
     <div class="page">
       <div class="container">
         <div class="containerTitle">
-          <h1>Contract Information</h1>
+          <h1>ステータス</h1>
         </div>
         <div class="list">
           <dl>
-            <dt>アドレス</dt>
-            <dd>{{contractAddress}}</dd>
-            <dt>医療費</dt>
-            <dd>{{medicalCost/ 10 ** this.tokenData["decimals"]}} {{tokenData["symbol"]}}</dd>
-            <dt>デポジット</dt>
-            <dd>{{deposit}}</dd>
-            <dt>未収金</dt>
-            <dd>{{unpaidCost}}</dd>
-            <dt>使用したEther</dt>
-            <dd>{{usedEther}}</dd>
+            <span>
+              <dt>アドレス</dt>
+              <dd>{{contractAddress}}</dd>
+            </span>
+            <span>
+              <dt>デポジット金額</dt>
+              <dd>{{deposit}}</dd>
+            </span>
+            <span v-if="!isSignCompleted">
+              <dt>請求金額</dt>
+              <dd>{{medicalCost/ 10 ** this.tokenData["decimals"]}} {{tokenData["symbol"]}}</dd>
+            </span>
+            <span v-if="isSignCompleted">
+              <dt>未収金金額</dt>
+              <dd>{{unpaidCost/ 10 ** this.tokenData["decimals"]}} {{tokenData["symbol"]}}</dd>
+            </span>
+            <span>
+              <dt>発生した手数料</dt>
+              <dd>{{usedEther*ethPrice}} JPY ({{usedEther}} ETH)</dd>
+            </span>
           </dl>
         </div>
       </div>
@@ -33,8 +43,6 @@
               <dt>{{name}}</dt>
               <dd>{{value}}</dd>
             </span>
-            <dt>Patient Address</dt>
-            <dd>{{patientAddress}}</dd>
           </dl>
         </div>
       </div>
@@ -57,6 +65,8 @@ export default {
       deposit: 0,
       unpaidCost: 0,
       usedEther: 0,
+      ethPrice: 0,
+      isSignCompleted: false,
       patientAddress: "0x0",
       patientData: "",
       inputMedicalCost: ""
@@ -82,7 +92,15 @@ export default {
       this.deposit = paymentStatus[0];
       this.medicalCost = paymentStatus[1];
       this.unpaidCost = paymentStatus[2];
-
+      this.isSignCompleted = paymentStatus[3];
+      /*let test = await fetch(
+        "https://api.coinmarketcap.com/v2/ticker/1027/?convert=JPY",
+        {
+          method: "GET"
+        }
+      );*/
+      //res.data.quotes.JPY.price;
+      //console.log(test);
       // 患者の情報を取得
       let patientInfo = await this.examination.getPatientInfo();
       this.patientAddress = patientInfo.address;
