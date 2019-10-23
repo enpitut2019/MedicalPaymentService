@@ -60,7 +60,8 @@ export default {
       //const decryptedStrings = decrypted.toString(CryptoJS.enc.Utf8);
       //const patientDataJson = JSON.parse(decryptedStrings);
       this.inputString = result;
-      //this.isCameraActive = false;
+      console.log(result);
+      this.isCameraActive = false;
     },
     test1() {
       this.encryptedPatientData =
@@ -103,3 +104,14 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.fullscreen {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+</style>

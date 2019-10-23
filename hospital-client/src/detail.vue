@@ -13,7 +13,7 @@
             <dt>アドレス</dt>
             <dd>{{contractAddress}}</dd>
             <dt>医療費</dt>
-            <dd>{{medicalCost}}</dd>
+            <dd>{{medicalCost/ 10 ** this.tokenData["decimals"]}} {{tokenData["symbol"]}}</dd>
             <dt>デポジット</dt>
             <dd>{{deposit}}</dd>
             <dt>未収金</dt>
@@ -38,7 +38,8 @@
           </dl>
         </div>
       </div>
-      <ui-button @click="setMedicalCost">テスト用：医療費(12345.6789)を入力</ui-button>
+      <ui-textbox v-model="inputMedicalCost" label="Medical Cost"></ui-textbox>
+      <ui-button @click="setMedicalCost">テスト用：医療費を入力</ui-button>
     </div>
   </div>
 </template>
@@ -51,12 +52,14 @@ export default {
     return {
       examination: "",
       contractAddress: "0x0",
+      tokenData: "",
       medicalCost: 0,
       deposit: 0,
       unpaidCost: 0,
       usedEther: 0,
       patientAddress: "0x0",
-      patientData: ""
+      patientData: "",
+      inputMedicalCost: ""
     };
   },
   methods: {
@@ -71,6 +74,10 @@ export default {
       // イベントの購読
       this.examination.subscribeEvent(this.callBackFunc);
 
+      // トークン情報の取得
+      this.tokenData = await this.examination.getTokenData();
+
+      // 支払い状況の取得
       let paymentStatus = await this.examination.getPaymentStatus();
       this.deposit = paymentStatus[0];
       this.medicalCost = paymentStatus[1];
@@ -85,7 +92,7 @@ export default {
       this.usedEther = await this.examination.getUsedEther();
     },
     async setMedicalCost() {
-      await this.examination.setMedicalCost(12345.6789);
+      await this.examination.setMedicalCost(this.inputMedicalCost);
     },
     callBackFunc(event, value) {
       if (event === "SetMedicalCost") this.medicalCost = value["medicalCost"];

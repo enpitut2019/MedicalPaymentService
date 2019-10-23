@@ -54,6 +54,7 @@ export default class {
         return encryptedString;
     }
 
+    /** データを復号 */
     decrypt(encryptedString, key) {
         return CryptoJS.AES.decrypt(encryptedString, key).toString(CryptoJS.enc.Utf8);
     }
