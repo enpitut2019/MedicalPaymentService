@@ -23,6 +23,7 @@
         "webpack-dev-server": "^3.8.2"
     },
     "dependencies": {
-        "@chenfengyuan/vue-qrcode": "^1.0.1"
+        "@chenfengyuan/vue-qrcode": "^1.0.1",
+        "web3": "^1.2.1"
     }
 }

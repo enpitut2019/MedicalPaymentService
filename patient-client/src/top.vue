@@ -53,7 +53,23 @@ export default {
       let utf8_plain = CryptoJS.enc.Utf8.parse(this.targetText);
       let encrypted = CryptoJS.AES.encrypt(utf8_plain, this.txt_key);
       this.encrypted_strings = this.txt_key + "," + encrypted.toString();
+    },
+    async load(contractAddress) {
+      // DetailページをPush
+      this.$router.push({
+        name: "detail",
+        params: { address: contractAddress }
+      });
+    },
+    callBackFunc(event, value) {
+      if (value.patientAddress === this.$management.getAddress()) {
+        console.log("deploy contract address : " + value.contractAddress);
+        this.load(value.contractAddress);
+      }
     }
+  },
+  mounted: function() {
+    this.$management.subscribeEvent(this.callBackFunc);
   }
 };
 </script>
