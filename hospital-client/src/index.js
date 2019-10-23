@@ -12,11 +12,16 @@ import App from "./app.vue";
 import Top from "./top.vue";
 import Detail from "./detail.vue";
 
+// CSSリセット
+import '../node_modules/reset.css';
+
 import KeenUI from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
 Vue.use(KeenUI);
 
-import '../node_modules/reset.css';
+import VueQrcodeReader from "vue-qrcode-reader";
+Vue.use(VueQrcodeReader);
+
 import "./style.css";
 
 const router = new VueRouter({

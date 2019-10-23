@@ -21,10 +21,14 @@
           </dl>
         </div>
       </div>
-      <ui-button @click="isCameraActive = true" v-if="!patientDataActive">QRコードの読込</ui-button>
+      <ui-button @click="isCameraActive = true" v-if="!patientDataActive">QRコードの読込(現在使用不可）</ui-button>
       <!-- TODO 読み込みデータの破棄 -->
       <ui-button @click="test1" v-if="!patientDataActive">テスト用：テスト用データの読み込み</ui-button>
       <ui-button @click="deployContract" v-if="patientDataActive">患者専用のアドレスを発行</ui-button>
+      <ui-button
+        @click="patientData = ''; patientDataActive = false"
+        v-if="patientDataActive"
+      >読み込みデータの破棄</ui-button>
       <ui-button
         @click="load('0xb80608A5a8C90b93C6B4Ad2DC1364E272F58564C')"
         v-if="patientDataActive"
@@ -34,8 +38,6 @@
 </template>
 
 <script>
-import { QrcodeStream } from "vue-qrcode-reader";
-
 export default {
   data: function() {
     return {
@@ -44,11 +46,8 @@ export default {
       encryptedPatientData: "",
       patientSign: "",
       patientPassPhrase: "",
-      patientData: { Name: "", Age: "" }
+      patientData: ""
     };
-  },
-  components: {
-    QrcodeStream
   },
   methods: {
     onDecode(result) {

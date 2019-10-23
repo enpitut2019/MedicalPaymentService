@@ -3,6 +3,9 @@
     <div class="backbutton" @click="back">
       <span></span>
     </div>
+    <div class="fullscreen" v-if="isCameraActive">
+      <qrcode-stream @decode="signMedicalCost"></qrcode-stream>
+    </div>
     <div class="page">
       <div class="container">
         <div class="containerTitle">
@@ -43,11 +46,22 @@
               <dt>{{name}}</dt>
               <dd>{{value}}</dd>
             </span>
+            <dt>その他</dt>
+            <dd>リストで下にばーっと</dd>
           </dl>
         </div>
       </div>
+      <h2>医療費確定前に表示される物</h2>
+      <br />
       <ui-textbox v-model="inputMedicalCost" label="Medical Cost"></ui-textbox>
-      <ui-button @click="setMedicalCost">テスト用：医療費を入力</ui-button>
+      <ui-button @click="setMedicalCost">医療費を入力</ui-button>
+      <ui-button @click="isSignCompleted = true">医療費を確定（スマートコントラクトの動作未確認）</ui-button>
+      <br />
+      <br />
+      <h2>医療費確定後に表示される物</h2>
+      <br />
+      <ui-button @click="withDraw">デポジットの引き出し（スマートコントラクトの動作未確認）</ui-button>
+      <ui-button @click="withDraw">デポジットの返金（スマートコントラクトの動作未確認）</ui-button>
     </div>
   </div>
 </template>
@@ -69,48 +83,70 @@ export default {
       isSignCompleted: false,
       patientAddress: "0x0",
       patientData: "",
-      inputMedicalCost: ""
+      inputMedicalCost: "",
+      isCameraActive: false
     };
   },
   methods: {
     async init() {
       // TODO 画面ぐるぐる
+      console.log("画面ぐるぐる開始");
+      // コントラクトの読み込み
       this.contractAddress = this.$route.params.address;
       this.examination = new Examination(
         this.$management,
         this.contractAddress
       );
-
       // イベントの購読
       this.examination.subscribeEvent(this.callBackFunc);
-
-      // トークン情報の取得
-      this.tokenData = await this.examination.getTokenData();
-
       // 支払い状況の取得
+      let promise1 = this.getPaymentStatus();
+      // 患者の情報を取得
+      let promise2 = this.getPatientInfo();
+      // トークン情報の取得
+      let promise3 = this.getToeknData();
+      // 手数料（使用したEther量）を取得
+      let promise4 = this.getContractFee();
+
+      // 全てのプロミスを実行
+      await Promise.all([promise1, promise2, promise3, promise4]);
+      // TODO 画面ぐるぐる終了
+      console.log("画面ぐるぐる終了");
+    },
+    async getPatientInfo() {
+      let patientInfo = await this.examination.getPatientInfo();
+      this.patientAddress = patientInfo.address;
+      this.patientData = JSON.parse(patientInfo.data);
+    },
+    async getPaymentStatus() {
       let paymentStatus = await this.examination.getPaymentStatus();
       this.deposit = paymentStatus[0];
       this.medicalCost = paymentStatus[1];
       this.unpaidCost = paymentStatus[2];
       this.isSignCompleted = paymentStatus[3];
-      /*let test = await fetch(
-        "https://api.coinmarketcap.com/v2/ticker/1027/?convert=JPY",
-        {
-          method: "GET"
-        }
-      );*/
-      //res.data.quotes.JPY.price;
-      //console.log(test);
-      // 患者の情報を取得
-      let patientInfo = await this.examination.getPatientInfo();
-      this.patientAddress = patientInfo.address;
-      this.patientData = JSON.parse(patientInfo.data);
-
-      // コントラクトで使用したEther量を取得
+    },
+    async getToeknData() {
+      this.tokenData = await this.examination.getTokenData();
+    },
+    async getContractFee() {
       this.usedEther = await this.examination.getUsedEther();
+      // CoinGeckoのAPIを使用して現在のEther価格を取得
+      let coinGeckoApiResult = await (await fetch(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=jpy&ids=ethereum"
+      )).json();
+      this.ethPrice = coinGeckoApiResult[0].current_price;
     },
     async setMedicalCost() {
       await this.examination.setMedicalCost(this.inputMedicalCost);
+    },
+    async signMedicalCost(result) {
+      console.log(result);
+    },
+    async withDraw() {
+      await this.examination.withDraw();
+    },
+    async refund() {
+      await this.examination.refund();
     },
     callBackFunc(event, value) {
       if (event === "SetMedicalCost") this.medicalCost = value["medicalCost"];
@@ -130,3 +166,14 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.fullscreen {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+</style>

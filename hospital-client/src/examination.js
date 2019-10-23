@@ -104,7 +104,7 @@ export default class {
         let encodedABI = this.myContract.methods.signMedicalCost(signature).encodeABI();
         let gasAmount = await this.myContract.methods.signMedicalCost(signature).estimateGas({ from: this.myAccount.address }) + 10000;
         let signedTx = await this.myAccount.signTransaction({ to: examinationContractAddress, data: encodedABI, gas: gasAmount });
-        let receipt = await this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+        let receipt = await this.management.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
         console.log(receipt);
     }
 
@@ -113,7 +113,7 @@ export default class {
         let encodedABI = this.myContract.methods.withDraw().encodeABI();
         let gasAmount = await this.myContract.methods.withDraw().estimateGas({ from: this.myAccount.address }) + 10000;
         let signedTx = await this.myAccount.signTransaction({ to: examinationContractAddress, data: encodedABI, gas: gasAmount });
-        let receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+        let receipt = await this.management.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
         console.log(receipt);
     }
 
@@ -122,7 +122,7 @@ export default class {
         const encodedABI = this.myContract.methods.refund().encodeABI();
         let gasAmount = await this.myContract.methods.refund().estimateGas({ from: this.myAccount.address }) + 10000;
         let signedTx = await this.account.signTransaction({ to: examinationContractAddress, data: encodedABI, gas: gasAmount });
-        let receipt = await this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+        let receipt = await this.management.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
         console.log(receipt);
     }
 
