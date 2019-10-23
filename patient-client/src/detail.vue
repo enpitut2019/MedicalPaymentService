@@ -38,7 +38,6 @@
           </dl>
         </div>
       </div>
-      <!-- <ui-button @click="setMedicalCost">テスト用：医療費(12345.6789)を入力</ui-button> -->
     </div>
   </div>
 </template>
