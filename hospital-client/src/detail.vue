@@ -31,7 +31,7 @@
             </span>
             <span>
               <dt>発生した手数料</dt>
-              <dd>{{usedEther*ethPrice}} JPY ({{usedEther}} ETH)</dd>
+              <dd>{{Math.ceil(usedEther*ethPrice)}} JPY ({{usedEther}} ETH)</dd>
             </span>
           </dl>
         </div>
@@ -140,7 +140,7 @@ export default {
       await this.examination.setMedicalCost(this.inputMedicalCost);
     },
     async signMedicalCost(result) {
-      console.log(result);
+      await this.examination.signMedicalCost(result);
     },
     async withDraw() {
       await this.examination.withDraw();
@@ -168,12 +168,28 @@ export default {
 </script>
 
 <style scoped>
-.fullscreen {
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
+/*============================================
+アニメーション
+============================================*/
+
+.v-enter {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.v-enter-to {
+  opacity: 1;
+}
+.v-enter-active {
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+.v-leave {
+  opacity: 1;
+}
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.v-leave-active {
+  transition: opacity 270ms ease-out, transform 270ms ease-out;
 }
 </style>

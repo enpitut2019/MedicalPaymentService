@@ -3,7 +3,6 @@ if (location.pathname === '/detail') {
     history.pushState(null, null, "/");
 }
 
-
 import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);

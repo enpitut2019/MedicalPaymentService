@@ -6,7 +6,7 @@
     </div>
     <div class="page">
       <div class="fullscreen" v-if="isCameraActive">
-        <qrcode-stream @decode="onDecode"></qrcode-stream>
+        <qrcode-stream @decode="inputData"></qrcode-stream>
       </div>
       <div class="container">
         <div class="containerTitle">
@@ -21,9 +21,9 @@
           </dl>
         </div>
       </div>
-      <ui-button @click="isCameraActive = true" v-if="!patientDataActive">QRコードの読込(現在使用不可）</ui-button>
+      <ui-button @click="isCameraActive = true" v-if="!patientDataActive">QRコードの読込</ui-button>
       <!-- TODO 読み込みデータの破棄 -->
-      <ui-button @click="test1" v-if="!patientDataActive">テスト用：テスト用データの読み込み</ui-button>
+      <ui-button @click="inputPreSetData" v-if="!patientDataActive">テスト用：テスト用データの読み込み</ui-button>
       <ui-button @click="deployContract" v-if="patientDataActive">患者専用のアドレスを発行</ui-button>
       <ui-button
         @click="patientData = ''; patientDataActive = false"
@@ -50,19 +50,21 @@ export default {
     };
   },
   methods: {
-    onDecode(result) {
-      //const sourceArray = result.text.split(",");
-      //const key = sourceArray[0];
-      //const crypto = sourceArray[1];
-      // 復号化
-      //const decrypted = CryptoJS.AES.decrypt(crypto, key);
-      //const decryptedStrings = decrypted.toString(CryptoJS.enc.Utf8);
-      //const patientDataJson = JSON.parse(decryptedStrings);
-      this.inputString = result;
-      console.log(result);
+    inputData(result) {
+      let sourceArray = result.split(",");
+      this.patientPassPhrase = sourceArray[0];
+      this.encryptedPatientData = sourceArray[1];
+      this.patientSign = sourceArray[2];
+      // 復号
+      let patientDataJson = this.$management.decrypt(
+        this.encryptedPatientData,
+        this.patientPassPhrase
+      );
+      this.patientData = JSON.parse(patientDataJson);
+      this.patientDataActive = true;
       this.isCameraActive = false;
     },
-    test1() {
+    inputPreSetData() {
       this.encryptedPatientData =
         "U2FsdGVkX1/LpZNWoiYkHGwVg5Xc9kDXnHEnUrQve8CHZBT9mjNmxkWSaw036mmL";
       this.patientSign =
@@ -105,12 +107,17 @@ export default {
 </script>
 
 <style scoped>
-.fullscreen {
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
+/*============================================
+アニメーション
+============================================*/
+
+.v-enter {
+  opacity: 0;
+}
+.v-enter-to {
+  opacity: 1;
+}
+.v-enter-active {
+  transition: opacity 200ms ease-out;
 }
 </style>
