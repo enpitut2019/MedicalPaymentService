@@ -63,6 +63,13 @@
       <ui-button @click="withDraw">デポジットの引き出し（スマートコントラクトの動作未確認）</ui-button>
       <ui-button @click="withDraw">デポジットの返金（スマートコントラクトの動作未確認）</ui-button>
     </div>
+    <ui-button @click="openModal('inputModal')">Custom header</ui-button>
+    <ui-modal ref="inputModal" transition="scale-up">
+      <div slot="header">
+        <b>医療費の入力</b>
+      </div>
+      <ui-textbox v-model="inputMedicalCost" label="Medical Cost"></ui-textbox>
+    </ui-modal>
   </div>
 </template>
 
@@ -151,7 +158,8 @@ export default {
       await this.examination.refund();
     },
     callBackFunc(event, value) {
-      console.log(event + value);
+      console.log(event);
+      console.log(value);
       if (event === "SetMedicalCost") this.medicalCost = value["medicalCost"];
       if (event === "SignMedicalCost") this.signMedicalCost = value["signed"];
       if (event === "WithDraw") this.unpaidCost = value["unpaidCost"];
@@ -159,6 +167,12 @@ export default {
     },
     back() {
       this.$router.push("/");
+    },
+    openModal(ref) {
+      this.$refs[ref].open();
+    },
+    closeModal(ref) {
+      this.$refs[ref].close();
     }
   },
   created: function() {

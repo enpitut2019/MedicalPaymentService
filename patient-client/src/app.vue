@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <router-view></router-view>
+  <div class="app">
+    <transition mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
