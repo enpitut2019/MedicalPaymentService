@@ -39,23 +39,42 @@
         </div>
       </div>
     </div>
+    <button @click="printSignQR">医療費にサインする</button>
+    <vue-qrcode v-if="sign_medicalCost" :value="sign_medicalCost" :options="option" tag="img"></vue-qrcode>
   </div>
 </template>
 
 <script>
 import Examination from "./examination.js";
+import VueQrcode from "@chenfengyuan/vue-qrcode";
 
 export default {
+  components: {
+    VueQrcode
+  },
   data: function() {
     return {
       examination: "",
       contractAddress: "0x0",
+      tokenData: "",
       medicalCost: 0,
       deposit: 0,
       unpaidCost: 0,
       usedEther: 0,
       patientAddress: "0x0",
-      patientData: ""
+      patientData: "",
+      sign_medicalCost: "",
+      option: {
+        errorCorrectionLevel: "M",
+        maskPattern: 0,
+        margin: 0,
+        scale: 10,
+        width: 1000,
+        color: {
+          dark: "#000000FF",
+          light: "#F5F5DC"
+        }
+      }
     };
   },
   methods: {
@@ -69,6 +88,8 @@ export default {
 
       // イベントの購読
       this.examination.subscribeEvent(this.callBackFunc);
+      // トークン情報の取得
+      let promise1 = this.getToeknData();
 
       let paymentStatus = await this.examination.getPaymentStatus();
       this.deposit = paymentStatus[0];
@@ -82,9 +103,13 @@ export default {
 
       // コントラクトで使用したEther量を取得
       this.usedEther = await this.examination.getUsedEther();
+      await Promise.all([promise1]);
     },
     async setMedicalCost() {
       await this.examination.setMedicalCost(12345.6789);
+    },
+    async getToeknData() {
+      this.tokenData = await this.examination.getTokenData();
     },
     callBackFunc(event, value) {
       if (event === "SetMedicalCost") this.medicalCost = value["medicalCost"];
@@ -93,6 +118,10 @@ export default {
     },
     back() {
       this.$router.push("/");
+    },
+    printSignQR(){
+      this.sign_medicalCost = this.$management.signMessage(String(this.medicalCost));
+      console.log(this.sign_medicalCost);
     }
   },
   created: function() {
