@@ -32,12 +32,12 @@ export default {
       option: {
         errorCorrectionLevel: "M",
         maskPattern: 0,
-        margin: 10,
-        scale: 2,
-        width: 300,
+        margin: 0,
+        scale: 10,
+        width: 500,
         color: {
           dark: "#000000FF",
-          light: "#FFFFFFFF"
+          light: "#F5F5DC"
         }
       }
     };
