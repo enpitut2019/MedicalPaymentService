@@ -30,7 +30,7 @@
         v-if="patientDataActive"
       >読み込みデータの破棄</ui-button>
       <ui-button
-        @click="load('0xb80608A5a8C90b93C6B4Ad2DC1364E272F58564C')"
+        @click="load('0xFA8AFb171e3793763CF7a8A4FF47A98edFfC759A')"
         v-if="patientDataActive"
       >テスト用：発行後画面へ遷移</ui-button>
     </div>

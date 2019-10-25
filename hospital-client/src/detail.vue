@@ -74,7 +74,7 @@ export default {
     return {
       examination: "",
       contractAddress: "0x0",
-      tokenData: "",
+      tokenData: { decimals: "" },
       medicalCost: 0,
       deposit: 0,
       unpaidCost: 0,
@@ -91,6 +91,8 @@ export default {
     async init() {
       // TODO 画面ぐるぐる
       console.log("画面ぐるぐる開始");
+      const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
+      await sleep(1000);
       // コントラクトの読み込み
       this.contractAddress = this.$route.params.address;
       this.examination = new Examination(
@@ -149,9 +151,11 @@ export default {
       await this.examination.refund();
     },
     callBackFunc(event, value) {
+      console.log(event + value);
       if (event === "SetMedicalCost") this.medicalCost = value["medicalCost"];
-      console.log(event);
-      console.log(value);
+      if (event === "SignMedicalCost") this.signMedicalCost = value["signed"];
+      if (event === "WithDraw") this.unpaidCost = value["unpaidCost"];
+      if (event === "Refund") console.log("a");
     },
     back() {
       this.$router.push("/");
