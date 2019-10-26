@@ -1,45 +1,45 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html {
-  background-color: #f5f5dc;
-  font-size: 16px;
-  line-height: 1.5rem;
+    background-color: #f5f5dc;
+    font-size: 16px;
+    line-height: 1.5rem;
 }
 
 h1 {
-  font-size: 2rem;
+    font-size: 2rem;
 }
 
 .header {
-  display: inline-block;
-  background-color: #00adb5;
-  width: 100%;
-  text-align: center;
+    display: inline-block;
+    background-color: #00adb5;
+    width: 100%;
+    text-align: center;
 }
 
 img {
-  height: 100px;
+    height: 100px;
 }
 
 .card {
-  border-radius: 6px;
-  background-color: white;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  padding: 30px;
-  width: 100%;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    padding: 30px;
+    width: 100%;
 }
 
 .page {
-  width: 95%;
-  margin: 0 auto;
+    width: 95%;
+    margin: 0 auto;
 }
 
 button {
-  width: 100%;
+    width: 100%;
 }
 
 /*============================================
@@ -47,81 +47,81 @@ button {
 ============================================*/
 
 .container {
-  border-radius: 6px;
-  border: solid 1px whitesmoke;
-  box-shadow: 0px 0px 3px silver;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 1rem;
-  background-color: white;
+    border-radius: 6px;
+    border: solid 1px whitesmoke;
+    box-shadow: 0px 0px 3px silver;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 1rem;
+    background-color: white;
 }
 
 .containerTitle {
-  margin: 1rem;
-  border-bottom: 2px solid hsl(0, 0%, 85%);
-  margin: 0.5rem, 0rem;
-  padding-bottom: 0.5rem;
+    margin: 1rem;
+    border-bottom: 2px solid hsl(0, 0%, 85%);
+    margin: 0.5rem, 0rem;
+    padding-bottom: 0.5rem;
 }
 
 .list {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  margin: 0.5rem;
-  padding: 0.5rem;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    margin: 0.5rem;
+    padding: 0.5rem;
 }
 
 dl,
 dl span {
-  display: contents;
+    display: contents;
 }
 
 dt,
 dd {
-  font-size: 1rem;
-  padding: 0.75em 1rem;
-  border-bottom: 1px solid hsl(0, 0%, 90%);
+    font-size: 1rem;
+    padding: 0.75em 1rem;
+    border-bottom: 1px solid hsl(0, 0%, 90%);
 }
 
 dt {
-  text-align: right;
+    text-align: right;
 }
 
 dd {
-  text-align: left;
+    text-align: left;
 }
 /*============================================
 バツボタン
 ============================================*/
 
 .backbutton {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  position: relative;
-  cursor: pointer;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    cursor: pointer;
 }
 .backbutton span::before,
 .backbutton span::after {
-  display: block;
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 84%;
-  height: 16%;
-  margin: -8% 0 0 -42%;
-  background: rgb(0, 0, 0);
+    display: block;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 84%;
+    height: 16%;
+    margin: -8% 0 0 -42%;
+    background: rgb(0, 0, 0);
 }
 .backbutton span::before {
-  transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }
 .backbutton span::after {
-  transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
 /*============================================
 QRコード
 ============================================*/
 .qrCode {
-  width: 100%;
+    width: 100%;
 }

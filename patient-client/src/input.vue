@@ -45,7 +45,7 @@ export default {
     },
     methods: {
          perocessData: function() {
-                let patientDataJson = JSON.stringify(this.patientData);
+            let patientDataJson = JSON.stringify(this.patientData);
             let encryptedPatientData = this.$management.encrypt(patientDataJson);
             let qrCodeData = this.$management.passPhrase + "," + encryptedPatientData + "," + this.$management.signMessage(encryptedPatientData);
             // TODO:暗号化して保存
