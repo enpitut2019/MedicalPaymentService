@@ -47,7 +47,7 @@ export default class {
         console.log(receipt);
     }
 
-    /** メッセージに対して署名 
+    /** メッセージに対して署名
      *  @param message メッセージ
      *  @return 署名
     */
@@ -56,7 +56,7 @@ export default class {
         return re.signature;
     }
 
-    /** データを暗号化 
+    /** データを暗号化
      *  @param string 暗号化したい文字列
      *  @return 暗号文
     */

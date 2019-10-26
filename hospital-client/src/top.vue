@@ -22,7 +22,6 @@
         </div>
       </div>
       <ui-button @click="isCameraActive = true" v-if="!patientDataActive">QRコードの読込</ui-button>
-      <!-- TODO 読み込みデータの破棄 -->
       <ui-button @click="inputPreSetData" v-if="!patientDataActive">テスト用：テスト用データの読み込み</ui-button>
       <ui-button @click="deployContract" v-if="patientDataActive">患者専用のアドレスを発行</ui-button>
       <ui-button

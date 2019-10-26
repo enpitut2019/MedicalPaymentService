@@ -4,14 +4,21 @@ Vue.use(VueRouter);
 
 import App from "./app.vue";
 import Top from "./top.vue";
-import About from "./detail.vue";
+import Detail from "./detail.vue";
+
+// CSSリセット
+import '../node_modules/reset.css';
+
+import KeenUI from 'keen-ui';
+import 'keen-ui/dist/keen-ui.css';
+Vue.use(KeenUI);
 
 import "./style.css";
 
 const router = new VueRouter({
     mode: "history",
-    base: "MedicalPaymentService/patient-client/dist/",
-    routes: [{ path: "/", component: Top }, { path: "/about", name: "detail", component: About }]
+    // base: "MedicalPaymentService/patient-client/dist/",
+    routes: [{ path: "/", component: Top }, { path: "/detail", name: "detail", component: Detail }]
 });
 
 // テスト用
@@ -27,8 +34,3 @@ new Vue({
     router,
     render: h => h(App)
 });
-
-// テスト用に秘密鍵とアドレス,パスフレーズはセットしておく
-localStorage.setItem('privateKey', "0x0D274BD5D6DC605137D958AC2DB9C9BD189FF86338150A04C7DB4B3E942FAC0C");
-localStorage.setItem('address', "0x5f527BD60061b937836526BAe83bB4581f9bAc01");
-localStorage.setItem('passPhrase', "0x5f5278ef122e68c6a0d4e037289317178a0555aad18e5cd1366df39683483b1785bc632ac5c7981a9a98e5660ec35e");

@@ -1,26 +1,31 @@
-import Web3 from 'web3';
 import CryptoJS from 'crypto-js';
 import { examinationContractABI } from './contractData.js';
 
+/** Examination.solに対応したクラス */
 export default class {
-    /** 初期化 
+    /** 初期化
      *  @param management management.jsのクラス
      *  @param examinationContractAddress Examinationコントラクトのアドレス
     */
     constructor(management, examinationContractAddress) {
         this.management = management;
-        this.myContract = new this.management.web3.eth.Contract(examinationContractABI, examinationContractAddress);
         this.myAccount = this.management.myAccount;
-        /*
-        this.myAccount = this.management.myAccount
-        などで置き換える
-        */
+        this.web3 = this.management.web3;
+        this.myContract = new this.web3.eth.Contract(examinationContractABI, examinationContractAddress);
     }
 
-    /** イベントの購読設定 */
+    /** イベントの購読設定
+     *  @param callBackFunc イベントが発生した時に呼ばれる関数(引数はeventとvalue)
+    */
     subscribeEvent(callBackFunc) {
         this.callBackFunc = callBackFunc;
         this.subscription = this.myContract.events.allEvents({}, this.processEvent.bind(this));
+    }
+
+    /** Eventを処理してからcallBackFuncに渡す */
+    processEvent(error, event) {
+        if (error) console.log(error);
+        this.callBackFunc(event.event, event.returnValues);
     }
 
     /** イベントの購読解除 */
@@ -28,7 +33,7 @@ export default class {
         this.subscription.unsubscribe();
     }
 
-    /** 患者の情報を取得 
+    /** 患者の情報を取得
      *  @returns patientAddress 患者のアドレス
      *  @returns patientData 復号された患者の情報
     */
@@ -54,12 +59,12 @@ export default class {
         return await this.myContract.methods.getTokenData().call();
     }
 
-    /** コントラクトで使用したEther量を取得 
+    /** コントラクトで使用したEther量を取得
      *  @returns Ether量
     */
     async getUsedEther() {
         let usedEther = await this.myContract.methods.getUsedEther().call();
-        return this.management.web3.utils.fromWei(usedEther);
+        return this.web3.utils.fromWei(usedEther);
     }
 
     /** コントラクトの支払い状況の取得
@@ -73,25 +78,24 @@ export default class {
         return paymentStatus;
     }
 
-    /** 医療費の登録 
+    /** 医療費の登録
      *  @param medicalCost 医療費
      */
     async setMedicalCost(medicalCost) {
-        // 整数部と小数部を分解して適当に処理する
+        // 整数部と小数部に分解して適当に処理する
         let medicalCostStr = String(medicalCost) + ".00";
         let num = medicalCostStr.split('.')
         medicalCostStr = num[0] + num[1];
-        let tokenAmount = this.management.web3.utils.toBN(Number(medicalCostStr));
+        let tokenAmount = this.web3.utils.toBN(Number(medicalCostStr));
         let inputDecimalLen = num[1].length;
         let tokenData = await this.getTokenData();
-        let decimals = this.management.web3.utils.toBN(tokenData["decimals"] - inputDecimalLen);
-        let tokenAmountHex = "0x" + tokenAmount.mul(this.management.web3.utils.toBN(10).pow(decimals)).toString('hex');
-        // トランザクションを発行
+        let decimals = this.web3.utils.toBN(tokenData["decimals"] - inputDecimalLen);
+        let tokenAmountHex = "0x" + tokenAmount.mul(this.web3.utils.toBN(10).pow(decimals)).toString('hex');
         let encodedABI = this.myContract.methods.setMedicalCost(tokenAmountHex).encodeABI();
         let gasAmount = await this.myContract.methods.setMedicalCost(tokenAmountHex).estimateGas({ from: this.myAccount.address }) + 10000;
         let signedTx = await this.myAccount.signTransaction({ to: this.myContract.options.address, data: encodedABI, gas: gasAmount });
-        let receipt = await this.management.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-        return receipt;
+        let receipt = await this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+        console.log(receipt);
     }
 
     /** 医療費の確定
@@ -113,7 +117,7 @@ export default class {
         let encodedABI = this.myContract.methods.withDraw().encodeABI();
         let gasAmount = await this.myContract.methods.withDraw().estimateGas({ from: this.myAccount.address }) + 10000;
         let signedTx = await this.myAccount.signTransaction({ to: examinationContractAddress, data: encodedABI, gas: gasAmount });
-        let receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+        let receipt = await this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
         console.log(receipt);
     }
 
@@ -124,15 +128,5 @@ export default class {
         let signedTx = await this.account.signTransaction({ to: examinationContractAddress, data: encodedABI, gas: gasAmount });
         let receipt = await this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
         console.log(receipt);
-    }
-
-    /** Event発生時のコールバック関数 */
-    processEvent(error, event) {
-        if (error) console.log(error);
-        this.callBackFunc(event.event, event.returnValues);
-    }
-
-    signMedicalCost(medicalCost) {
-
     }
 }

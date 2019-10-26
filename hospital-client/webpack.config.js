@@ -25,7 +25,7 @@ module.exports = {
     },
     devServer: {
         open: true,
-        port: 8080,
+        port: 8082,
         host: '0.0.0.0',
         disableHostCheck: true,
         contentBase: `${__dirname}/dist`,
