@@ -22,7 +22,7 @@ contract Examination{
     event SignMedicalCost(bool signed);
     event WithDraw(uint256 unpaidCost);
     event Refund(uint256 amount);
-    
+
     /** @dev 患者から署名付きの患者データを受け取ってスマートコントラクトを初期化
       * @param _patientData 患者データを暗号化した物
       * @param _signature _patientDataに対する患者の署名
@@ -44,14 +44,14 @@ contract Examination{
         require(hospitalAddress == msg.sender);
         _;
     }
-    
+
     /** @dev 消費したGas量とトランザクションのGasPriceからスマートコントラクトで使用したEther量を記録
       */
     modifier countUsedETH() {
         usedEther += gasleft()*tx.gasprice;
         _;
     }
-    
+
     /** @dev 患者の情報を取得
       * @return address 患者のアドレス
       * @return string 患者の暗号化済み特記事項
@@ -81,7 +81,7 @@ contract Examination{
         symbol = ERC20Token.symbol();
         decimals = ERC20Token.decimals();
     }
-    
+
     /** @dev コントラクトで使用したEther量を返す
       * @return uint256 Ether量
       */
@@ -93,17 +93,17 @@ contract Examination{
       */
     function () external{
     }
-    
+
     /** @dev 医療費の登録
-      * @param _medicalCost 医療費 
+      * @param _medicalCost 医療費
       */
     function setMedicalCost(uint256 _medicalCost) public onlyOwner countUsedETH{
         require(signCompleted == false);
         medicalCost = _medicalCost;
         emit SetMedicalCost(medicalCost);
     }
-    
-    /** @dev 医療費の確定 
+
+    /** @dev 医療費の確定
       * @param _signature 文字列に変換した医療費に対する患者の署名
       */
     function signMedicalCost(bytes memory _signature) public onlyOwner countUsedETH{
@@ -113,13 +113,13 @@ contract Examination{
         signCompleted = true;
         emit SignMedicalCost(true);
     }
-    
+
     /** @dev 明細登録後の医療費の引き出し
       */
     function withDraw() public onlyOwner countUsedETH{
         require(signCompleted == true);
         uint256 tokenBalance = ERC20Token.balanceOf(address(this));
-        
+
         if(tokenBalance == 0) {
             // 何もしない
         }else if(tokenBalance <= unpaidCost) {
@@ -128,12 +128,10 @@ contract Examination{
         }else{
             ERC20Token.transfer(hospitalAddress, unpaidCost);
             unpaidCost = 0;
-            // 余った分は返金
-            refund();
         }
         emit WithDraw(unpaidCost);
     }
-    
+
     /** @dev トークン残高全てを患者へ送金
       */
     function refund() private onlyOwner countUsedETH{
@@ -141,11 +139,11 @@ contract Examination{
         ERC20Token.transfer(patientAddress, tokenBalance);
         emit Refund(tokenBalance);
     }
-    
+
     function getPatientAddress() public view returns (address){
         return patientAddress;
-    } 
-    
+    }
+
     function recoverAddress(string memory _message, bytes memory signature) private pure returns (address) {
         bytes memory prefix = "\x19Ethereum Signed Message:\n";
         string memory length = uintToString(bytes(_message).length);
@@ -154,7 +152,7 @@ contract Examination{
         require(signer != address(0));
         return signer;
     }
-    
+
     function uintToString(uint256 v) private pure returns (string memory) {
         if(v == 0) return "0";
         uint maxlength = 100;

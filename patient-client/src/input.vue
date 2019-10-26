@@ -10,10 +10,13 @@
                 name="bloodTransfusion"
                 :options="options.yesOrNo"
                 v-model="patientData['Transfusion']"
-            >No blood transfusion</ui-radio-group>
-            <ui-button
-                @click="perocessData"
-            >データ保存</ui-button>
+                >No blood transfusion</ui-radio-group
+            >
+            <ui-textbox
+                v-model="patientData['phone']"
+                label="Phone Number"
+            ></ui-textbox>
+            <ui-button @click="perocessData">データ保存</ui-button>
         </div>
     </div>
 </template>
@@ -21,13 +24,13 @@
 <script>
 const yesOrNo = [
     {
-        label: 'YES',
-        value: 'yes'
+        label: "YES",
+        value: "yes"
     },
     {
-        label: 'NO',
-        value: 'no'
-    },
+        label: "NO",
+        value: "no"
+    }
 ];
 
 import VueQrcode from "@chenfengyuan/vue-qrcode";
@@ -37,17 +40,24 @@ export default {
     },
     data() {
         return {
-            patientData: {Transfusion:'no'},
+            patientData: { Transfusion: "no" },
             options: {
                 yesOrNo
             }
         };
     },
     methods: {
-         perocessData: function() {
+        perocessData: function() {
             let patientDataJson = JSON.stringify(this.patientData);
-            let encryptedPatientData = this.$management.encrypt(patientDataJson);
-            let qrCodeData = this.$management.passPhrase + "," + encryptedPatientData + "," + this.$management.signMessage(encryptedPatientData);
+            let encryptedPatientData = this.$management.encrypt(
+                patientDataJson
+            );
+            let qrCodeData =
+                this.$management.passPhrase +
+                "," +
+                encryptedPatientData +
+                "," +
+                this.$management.signMessage(encryptedPatientData);
             // TODO:暗号化して保存
             localStorage.setItem("patientData", patientDataJson);
             localStorage.setItem("qrCodeData", qrCodeData);
@@ -55,9 +65,9 @@ export default {
         },
         back() {
             this.$router.push("/");
-        },
+        }
     },
-    created: function(){
+    created: function() {
         let data = localStorage.getItem("patientData");
         if (data !== null) this.patientData = JSON.parse(data);
     }

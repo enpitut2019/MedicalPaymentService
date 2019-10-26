@@ -13,28 +13,62 @@
                 </div>
                 <div class="list">
                     <dl>
+                        <dt>請求金額</dt>
+                        <dd>
+                            {{ medicalCost / 10 ** this.tokenData["decimals"] }}
+                            {{ tokenData["symbol"] }}
+                        </dd>
+                        <dt>未収金金額</dt>
+                        <dd v-if="!isSignCompleted">---</dd>
+                        <dd v-if="isSignCompleted">
+                            {{ unpaidCost / 10 ** this.tokenData["decimals"] }}
+                            {{ tokenData["symbol"] }}
+                        </dd>
+                        <dt>発生した手数料</dt>
+                        <dd>
+                            {{ Math.ceil(usedEther * ethPrice) }} JPY ({{
+                                usedEther
+                            }}
+                            ETH)
+                        </dd>
+                    </dl>
+                </div>
+                <ui-button
+                    @click="openModal('inputModal')"
+                    v-if="!isSignCompleted"
+                    >医療費を入力</ui-button
+                >
+                <ui-button
+                    @click="isCameraActive = true"
+                    v-if="!isSignCompleted"
+                    >医療費を確定（QRコード読み込み）</ui-button
+                >
+            </div>
+            <div class="container">
+                <div class="containerTitle">
+                    <h1>デポジット情報</h1>
+                </div>
+                <div class="list">
+                    <dl>
                         <span>
-                            <dt>アドレス</dt>
-                            <dd>{{contractAddress}}</dd>
+                            <dt>デポジット先アドレス</dt>
+                            <dd>{{ contractAddress }}</dd>
                         </span>
                         <span>
                             <dt>デポジット金額</dt>
-                            <dd>{{deposit/ 10 ** this.tokenData["decimals"]}} {{tokenData["symbol"]}}</dd>
-                        </span>
-                        <span v-if="!isSignCompleted">
-                            <dt>請求金額</dt>
-                            <dd>{{medicalCost/ 10 ** this.tokenData["decimals"]}} {{tokenData["symbol"]}}</dd>
-                        </span>
-                        <span v-if="isSignCompleted">
-                            <dt>未収金金額</dt>
-                            <dd>{{unpaidCost/ 10 ** this.tokenData["decimals"]}} {{tokenData["symbol"]}}</dd>
-                        </span>
-                        <span>
-                            <dt>発生した手数料</dt>
-                            <dd>{{Math.ceil(usedEther*ethPrice)}} JPY ({{usedEther}} ETH)</dd>
+                            <dd>
+                                {{ deposit / 10 ** this.tokenData["decimals"] }}
+                                {{ tokenData["symbol"] }}
+                            </dd>
                         </span>
                     </dl>
                 </div>
+                <ui-button @click="withDraw" :disabled="!isSignCompleted"
+                    >引き出し（医療費確定後）</ui-button
+                >
+                <ui-button @click="refund" :disabled="!isSignCompleted"
+                    >返金（医療費確定後）</ui-button
+                >
             </div>
             <div class="container">
                 <div class="containerTitle">
@@ -42,33 +76,28 @@
                 </div>
                 <div class="list">
                     <dl>
-                        <span v-for="(value, name, index) in patientData" :key="index">
-                            <dt>{{name}}</dt>
-                            <dd>{{value}}</dd>
+                        <span
+                            v-for="(value, name, index) in patientData"
+                            :key="index"
+                        >
+                            <dt>{{ name }}</dt>
+                            <dd>{{ value }}</dd>
                         </span>
                         <dt>その他</dt>
                         <dd>リストで下にばーっと</dd>
                     </dl>
                 </div>
             </div>
-            <h2>医療費確定前に表示される物</h2>
-            <br />
-            <ui-textbox v-model="inputMedicalCost" label="Medical Cost"></ui-textbox>
-            <ui-button @click="setMedicalCost">医療費を入力</ui-button>
-            <ui-button @click="signMedicalCost('0xcb9210f38189e17fe8d140fbfeeee00b8a40c8cc3d647790d1c937fd38a5b6f55728a56fbe166665f67b464e92f3c8a67ef906c2020bfa0ee9150f3a599728b71c')">医療費を確定（スマートコントラクトの動作未確認）</ui-button>
-            <br />
-            <br />
-            <h2>医療費確定後に表示される物</h2>
-            <br />
-            <ui-button @click="withDraw">デポジットの引き出し（スマートコントラクトの動作未確認）</ui-button>
-            <ui-button @click="withDraw">デポジットの返金（スマートコントラクトの動作未確認）</ui-button>
         </div>
-        <ui-button @click="openModal('inputModal')">Custom header</ui-button>
         <ui-modal ref="inputModal" transition="scale-up">
             <div slot="header">
                 <b>医療費の入力</b>
             </div>
-            <ui-textbox v-model="inputMedicalCost" label="Medical Cost"></ui-textbox>
+            <ui-textbox
+                v-model="inputMedicalCost"
+                label="Medical Cost"
+            ></ui-textbox>
+            <ui-button @click="setMedicalCost">登録</ui-button>
         </ui-modal>
     </div>
 </template>
@@ -98,7 +127,8 @@ export default {
         async init() {
             // TODO 画面ぐるぐる
             console.log("画面ぐるぐる開始");
-            const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
+            const sleep = msec =>
+                new Promise(resolve => setTimeout(resolve, msec));
             await sleep(1000);
             // コントラクトの読み込み
             this.contractAddress = this.$route.params.address;
@@ -146,10 +176,15 @@ export default {
             this.ethPrice = coinGeckoApiResult[0].current_price;
         },
         async setMedicalCost() {
+            closeModal("inputModal");
             await this.examination.setMedicalCost(this.inputMedicalCost);
         },
         async signMedicalCost(result) {
-            await this.examination.signMedicalCost(this.medicalCost, result, this.patientAddress);
+            await this.examination.signMedicalCost(
+                this.medicalCost,
+                result,
+                this.patientAddress
+            );
         },
         async withDraw() {
             await this.examination.withDraw();
@@ -160,10 +195,12 @@ export default {
         callBackFunc(event, value) {
             console.log(event);
             console.log(value);
-            if (event === "SetMedicalCost") this.medicalCost = value["medicalCost"];
-            if (event === "SignMedicalCost") this.signMedicalCost = value["signed"];
+            if (event === "SetMedicalCost")
+                this.medicalCost = value["medicalCost"];
+            if (event === "SignMedicalCost")
+                this.isSignCompleted = value["signed"];
             if (event === "WithDraw") this.unpaidCost = value["unpaidCost"];
-            if (event === "Refund") console.log("a");
+            if (event === "Refund") console.log("Refund" + value["amount"]);
         },
         back() {
             this.$router.push("/");
@@ -178,7 +215,7 @@ export default {
     created: function() {
         this.init();
     },
-    destroyed: function(){
+    destroyed: function() {
         this.examination.unload();
     }
 };

@@ -14,24 +14,38 @@
                 </div>
                 <div class="list">
                     <dl>
-                        <span v-for="(value, name, index) in patientData" :key="index">
-                            <dt>{{name}}</dt>
-                            <dd>{{value}}</dd>
+                        <span
+                            v-for="(value, name, index) in patientData"
+                            :key="index"
+                        >
+                            <dt>{{ name }}</dt>
+                            <dd>{{ value }}</dd>
                         </span>
                     </dl>
                 </div>
             </div>
-            <ui-button @click="isCameraActive = true" v-if="!patientDataActive">QRコードの読込</ui-button>
-            <ui-button @click="inputPreSetData" v-if="!patientDataActive">テスト用：テスト用データの読み込み</ui-button>
-            <ui-button @click="deployContract" v-if="patientDataActive">患者専用のアドレスを発行</ui-button>
+            <ui-button @click="isCameraActive = true" v-if="!patientDataActive"
+                >QRコードの読込</ui-button
+            >
+            <ui-button @click="inputPreSetData" v-if="!patientDataActive"
+                >テスト用：テスト用データの読み込み</ui-button
+            >
+            <ui-button @click="deployContract" v-if="patientDataActive"
+                >患者専用のアドレスを発行</ui-button
+            >
             <ui-button
-                @click="patientData = ''; patientDataActive = false"
+                @click="
+                    patientData = '';
+                    patientDataActive = false;
+                "
                 v-if="patientDataActive"
-            >読み込みデータの破棄</ui-button>
+                >読み込みデータの破棄</ui-button
+            >
             <ui-button
                 @click="load('0xFA8AFb171e3793763CF7a8A4FF47A98edFfC759A')"
                 v-if="patientDataActive"
-            >テスト用：発行後画面へ遷移</ui-button>
+                >テスト用：発行後画面へ遷移</ui-button
+            >
         </div>
     </div>
 </template>
@@ -94,7 +108,6 @@ export default {
         },
         callBackFunc(event, value) {
             if (value.hospitalAddress === this.$management.getAddress()) {
-                console.log("deploy contract address : " + value.contractAddress);
                 this.load(value.contractAddress);
             }
         }

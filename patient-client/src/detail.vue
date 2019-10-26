@@ -10,18 +10,43 @@
                 </div>
                 <div class="list">
                     <dl>
-                        <dt>アドレス</dt>
-                        <dd>{{contractAddress}}</dd>
-                        <dt>医療費</dt>
-                        <dd>{{medicalCost}}</dd>
-                        <dt>デポジット</dt>
-                        <dd>{{deposit}}</dd>
-                        <dt>未収金</dt>
-                        <dd>{{unpaidCost}}</dd>
-                        <dt>使用したEther</dt>
-                        <dd>{{usedEther}}</dd>
+                        <dt>Medical Cost</dt>
+                        <dd>
+                            {{ medicalCost / 10 ** this.tokenData["decimals"] }}
+                            {{ tokenData["symbol"] }}
+                        </dd>
+                        <dt>Unpaid Medical Cost</dt>
+                        <dd v-if="isSignCompleted">---</dd>
+                        <dd v-if="!isSignCompleted">
+                            {{ unpaidCost / 10 ** this.tokenData["decimals"] }}
+                            {{ tokenData["symbol"] }}
+                        </dd>
                     </dl>
                 </div>
+                <ui-button @click="generateSignQRCode"
+                    >Agree to Medical Cost</ui-button
+                >
+            </div>
+            <div class="container">
+                <div class="containerTitle">
+                    <h1>Deposit Info</h1>
+                </div>
+                <div class="list">
+                    <dl>
+                        <span>
+                            <dt>Remittance Address</dt>
+                            <dd>{{ contractAddress }}</dd>
+                        </span>
+                        <span>
+                            <dt>Deposit Value</dt>
+                            <dd>
+                                {{ deposit / 10 ** this.tokenData["decimals"] }}
+                                {{ tokenData["symbol"] }}
+                            </dd>
+                        </span>
+                    </dl>
+                </div>
+                <ui-button @click="withDraw">Withdraw Deposit</ui-button>
             </div>
             <div class="container">
                 <div class="containerTitle">
@@ -29,18 +54,27 @@
                 </div>
                 <div class="list">
                     <dl>
-                        <span v-for="(value, name, index) in patientData" :key="index">
-                            <dt>{{name}}</dt>
-                            <dd>{{value}}</dd>
+                        <span
+                            v-for="(value, name, index) in patientData"
+                            :key="index"
+                        >
+                            <dt>{{ name }}</dt>
+                            <dd>{{ value }}</dd>
                         </span>
-                        <dt>Patient Address</dt>
-                        <dd>{{patientAddress}}</dd>
                     </dl>
                 </div>
             </div>
-            <ui-button @click="generateSignQRCode">医療費に同意</ui-button>
-            <vue-qrcode v-if="signMedicalCost" :value="signMedicalCost" :options="{ width: 500 }"></vue-qrcode>
         </div>
+        <ui-modal ref="QRCodeModal" transition="scale-up">
+            <div slot="header">
+                <b>Show QRCode to Hospital</b>
+            </div>
+            <vue-qrcode
+                v-if="medicalCostSign"
+                :value="medicalCostSign"
+                :options="{ width: 300 }"
+            ></vue-qrcode>
+        </ui-modal>
     </div>
 </template>
 
@@ -60,17 +94,18 @@ export default {
             medicalCost: 0,
             deposit: 0,
             unpaidCost: 0,
-            usedEther: 0,
+            isSignCompleted: false,
             patientAddress: "0x0",
             patientData: "",
-            signMedicalCost: "",
+            medicalCostSign: ""
         };
     },
     methods: {
         async init() {
             // TODO 画面ぐるぐる
             console.log("画面ぐるぐる開始");
-            const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
+            const sleep = msec =>
+                new Promise(resolve => setTimeout(resolve, msec));
             await sleep(1000);
             // コントラクトの読み込み
             this.contractAddress = this.$route.params.address;
@@ -107,17 +142,34 @@ export default {
         async getToeknData() {
             this.tokenData = await this.examination.getTokenData();
         },
-        generateSignQRCode(){
-            this.signMedicalCost = this.$management.signMessage(String(this.medicalCost));
-            console.log(this.signMedicalCost);
+        generateSignQRCode() {
+            this.medicalCostSign = this.$management.signMessage(
+                String(this.medicalCost)
+            );
+            this.openModal("QRCodeModal");
+        },
+        withDraw() {
+            // 実際はRefundを使う
+            console.log("サーバーにアクセス - 未実装");
         },
         callBackFunc(event, value) {
             console.log(event);
             console.log(value);
-            if (event === "SetMedicalCost") this.medicalCost = value["medicalCost"];
+            if (event === "SetMedicalCost")
+                this.medicalCost = value["medicalCost"];
+            if (event === "SignMedicalCost")
+                this.isSignCompleted = value["signed"];
+            if (event === "WithDraw") this.unpaidCost = value["unpaidCost"];
+            if (event === "Refund") console.log("Refund" + value["amount"]);
         },
         back() {
             this.$router.push("/");
+        },
+        openModal(ref) {
+            this.$refs[ref].open();
+        },
+        closeModal(ref) {
+            this.$refs[ref].close();
         }
     },
     created: function() {
