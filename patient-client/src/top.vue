@@ -1,75 +1,79 @@
 <template>
-  <div>
-    <div>入力欄</div>
-    <tr>
-      <td>
-        name
-        <input type="text" v-model="inputName" />
-      </td>
-      <td>
-        age
-        <input type="text" v-model="inputAge" />
-      </td>
-    </tr>
-    <input type="button" @click="generate" value="生成" />
-    <vue-qrcode v-if="encrypted_strings" :value="encrypted_strings" :options="option" tag="img"></vue-qrcode>
-  </div>
+    <div>
+        <div class="header">
+            <img src="./testlogo.png">
+            <p>TODO:ロゴをちゃんとしたものに差し替える</p>
+        </div>
+        <div class="page">
+            <div> 
+                <h1>How To Use</h1>
+                <p>適当な文章</p>
+                <p>getPastEventsでデプロイされたアドレスをキャッチしたらそれを勝手に読み込む</p>
+            </div>
+            <ui-button
+                @click="$router.push({ name: 'input'});"
+            >患者情報の入力</ui-button>
+            <div id="qrCode">
+                <p v-if="!outputData">QRCodeがここに表示される</p>
+                <vue-qrcode v-if="outputData" :value="outputData" :options="{ width: 500 }"></vue-qrcode>
+            </div>
+            <ui-button
+                @click="load('0xFA8AFb171e3793763CF7a8A4FF47A98edFfC759A')"
+            >テスト用：発行後画面へ遷移</ui-button>
+        </div>
+    </div>
 </template>
 
 <script>
+const yesOrNo = [
+    {
+        label: 'YES',
+        value: 'yes'
+    },
+    {
+        label: 'NO',
+        value: 'no'
+    },
+];
+
 import VueQrcode from "@chenfengyuan/vue-qrcode";
 export default {
-  components: {
-    VueQrcode
-  },
-  data() {
-    return {
-      inputName: "",
-      inputAge: "",
-      targetText: "",
-      encrypted_strings: "",
-      txt_key: localStorage.getItem("passPhrase"),
-      option: {
-        errorCorrectionLevel: "M",
-        maskPattern: 0,
-        margin: 0,
-        scale: 10,
-        width: 500,
-        color: {
-          dark: "#000000FF",
-          light: "#F5F5DC"
+    components: {
+        VueQrcode
+    },
+    data() {
+        return {
+            inputName: "",
+            inputAge: "",
+            inputBloodTransfusion: "",
+            outputData: "",
+            options: {
+                yesOrNo
+            }
+        };
+    },
+    methods: {
+        async load(contractAddress) {
+            // DetailページをPush
+            this.$router.push({
+                name: "detail",
+                params: { address: contractAddress }
+            });
+        },
+        callBackFunc(event, value) {
+            if (value.patientAddress === this.$management.getAddress()) {
+                console.log("deploy contract address : " + value.contractAddress);
+                this.load(value.contractAddress);
+            }
         }
-      }
-    };
-  },
-  methods: {
-    generate: function() {
-      let CryptoJS = require("crypto-js");
-      let AES = require("crypto-js/aes");
-      this.targetText =
-        this.inputName +
-        "," +
-        this.inputAge;
-      let utf8_plain = CryptoJS.enc.Utf8.parse(this.targetText);
-      let encrypted = CryptoJS.AES.encrypt(utf8_plain, this.txt_key);
-      this.encrypted_strings = this.txt_key + "," + encrypted.toString();
     },
-    async load(contractAddress) {
-      // DetailページをPush
-      this.$router.push({
-        name: "detail",
-        params: { address: contractAddress }
-      });
+    mounted: function() {
+        this.$management.subscribeEvent(this.callBackFunc);
+        this.outputData = localStorage.getItem("qrCodeData");
+        console.log(this.outputData);
     },
-    callBackFunc(event, value) {
-      if (value.patientAddress === this.$management.getAddress()) {
-        console.log("deploy contract address : " + value.contractAddress);
-        this.load(value.contractAddress);
-      }
+    destroyed: function() {
+        this.$management.unload();
     }
-  },
-  mounted: function() {
-    this.$management.subscribeEvent(this.callBackFunc);
-  }
 };
 </script>

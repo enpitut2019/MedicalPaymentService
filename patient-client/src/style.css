@@ -1,103 +1,92 @@
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-.fullscreen {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    background-color: black;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-}
-
-html{
-  background-color: #F5F5DC;
+html {
+  background-color: #f5f5dc;
   font-size: 16px;
   line-height: 1.5rem;
 }
 
-h1{
-  font-size:2rem;
+h1 {
+  font-size: 2rem;
 }
 
-.header{
+.header {
   display: inline-block;
-  background-color: #00ADB5;
-  width:100%;
-  text-align:center;
+  background-color: #00adb5;
+  width: 100%;
+  text-align: center;
 }
 
 img {
   height: 100px;
 }
 
-.card{
+.card {
   border-radius: 6px;
   background-color: white;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-  padding:30px;
-  width:100%;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  padding: 30px;
+  width: 100%;
 }
 
-.page{
-  width:95%;
-  margin:0 auto;
+.page {
+  width: 95%;
+  margin: 0 auto;
 }
 
-button{
-  width:100%;
+button {
+  width: 100%;
 }
 
 /*============================================
 カードっぽい奴
 ============================================*/
 
-.container{
+.container {
   border-radius: 6px;
   border: solid 1px whitesmoke;
-  box-shadow :0px 0px 3px silver;
-  margin-top:20px;
-  margin-bottom:20px;
+  box-shadow: 0px 0px 3px silver;
+  margin-top: 20px;
+  margin-bottom: 20px;
   padding: 1rem;
-  background-color:white;
+  background-color: white;
 }
 
-.containerTitle{
+.containerTitle {
   margin: 1rem;
   border-bottom: 2px solid hsl(0, 0%, 85%);
   margin: 0.5rem, 0rem;
   padding-bottom: 0.5rem;
 }
 
-.list{
+.list {
   display: grid;
   grid-template-columns: max-content 1fr;
   margin: 0.5rem;
   padding: 0.5rem;
 }
 
-dl,dl span{
+dl,
+dl span {
   display: contents;
 }
 
-dt,dd {
+dt,
+dd {
   font-size: 1rem;
   padding: 0.75em 1rem;
   border-bottom: 1px solid hsl(0, 0%, 90%);
 }
 
-dt{
+dt {
   text-align: right;
 }
 
-dd{
+dd {
   text-align: left;
 }
 /*============================================
@@ -131,26 +120,8 @@ dd{
 }
 
 /*============================================
-アニメーション
+QRコード
 ============================================*/
-
-.v-enter {
-  opacity: 0;
-  transform: translateY(-100px);
-}
-.v-enter-to {
-  opacity: 1;
-}
-.v-enter-active {
-  transition: opacity 300ms ease-out, transform 300ms ease-out;
-}
-.v-leave{
-    opacity:1;
-}
-.v-leave-to {
-  opacity: 0;
-  /*transform: scale(0.97);*/
-}
-.v-leave-active {
-  transition: opacity 270ms ease-out, transform 270ms ease-out;
+.qrCode {
+  width: 100%;
 }
