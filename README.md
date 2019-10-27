@@ -13,8 +13,13 @@
 - 高橋 孝輔
 - 西山 大輝
 
-## URL
+## デモ
+### 動作環境
+デバイス - カメラがついたスマホ、タブレット、パソコン  
+ブラウザ - iOS/Safari(11+), Others/Chrome,FireFox
+
+### URL
 病院側
-https://dist.kota.now.sh/  
+https://enpitut2019.github.io/MedicalPaymentService/hospital-client/dist/ 
 患者側
 https://enpitut2019.github.io/MedicalPaymentService/patient-client/dist/
