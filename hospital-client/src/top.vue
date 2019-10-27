@@ -1,51 +1,17 @@
 m<template>
     <div>
-        <div class="header">
-            <img src="./testlogo.png" />
-            <p>TODO:ロゴをちゃんとしたものに差し替える</p>
-        </div>
         <div class="page">
             <div class="fullscreen" v-if="isCameraActive">
                 <qrcode-stream @decode="inputData"></qrcode-stream>
             </div>
-            <div class="container">
-                <div class="containerTitle">
-                    <h1>Patient Information</h1>
-                </div>
-                <div class="list">
-                    <dl>
-                        <span
-                            v-for="(value, name, index) in patientData"
-                            :key="index"
-                        >
-                            <dt>{{ name }}</dt>
-                            <dd>{{ value }}</dd>
-                        </span>
-                    </dl>
-                </div>
-            </div>
-            <ui-button @click="isCameraActive = true" v-if="!patientDataActive"
-                >QRコードの読込</ui-button
-            >
-            <ui-button @click="inputPreSetData" v-if="!patientDataActive"
-                >テスト用：テスト用データの読み込み</ui-button
-            >
-            <ui-button @click="deployContract" v-if="patientDataActive"
-                >患者専用のアドレスを発行</ui-button
-            >
-            <ui-button
-                @click="
-                    patientData = '';
-                    patientDataActive = false;
-                "
-                v-if="patientDataActive"
-                >読み込みデータの破棄</ui-button
-            >
-            <ui-button
-                @click="load('0xFA8AFb171e3793763CF7a8A4FF47A98edFfC759A')"
-                v-if="patientDataActive"
-                >テスト用：発行後画面へ遷移</ui-button
-            >
+            <h1>使い方</h1>
+            <p>使い方<br /><br /><br />aaaaaaaaaa<br /></p>
+            <ui-button @click="isCameraActive = true">
+                QRコードの読込
+            </ui-button>
+            <ui-button @click="inputPreSetData">
+                テスト用：テスト用データの読み込み
+            </ui-button>
         </div>
     </div>
 </template>
@@ -64,6 +30,7 @@ export default {
     },
     methods: {
         inputData(result) {
+            // TODO:入力チェック
             let sourceArray = result.split(",");
             this.patientPassPhrase = sourceArray[0];
             this.encryptedPatientData = sourceArray[1];
@@ -76,6 +43,16 @@ export default {
             this.patientData = JSON.parse(patientDataJson);
             this.patientDataActive = true;
             this.isCameraActive = false;
+
+            this.$router.push({
+                name: "confirmation",
+                params: {
+                    patientData: this.patientData,
+                    patientSign: this.patientSign,
+                    patientPassPhrase: this.patientPassPhrase,
+                    encryptedPatientData: this.encryptedPatientData
+                }
+            });
         },
         inputPreSetData() {
             this.encryptedPatientData =
@@ -90,49 +67,17 @@ export default {
             );
             this.patientData = JSON.parse(patientDataJson);
             this.patientDataActive = true;
-        },
-        async deployContract() {
-            this.$emit("loading", true);
-            await this.$management.deploy(
-                this.encryptedPatientData,
-                this.patientSign,
-                this.patientPassPhrase
-            );
-        },
-        async load(contractAddress) {
-            this.$emit("loading", true);
+
             this.$router.push({
-                name: "detail",
-                params: { address: contractAddress }
+                name: "confirmation",
+                params: {
+                    patientData: this.patientData,
+                    patientSign: this.patientSign,
+                    patientPassPhrase: this.patientPassPhrase,
+                    encryptedPatientData: this.encryptedPatientData
+                }
             });
-        },
-        callBackFunc(event, value) {
-            if (value.hospitalAddress === this.$management.getAddress()) {
-                this.load(value.contractAddress);
-            }
         }
-    },
-    mounted: function() {
-        this.$management.subscribeEvent(this.callBackFunc);
-    },
-    destroyed: function() {
-        this.$management.unload();
     }
 };
 </script>
-
-<style scoped>
-/*============================================
-アニメーション
-============================================*/
-
-.v-enter {
-    opacity: 0;
-}
-.v-enter-to {
-    opacity: 1;
-}
-.v-enter-active {
-    transition: opacity 200ms ease-out;
-}
-</style>

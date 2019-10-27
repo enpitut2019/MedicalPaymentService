@@ -1,8 +1,5 @@
-<template>
+<template class="detail">
     <div>
-        <div class="backbutton" @click="back">
-            <span></span>
-        </div>
         <div class="fullscreen" v-if="isCameraActive">
             <qrcode-stream @decode="signMedicalCost"></qrcode-stream>
         </div>
@@ -97,7 +94,7 @@
                 v-model="inputMedicalCost"
                 label="Medical Cost"
             ></ui-textbox>
-            <ui-button @click="setMedicalCost">登録</ui-button>
+            <ui-button @click="setMedicalCost">決定</ui-button>
         </ui-modal>
     </div>
 </template>
@@ -175,7 +172,7 @@ export default {
             this.ethPrice = coinGeckoApiResult[0].current_price;
         },
         async setMedicalCost() {
-            closeModal("inputModal");
+            this.closeModal("inputModal");
             this.$emit("loading", true);
             await this.examination.setMedicalCost(this.inputMedicalCost);
             this.$emit("loading", false);
@@ -211,9 +208,6 @@ export default {
             // Loading画面非表示
             this.$emit("loading", false);
         },
-        back() {
-            this.$router.push("/");
-        },
         openModal(ref) {
             this.$refs[ref].open();
         },
@@ -226,30 +220,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-/*============================================
-アニメーション
-============================================*/
-
-.v-enter {
-    opacity: 0;
-    transform: translateY(100%);
-}
-.v-enter-to {
-    opacity: 1;
-}
-.v-enter-active {
-    transition: opacity 300ms ease-out, transform 300ms ease-out;
-}
-.v-leave {
-    opacity: 1;
-}
-.v-leave-to {
-    opacity: 0;
-    transform: translateY(100%);
-}
-.v-leave-active {
-    transition: opacity 270ms ease-out, transform 270ms ease-out;
-}
-</style>

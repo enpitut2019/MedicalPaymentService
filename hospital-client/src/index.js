@@ -1,5 +1,4 @@
-// Pathがdetailだった時、トップページへ遷移
-if (location.pathname === "/detail") {
+if (location.pathname !== "/") {
     history.pushState(null, null, "/");
 }
 
@@ -10,6 +9,7 @@ Vue.use(VueRouter);
 import App from "./app.vue";
 import Top from "./top.vue";
 import Detail from "./detail.vue";
+import Confirmation from "./confirmation.vue";
 
 // CSSリセット
 import "../node_modules/reset.css";
@@ -28,7 +28,8 @@ const router = new VueRouter({
     // base: "MedicalPaymentService/hospital-client/dist/",
     routes: [
         { path: "/", component: Top },
-        { path: "/detail", name: "detail", component: Detail }
+        { path: "/detail", name: "detail", component: Detail },
+        { path: "/confirmation", name: "confirmation", component: Confirmation }
     ]
 });
 
