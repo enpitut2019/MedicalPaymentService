@@ -81,6 +81,7 @@
 <script>
 import Examination from "./examination.js";
 import VueQrcode from "@chenfengyuan/vue-qrcode";
+const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
 
 export default {
     components: {
@@ -100,13 +101,14 @@ export default {
             medicalCostSign: ""
         };
     },
+    created: async function() {
+        this.$emit("loading", true);
+        await sleep(1000);
+        await this.init();
+        this.$emit("loading", false);
+    },
     methods: {
         async init() {
-            // TODO 画面ぐるぐる
-            console.log("画面ぐるぐる開始");
-            const sleep = msec =>
-                new Promise(resolve => setTimeout(resolve, msec));
-            await sleep(1000);
             // コントラクトの読み込み
             this.contractAddress = this.$route.params.address;
             this.examination = new Examination(
@@ -124,8 +126,6 @@ export default {
 
             // 全てのプロミスを実行
             await Promise.all([promise1, promise2, promise3]);
-            // TODO 画面ぐるぐる終了
-            console.log("画面ぐるぐる終了");
         },
         async getPatientInfo() {
             let patientInfo = await this.examination.getPatientInfo();
@@ -153,6 +153,7 @@ export default {
             console.log("サーバーにアクセス - 未実装");
         },
         callBackFunc(event, value) {
+            this.$emit("loading", true);
             console.log(event);
             console.log(value);
             if (event === "SetMedicalCost")
@@ -161,6 +162,7 @@ export default {
                 this.isSignCompleted = value["signed"];
             if (event === "WithDraw") this.unpaidCost = value["unpaidCost"];
             if (event === "Refund") console.log("Refund" + value["amount"]);
+            this.$emit("loading", false);
         },
         back() {
             this.$router.push("/");
@@ -171,9 +173,6 @@ export default {
         closeModal(ref) {
             this.$refs[ref].close();
         }
-    },
-    created: function() {
-        this.init();
     },
     destroyed: function() {
         this.examination.unload();

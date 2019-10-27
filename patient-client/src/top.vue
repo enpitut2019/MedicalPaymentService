@@ -61,7 +61,7 @@ export default {
     },
     methods: {
         async load(contractAddress) {
-            // DetailページをPush
+            this.$emit("loading", true);
             this.$router.push({
                 name: "detail",
                 params: { address: contractAddress }

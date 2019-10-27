@@ -1,4 +1,4 @@
-<template>
+m<template>
     <div>
         <div class="header">
             <img src="./testlogo.png" />
@@ -92,7 +92,7 @@ export default {
             this.patientDataActive = true;
         },
         async deployContract() {
-            // TODO 画面ぐるぐる
+            this.$emit("loading", true);
             await this.$management.deploy(
                 this.encryptedPatientData,
                 this.patientSign,
@@ -100,7 +100,7 @@ export default {
             );
         },
         async load(contractAddress) {
-            // DetailページをPush
+            this.$emit("loading", true);
             this.$router.push({
                 name: "detail",
                 params: { address: contractAddress }
