@@ -11,7 +11,7 @@
         <ui-button @click="inputPreSetData">
             テスト用：テスト用データの読み込み
         </ui-button>
-        <ui-button @click="load('0xFA8AFb171e3793763CF7a8A4FF47A98edFfC759A')"
+        <ui-button @click="load('0x33571Ca9deC342c9cC14bBaC6d5C50517D2e2c24')"
             >テスト用：発行後画面へ遷移
         </ui-button>
     </div>
@@ -57,11 +57,11 @@ export default {
         },
         inputPreSetData() {
             this.encryptedPatientData =
-                "U2FsdGVkX1+W5C6yTYyGcq8cpuUDaCpn9FD0Jit+YWkykkg3zc5T93UKV9bPGSlx/cP1STjIuOa1lY7HswiAWQMHMK2Wp/67CQ5HyT9MAkI=";
+                "U2FsdGVkX1+rV0sMwZBkk+CdPE1DMwBfDNNWWXmcGIMiCaqExFM7qFLILatOgzLUtg6svJFSaeNUQDbl1ovaM7Bt54UiCLdfFZBE8KP99l1KwGsctGxs+ihZvHnI4shkQJx6Tf9ve0zlmHN+I1Bovw==";
             this.patientSign =
-                "0x0bb05a1a9f26fc25660ff3ac7a6b9e85507012f8663d59c73e57441c0a6f5ce401e4563ec71899875c5449a461633f67b3b9371d90918b27a608995c54b5817e1b";
+                "0x3fe941fab95f1e9e677a698c971540d6585742ebc717803724b5192ecaf192c91241b899f0ceefa81dd7b266f55b464a02248770d189de690a908d4b612e741b1b";
             this.patientPassPhrase =
-                "0x5f5278ef122e68c6a0d4e037289317178a0555aad18e5cd1366df39683483b1785bc632ac5c7981a9a98e5660ec35e";
+                "0x0dee43b47ac4052c7074eec6413151ee42c46731cb06c7f9a31763ea26a0fc98";
             let patientDataJson = this.$management.decrypt(
                 this.encryptedPatientData,
                 this.patientPassPhrase

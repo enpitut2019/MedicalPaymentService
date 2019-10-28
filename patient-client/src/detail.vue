@@ -12,8 +12,8 @@
                         {{ tokenData["symbol"] }}
                     </dd>
                     <dt>Unpaid Medical Cost</dt>
-                    <dd v-if="isSignCompleted">---</dd>
-                    <dd v-if="!isSignCompleted">
+                    <dd v-if="!isSignCompleted">---</dd>
+                    <dd v-if="isSignCompleted">
                         {{ unpaidCost / 10 ** this.tokenData["decimals"] }}
                         {{ tokenData["symbol"] }}
                     </dd>

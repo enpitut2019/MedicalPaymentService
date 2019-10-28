@@ -7,9 +7,6 @@
                 getPastEventsでデプロイされたアドレスをキャッチしたらそれを勝手に読み込む
             </p>
         </div>
-        <ui-button @click="$router.push({ name: 'input' })">
-            患者情報の入力
-        </ui-button>
         <div class="qrCode">
             <p v-if="!outputData">QRCodeがここに表示される</p>
             <vue-qrcode
@@ -18,8 +15,11 @@
                 :options="{ width: 500 }"
             ></vue-qrcode>
         </div>
-        <ui-button @click="load('0xFA8AFb171e3793763CF7a8A4FF47A98edFfC759A')">
-            テスト用：発行後画面へ遷移
+        <ui-button @click="$router.push({ name: 'input' })">
+            患者情報の入力
+        </ui-button>
+        <ui-button @click="load('0x33571Ca9deC342c9cC14bBaC6d5C50517D2e2c24')">
+            テスト用：発行後画面へ遷移（遷移後操作不可）
         </ui-button>
     </div>
 </template>
@@ -52,6 +52,15 @@ export default {
             }
         };
     },
+    mounted: async function() {
+        this.$management.subscribeEvent(this.callBackFunc);
+        this.outputData = localStorage.getItem("qrCodeData");
+        console.log(this.outputData);
+        // 過去のイベントを読み込み
+        if (this.outputData) this.$emit("loading", true);
+        await this.$management.getPastStartExaminationEvent();
+        this.$emit("loading", false);
+    },
     methods: {
         async load(contractAddress) {
             this.$emit("loading", true);
@@ -65,10 +74,6 @@ export default {
                 this.load(value.contractAddress);
             }
         }
-    },
-    mounted: function() {
-        this.$management.subscribeEvent(this.callBackFunc);
-        this.outputData = localStorage.getItem("qrCodeData");
     },
     destroyed: function() {
         this.$management.unload();

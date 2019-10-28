@@ -17,7 +17,7 @@
             </div>
         </div>
         <ui-button @click="deployContract">患者専用のアドレスを発行 </ui-button>
-        <ui-button @click="load('0xFA8AFb171e3793763CF7a8A4FF47A98edFfC759A')"
+        <ui-button @click="load('0x33571Ca9deC342c9cC14bBaC6d5C50517D2e2c24')"
             >テスト用：発行後画面へ遷移
         </ui-button>
     </div>

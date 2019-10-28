@@ -31,12 +31,23 @@ const router = new VueRouter({
     ]
 });
 
-// テスト用
-// 秘密鍵、パスフレーズの管理方法はちょっと考える（セキュリティ的に）
-let privateKey =
-    "0x0D274BD5D6DC605137D958AC2DB9C9BD189FF86338150A04C7DB4B3E942FAC0C";
-let passPhrase =
-    "0x5f5278ef122e68c6a0d4e037289317178a0555aad18e5cd1366df39683483b1785bc632ac5c7981a9a98e5660ec35e";
+// アカウントとパス作成
+import Web3 from "web3";
+if (!localStorage.getItem("privateKey")) {
+    console.log("Create Account");
+    let web3 = new Web3();
+    let account = web3.eth.accounts.create();
+    // テストのためパスは同一（データがロードできなくなるため）
+    //let passPhrase = web3.utils.randomHex(32);
+    let passPhrase =
+        "0x0dee43b47ac4052c7074eec6413151ee42c46731cb06c7f9a31763ea26a0fc98";
+    localStorage.setItem("privateKey", account.privateKey);
+    localStorage.setItem("passPhrase", passPhrase);
+}
+
+// アカウント読み込み TODO:loaclstorageに保存して大丈夫か
+let privateKey = localStorage.getItem("privateKey");
+let passPhrase = localStorage.getItem("passPhrase");
 
 import Management from "./management.js";
 Vue.prototype.$management = new Management(privateKey, passPhrase, false);

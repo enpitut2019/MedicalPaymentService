@@ -177,8 +177,16 @@ export let managementContractABI = [
     {
         constant: false,
         inputs: [
-            { internalType: "string", name: "_patientData", type: "string" },
-            { internalType: "bytes", name: "_signature", type: "bytes" },
+            {
+                internalType: "string",
+                name: "_patientData",
+                type: "string"
+            },
+            {
+                internalType: "bytes",
+                name: "_signature",
+                type: "bytes"
+            },
             {
                 internalType: "string",
                 name: "_patientPassPhrase",
@@ -201,13 +209,13 @@ export let managementContractABI = [
                 type: "address"
             },
             {
-                indexed: false,
+                indexed: true,
                 internalType: "address",
                 name: "hospitalAddress",
                 type: "address"
             },
             {
-                indexed: false,
+                indexed: true,
                 internalType: "address",
                 name: "patientAddress",
                 type: "address"
@@ -228,7 +236,11 @@ export let managementContractABI = [
                         name: "examinationContract",
                         type: "address"
                     },
-                    { internalType: "uint256", name: "start", type: "uint256" }
+                    {
+                        internalType: "uint256",
+                        name: "start",
+                        type: "uint256"
+                    }
                 ],
                 internalType: "struct Management.ExaminationInfo[]",
                 name: "",
@@ -242,4 +254,4 @@ export let managementContractABI = [
 ];
 
 export let managementContractAddress =
-    "0x94Fc3D9d40C08Dd65F58E3883f878399D764B390";
+    "0x2d9daDD029f31adaFf447Ae86dfA803B9EbE34FC";

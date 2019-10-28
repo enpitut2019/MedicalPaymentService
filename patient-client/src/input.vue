@@ -14,7 +14,7 @@
         ></ui-textbox>
         <ui-textbox
             v-model="patientData['other']"
-            label="実際には、まだ必要"
+            label="実際には他の情報も"
         ></ui-textbox>
         <ui-button @click="perocessData">データ保存</ui-button>
     </div>
@@ -39,7 +39,7 @@ export default {
     },
     data() {
         return {
-            patientData: { Transfusion: "no" },
+            patientData: { Name: "", Age: "", Transfusion: "no" },
             options: {
                 yesOrNo
             }

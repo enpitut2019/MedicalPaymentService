@@ -48,6 +48,21 @@ export default class {
         this.callBackFunc(event.event, event.returnValues);
     }
 
+    /* 過去のイベントを読み込む */
+    async getPastStartExaminationEvent() {
+        await this.myContract.getPastEvents(
+            "StartExamination",
+            {
+                filter: { patientAddress: this.myAccount.address },
+                fromBlock: 0,
+                toBlock: "latest"
+            },
+            (error, event) => {
+                if (event.length) this.processEvent(error, event.pop());
+            }
+        );
+    }
+
     /** スマートコントラクトのデプロイ
      *  @param _patientData 患者データを暗号化した物
      *  @param _signature _patientDataに対する患者の署名

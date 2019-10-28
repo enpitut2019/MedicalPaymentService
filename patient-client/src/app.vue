@@ -1,13 +1,13 @@
 <template>
     <div class="app">
         <div class="header">
-            <div v-if="this.$route.path === '/'">
+            <div v-if="this.$route.path !== 'input'">
                 <!--グリッドレイアウト用の空div-->
             </div>
             <div
                 class="backbutton"
                 @click="back"
-                v-if="this.$route.path !== '/'"
+                v-if="this.$route.path === 'input'"
             ></div>
             <h1 v-if="this.$route.path === '/'">Top</h1>
             <h1 v-if="this.$route.path === '/input'">Input</h1>
