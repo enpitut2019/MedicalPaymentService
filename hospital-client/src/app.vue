@@ -1,15 +1,17 @@
 <template>
     <div class="app">
         <div class="header">
+            <div v-if="this.$route.path === '/'">
+                <!--グリッドレイアウト用の空div-->
+            </div>
             <div
                 class="backbutton"
                 @click="back"
                 v-if="this.$route.path !== '/'"
-            >
-                <span></span>
-            </div>
-            <img src="./testlogo.png" />
-            <p>TODO:ロゴをちゃんとしたものに差し替える</p>
+            ></div>
+            <h1 v-if="this.$route.path === '/'">受付</h1>
+            <h1 v-if="this.$route.path === '/confirmation'">確認</h1>
+            <h1 v-if="this.$route.path === '/detail'">詳細</h1>
         </div>
         <transition mode="out-in">
             <router-view @loading="loading"></router-view>

@@ -1,18 +1,19 @@
-m<template>
-    <div>
-        <div class="page">
-            <div class="fullscreen" v-if="isCameraActive">
-                <qrcode-stream @decode="inputData"></qrcode-stream>
-            </div>
-            <h1>使い方</h1>
-            <p>使い方<br /><br /><br />aaaaaaaaaa<br /></p>
-            <ui-button @click="isCameraActive = true">
-                QRコードの読込
-            </ui-button>
-            <ui-button @click="inputPreSetData">
-                テスト用：テスト用データの読み込み
-            </ui-button>
+<template>
+    <div class="page">
+        <div class="fullscreen" v-if="isCameraActive">
+            <qrcode-stream @decode="inputData"></qrcode-stream>
         </div>
+        <h1>使い方</h1>
+        <p>使い方<br /><br /><br />aaaaaaaaaa<br /></p>
+        <ui-button @click="isCameraActive = true">
+            QRコードの読込
+        </ui-button>
+        <ui-button @click="inputPreSetData">
+            テスト用：テスト用データの読み込み
+        </ui-button>
+        <ui-button @click="load('0xFA8AFb171e3793763CF7a8A4FF47A98edFfC759A')"
+            >テスト用：発行後画面へ遷移
+        </ui-button>
     </div>
 </template>
 
@@ -77,7 +78,40 @@ export default {
                     encryptedPatientData: this.encryptedPatientData
                 }
             });
+        },
+        async load(contractAddress) {
+            this.$emit("loading", true);
+            this.$router.push({
+                name: "detail",
+                params: { address: contractAddress }
+            });
         }
     }
 };
 </script>
+
+<style scoped>
+/*============================================
+アニメーション
+============================================*/
+.v-enter {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+.v-enter-to {
+    opacity: 1;
+}
+.v-enter-active {
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+.v-leave {
+    opacity: 1;
+}
+.v-leave-to {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+.v-leave-active {
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+</style>

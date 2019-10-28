@@ -1,68 +1,63 @@
 <template>
-    <div>
-        <div class="backbutton" @click="back">
-            <span></span>
+    <div class="page">
+        <div class="container">
+            <div class="containerTitle">
+                <h1>Contract Information</h1>
+            </div>
+            <div class="list">
+                <dl>
+                    <dt>Medical Cost</dt>
+                    <dd>
+                        {{ medicalCost / 10 ** this.tokenData["decimals"] }}
+                        {{ tokenData["symbol"] }}
+                    </dd>
+                    <dt>Unpaid Medical Cost</dt>
+                    <dd v-if="isSignCompleted">---</dd>
+                    <dd v-if="!isSignCompleted">
+                        {{ unpaidCost / 10 ** this.tokenData["decimals"] }}
+                        {{ tokenData["symbol"] }}
+                    </dd>
+                </dl>
+            </div>
+            <ui-button @click="generateSignQRCode"
+                >Agree to Medical Cost</ui-button
+            >
         </div>
-        <div class="page">
-            <div class="container">
-                <div class="containerTitle">
-                    <h1>Contract Information</h1>
-                </div>
-                <div class="list">
-                    <dl>
-                        <dt>Medical Cost</dt>
+        <div class="container">
+            <div class="containerTitle">
+                <h1>Deposit Info</h1>
+            </div>
+            <div class="list">
+                <dl>
+                    <span>
+                        <dt>Remittance Address</dt>
+                        <dd>{{ contractAddress }}</dd>
+                    </span>
+                    <span>
+                        <dt>Deposit Value</dt>
                         <dd>
-                            {{ medicalCost / 10 ** this.tokenData["decimals"] }}
+                            {{ deposit / 10 ** this.tokenData["decimals"] }}
                             {{ tokenData["symbol"] }}
                         </dd>
-                        <dt>Unpaid Medical Cost</dt>
-                        <dd v-if="isSignCompleted">---</dd>
-                        <dd v-if="!isSignCompleted">
-                            {{ unpaidCost / 10 ** this.tokenData["decimals"] }}
-                            {{ tokenData["symbol"] }}
-                        </dd>
-                    </dl>
-                </div>
-                <ui-button @click="generateSignQRCode"
-                    >Agree to Medical Cost</ui-button
-                >
+                    </span>
+                </dl>
             </div>
-            <div class="container">
-                <div class="containerTitle">
-                    <h1>Deposit Info</h1>
-                </div>
-                <div class="list">
-                    <dl>
-                        <span>
-                            <dt>Remittance Address</dt>
-                            <dd>{{ contractAddress }}</dd>
-                        </span>
-                        <span>
-                            <dt>Deposit Value</dt>
-                            <dd>
-                                {{ deposit / 10 ** this.tokenData["decimals"] }}
-                                {{ tokenData["symbol"] }}
-                            </dd>
-                        </span>
-                    </dl>
-                </div>
-                <ui-button @click="withDraw">Withdraw Deposit</ui-button>
+            <ui-button @click="withDraw">Withdraw Deposit</ui-button>
+        </div>
+        <div class="container">
+            <div class="containerTitle">
+                <h1>Patient Information</h1>
             </div>
-            <div class="container">
-                <div class="containerTitle">
-                    <h1>Patient Information</h1>
-                </div>
-                <div class="list">
-                    <dl>
-                        <span
-                            v-for="(value, name, index) in patientData"
-                            :key="index"
-                        >
-                            <dt>{{ name }}</dt>
-                            <dd>{{ value }}</dd>
-                        </span>
-                    </dl>
-                </div>
+            <div class="list">
+                <dl>
+                    <span
+                        v-for="(value, name, index) in patientData"
+                        :key="index"
+                    >
+                        <dt>{{ name }}</dt>
+                        <dd>{{ value }}</dd>
+                    </span>
+                </dl>
             </div>
         </div>
         <ui-modal ref="QRCodeModal" transition="scale-up">
@@ -179,3 +174,29 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+/*============================================
+アニメーション
+============================================*/
+.v-enter {
+    opacity: 0;
+    transform: translateX(100%);
+}
+.v-enter-to {
+    opacity: 1;
+}
+.v-enter-active {
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+.v-leave {
+    opacity: 1;
+}
+.v-leave-to {
+    opacity: 0;
+    transform: translateX(100%);
+}
+.v-leave-active {
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+</style>

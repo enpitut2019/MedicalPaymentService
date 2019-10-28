@@ -1,90 +1,84 @@
-<template class="detail">
-    <div>
+<template>
+    <div class="page">
+        <div class="container">
+            <div class="containerTitle">
+                <h1>ステータス</h1>
+            </div>
+            <div class="list">
+                <dl>
+                    <dt>請求金額</dt>
+                    <dd>
+                        {{ medicalCost / 10 ** this.tokenData["decimals"] }}
+                        {{ tokenData["symbol"] }}
+                    </dd>
+                    <dt>未収金金額</dt>
+                    <dd v-if="!isSignCompleted">---</dd>
+                    <dd v-if="isSignCompleted">
+                        {{ unpaidCost / 10 ** this.tokenData["decimals"] }}
+                        {{ tokenData["symbol"] }}
+                    </dd>
+                    <dt>発生した手数料</dt>
+                    <dd>
+                        {{ Math.ceil(usedEther * ethPrice) }} JPY ({{
+                            usedEther
+                        }}
+                        ETH)
+                    </dd>
+                </dl>
+            </div>
+            <ui-button @click="openModal('inputModal')" v-if="!isSignCompleted"
+                >医療費を入力</ui-button
+            >
+            <ui-button @click="isCameraActive = true" v-if="!isSignCompleted"
+                >医療費を確定（QRコード読み込み）</ui-button
+            >
+        </div>
+        <div class="container">
+            <div class="containerTitle">
+                <h1>デポジット情報</h1>
+            </div>
+            <div class="list">
+                <dl>
+                    <span>
+                        <dt>デポジット先アドレス</dt>
+                        <dd>{{ contractAddress }}</dd>
+                    </span>
+                    <span>
+                        <dt>デポジット金額</dt>
+                        <dd>
+                            {{ deposit / 10 ** this.tokenData["decimals"] }}
+                            {{ tokenData["symbol"] }}
+                        </dd>
+                    </span>
+                </dl>
+            </div>
+            <ui-button @click="withDraw" :disabled="!isSignCompleted"
+                >引き出し（医療費確定後）</ui-button
+            >
+            <ui-button @click="refund" :disabled="!isSignCompleted"
+                >返金（医療費確定後）</ui-button
+            >
+        </div>
+        <div class="container">
+            <div class="containerTitle">
+                <h1>Patient Information</h1>
+            </div>
+            <div class="list">
+                <dl>
+                    <span
+                        v-for="(value, name, index) in patientData"
+                        :key="index"
+                    >
+                        <dt>{{ name }}</dt>
+                        <dd>{{ value }}</dd>
+                    </span>
+                    <dt>その他</dt>
+                    <dd>リストで下にばーっと</dd>
+                </dl>
+            </div>
+        </div>
         <div class="fullscreen" v-if="isCameraActive">
             <qrcode-stream @decode="signMedicalCost"></qrcode-stream>
-        </div>
-        <div class="page">
-            <div class="container">
-                <div class="containerTitle">
-                    <h1>ステータス</h1>
-                </div>
-                <div class="list">
-                    <dl>
-                        <dt>請求金額</dt>
-                        <dd>
-                            {{ medicalCost / 10 ** this.tokenData["decimals"] }}
-                            {{ tokenData["symbol"] }}
-                        </dd>
-                        <dt>未収金金額</dt>
-                        <dd v-if="!isSignCompleted">---</dd>
-                        <dd v-if="isSignCompleted">
-                            {{ unpaidCost / 10 ** this.tokenData["decimals"] }}
-                            {{ tokenData["symbol"] }}
-                        </dd>
-                        <dt>発生した手数料</dt>
-                        <dd>
-                            {{ Math.ceil(usedEther * ethPrice) }} JPY ({{
-                                usedEther
-                            }}
-                            ETH)
-                        </dd>
-                    </dl>
-                </div>
-                <ui-button
-                    @click="openModal('inputModal')"
-                    v-if="!isSignCompleted"
-                    >医療費を入力</ui-button
-                >
-                <ui-button
-                    @click="isCameraActive = true"
-                    v-if="!isSignCompleted"
-                    >医療費を確定（QRコード読み込み）</ui-button
-                >
-            </div>
-            <div class="container">
-                <div class="containerTitle">
-                    <h1>デポジット情報</h1>
-                </div>
-                <div class="list">
-                    <dl>
-                        <span>
-                            <dt>デポジット先アドレス</dt>
-                            <dd>{{ contractAddress }}</dd>
-                        </span>
-                        <span>
-                            <dt>デポジット金額</dt>
-                            <dd>
-                                {{ deposit / 10 ** this.tokenData["decimals"] }}
-                                {{ tokenData["symbol"] }}
-                            </dd>
-                        </span>
-                    </dl>
-                </div>
-                <ui-button @click="withDraw" :disabled="!isSignCompleted"
-                    >引き出し（医療費確定後）</ui-button
-                >
-                <ui-button @click="refund" :disabled="!isSignCompleted"
-                    >返金（医療費確定後）</ui-button
-                >
-            </div>
-            <div class="container">
-                <div class="containerTitle">
-                    <h1>Patient Information</h1>
-                </div>
-                <div class="list">
-                    <dl>
-                        <span
-                            v-for="(value, name, index) in patientData"
-                            :key="index"
-                        >
-                            <dt>{{ name }}</dt>
-                            <dd>{{ value }}</dd>
-                        </span>
-                        <dt>その他</dt>
-                        <dd>リストで下にばーっと</dd>
-                    </dl>
-                </div>
-            </div>
         </div>
         <ui-modal ref="inputModal" transition="scale-up">
             <div slot="header">
@@ -220,3 +214,29 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+/*============================================
+アニメーション
+============================================*/
+.v-enter {
+    opacity: 0;
+    transform: translateX(100%);
+}
+.v-enter-to {
+    opacity: 1;
+}
+.v-enter-active {
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+.v-leave {
+    opacity: 1;
+}
+.v-leave-to {
+    opacity: 0;
+    transform: translateX(100%);
+}
+.v-leave-active {
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+</style>

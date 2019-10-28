@@ -14,23 +14,8 @@ h1 {
     font-size: 2rem;
 }
 
-.header {
-    display: inline-block;
-    background-color: #00adb5;
-    width: 100%;
-    text-align: center;
-}
-
 img {
     height: 100px;
-}
-
-.card {
-    border-radius: 6px;
-    background-color: white;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-    padding: 30px;
-    width: 100%;
 }
 
 .page {
@@ -39,6 +24,7 @@ img {
 }
 
 button {
+    margin: 5px;
     width: 100%;
 }
 
@@ -89,34 +75,48 @@ dt {
 dd {
     text-align: left;
 }
-/*============================================
-バツボタン
-============================================*/
 
+/*============================================
+QRコードリーダー
+============================================*/
+.fullscreen {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+/*============================================
+ヘッダー
+============================================*/
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: #00adb5;
+    width: 100%;
+}
+
+.header h1 {
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    margin: 0.5rem;
+}
+
+/*============================================
+バックボタン
+============================================*/
 .backbutton {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    position: relative;
-    cursor: pointer;
-}
-.backbutton span::before,
-.backbutton span::after {
-    display: block;
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 84%;
-    height: 16%;
-    margin: -8% 0 0 -42%;
-    background: rgb(0, 0, 0);
-}
-.backbutton span::before {
-    transform: rotate(-45deg);
-}
-.backbutton span::after {
+    margin-top: 0.75rem;
+    margin-left: 1.5rem;
+    width: 1.41rem;
+    height: 1.41rem;
+    border: 5px solid;
+    border-color: transparent transparent white white;
     transform: rotate(45deg);
+    cursor: pointer;
 }
 
 /*============================================

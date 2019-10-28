@@ -1,23 +1,22 @@
 <template>
-    <div>
-        <div class="backbutton" @click="back">
-            <span></span>
-        </div>
-        <div class="page">
-            <ui-textbox v-model="patientData['Name']" label="Name"></ui-textbox>
-            <ui-textbox v-model="patientData['age']" label="Age"></ui-textbox>
-            <ui-radio-group
-                name="bloodTransfusion"
-                :options="options.yesOrNo"
-                v-model="patientData['Transfusion']"
-                >No blood transfusion</ui-radio-group
-            >
-            <ui-textbox
-                v-model="patientData['phone']"
-                label="Phone Number"
-            ></ui-textbox>
-            <ui-button @click="perocessData">データ保存</ui-button>
-        </div>
+    <div class="page">
+        <ui-textbox v-model="patientData['Name']" label="Name"></ui-textbox>
+        <ui-textbox v-model="patientData['age']" label="Age"></ui-textbox>
+        <ui-radio-group
+            name="bloodTransfusion"
+            :options="options.yesOrNo"
+            v-model="patientData['Transfusion']"
+            >No blood transfusion</ui-radio-group
+        >
+        <ui-textbox
+            v-model="patientData['phone']"
+            label="Phone Number"
+        ></ui-textbox>
+        <ui-textbox
+            v-model="patientData['other']"
+            label="実際には、まだ必要"
+        ></ui-textbox>
+        <ui-button @click="perocessData">データ保存</ui-button>
     </div>
 </template>
 
@@ -78,10 +77,9 @@ export default {
 /*============================================
 アニメーション
 ============================================*/
-
 .v-enter {
     opacity: 0;
-    transform: translateY(100%);
+    transform: translateX(100%);
 }
 .v-enter-to {
     opacity: 1;
@@ -94,9 +92,9 @@ export default {
 }
 .v-leave-to {
     opacity: 0;
-    transform: translateY(100%);
+    transform: translateX(100%);
 }
 .v-leave-active {
-    transition: opacity 270ms ease-out, transform 270ms ease-out;
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
 }
 </style>
