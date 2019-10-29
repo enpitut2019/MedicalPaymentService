@@ -1,19 +1,19 @@
 <template>
     <div class="app">
         <div class="header">
-            <div v-if="this.$route.path !== 'input'">
+            <div v-if="this.$route.path !== '/input'">
                 <!--グリッドレイアウト用の空div-->
             </div>
             <div
                 class="backbutton"
                 @click="back"
-                v-if="this.$route.path === 'input'"
+                v-if="this.$route.path === '/input'"
             ></div>
             <h1 v-if="this.$route.path === '/'">Top</h1>
             <h1 v-if="this.$route.path === '/input'">Input</h1>
             <h1 v-if="this.$route.path === '/detail'">Detail</h1>
         </div>
-        <transition mode="out-in">
+        <transition mode="out-in" :name="transitionName">
             <router-view @loading="loading"></router-view>
         </transition>
         <loading v-if="isLoading" :height="300" :width="300" />
@@ -28,7 +28,8 @@ export default {
     },
     data: function() {
         return {
-            isLoading: false
+            isLoading: false,
+            transitionName: ""
         };
     },
     methods: {
@@ -36,8 +37,20 @@ export default {
             this.isLoading = bool;
         },
         back() {
-            console.log(this.$route.path);
             this.$router.push("/");
+        }
+    },
+    watch: {
+        $route(to) {
+            if (to.path === "/") {
+                this.transitionName = "slide-right";
+            }
+            if (to.path === "/input") {
+                this.transitionName = "slide-left";
+            }
+            if (to.path === "/detail") {
+                this.transitionName = "slide-left";
+            }
         }
     }
 };

@@ -1,8 +1,3 @@
-// Pathがトップページ以外の時トップページへ遷移
-if (location.pathname !== "/") {
-    history.pushState(null, null, "/");
-}
-
 import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
@@ -41,13 +36,13 @@ if (!localStorage.getItem("privateKey")) {
     //let passPhrase = web3.utils.randomHex(32);
     let passPhrase =
         "0x0dee43b47ac4052c7074eec6413151ee42c46731cb06c7f9a31763ea26a0fc98";
-    localStorage.setItem("privateKey", account.privateKey);
-    localStorage.setItem("passPhrase", passPhrase);
+    localStorage.setItem("patientPrivateKey", account.privateKey);
+    localStorage.setItem("patientPassPhrase", passPhrase);
 }
 
 // アカウント読み込み TODO:loaclstorageに保存して大丈夫か
-let privateKey = localStorage.getItem("privateKey");
-let passPhrase = localStorage.getItem("passPhrase");
+let privateKey = localStorage.getItem("patientPrivateKey");
+let passPhrase = localStorage.getItem("patientPassPhrase");
 
 import Management from "./management.js";
 Vue.prototype.$management = new Management(privateKey, passPhrase, false);
