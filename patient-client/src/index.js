@@ -28,7 +28,7 @@ const router = new VueRouter({
 
 // アカウントとパス作成
 import Web3 from "web3";
-if (!localStorage.getItem("privateKey")) {
+if (!localStorage.getItem("patientPrivateKey")) {
     console.log("Create Account");
     let web3 = new Web3();
     let account = web3.eth.accounts.create();
@@ -45,7 +45,7 @@ let privateKey = localStorage.getItem("patientPrivateKey");
 let passPhrase = localStorage.getItem("patientPassPhrase");
 
 import Management from "./management.js";
-Vue.prototype.$management = new Management(privateKey, passPhrase, false);
+Vue.prototype.$management = new Management(privateKey, passPhrase);
 
 new Vue({
     el: "#app",

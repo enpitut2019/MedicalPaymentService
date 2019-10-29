@@ -175,6 +175,33 @@ export let examinationContractABI = [
 
 export let managementContractABI = [
     {
+        constant: true,
+        inputs: [],
+        name: "getExaminationList",
+        outputs: [
+            {
+                components: [
+                    {
+                        internalType: "contract Examination",
+                        name: "examinationContract",
+                        type: "address"
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "start",
+                        type: "uint256"
+                    }
+                ],
+                internalType: "struct Management.ExaminationInfo[]",
+                name: "",
+                type: "tuple[]"
+            }
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
         constant: false,
         inputs: [
             {
@@ -219,39 +246,170 @@ export let managementContractABI = [
                 internalType: "address",
                 name: "patientAddress",
                 type: "address"
+            },
+            {
+                indexed: false,
+                internalType: "address",
+                name: "tokenAddress",
+                type: "address"
             }
         ],
         name: "StartExamination",
         type: "event"
-    },
-    {
-        constant: true,
-        inputs: [],
-        name: "getExaminationList",
-        outputs: [
-            {
-                components: [
-                    {
-                        internalType: "contract Examination",
-                        name: "examinationContract",
-                        type: "address"
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "start",
-                        type: "uint256"
-                    }
-                ],
-                internalType: "struct Management.ExaminationInfo[]",
-                name: "",
-                type: "tuple[]"
-            }
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
     }
 ];
 
 export let managementContractAddress =
-    "0x2d9daDD029f31adaFf447Ae86dfA803B9EbE34FC";
+    "0xe4d7464Dc6C25e7e7D554DE34758eeB247694679";
+
+export let erc20tokenABI = [
+    {
+        constant: true,
+        inputs: [],
+        name: "name",
+        outputs: [{ name: "", type: "string" }],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: false,
+        inputs: [
+            { name: "spender", type: "address" },
+            { name: "amount", type: "uint256" }
+        ],
+        name: "approve",
+        outputs: [{ name: "", type: "bool" }],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: "totalSupply",
+        outputs: [{ name: "", type: "uint256" }],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: false,
+        inputs: [
+            { name: "sender", type: "address" },
+            { name: "recipient", type: "address" },
+            { name: "amount", type: "uint256" }
+        ],
+        name: "transferFrom",
+        outputs: [{ name: "", type: "bool" }],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: "decimals",
+        outputs: [{ name: "", type: "uint8" }],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: false,
+        inputs: [
+            { name: "spender", type: "address" },
+            { name: "addedValue", type: "uint256" }
+        ],
+        name: "increaseAllowance",
+        outputs: [{ name: "", type: "bool" }],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [{ name: "account", type: "address" }],
+        name: "balanceOf",
+        outputs: [{ name: "", type: "uint256" }],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: "symbol",
+        outputs: [{ name: "", type: "string" }],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: false,
+        inputs: [
+            { name: "spender", type: "address" },
+            { name: "subtractedValue", type: "uint256" }
+        ],
+        name: "decreaseAllowance",
+        outputs: [{ name: "", type: "bool" }],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function"
+    },
+    {
+        constant: false,
+        inputs: [
+            { name: "recipient", type: "address" },
+            { name: "amount", type: "uint256" }
+        ],
+        name: "transfer",
+        outputs: [{ name: "", type: "bool" }],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [
+            { name: "owner", type: "address" },
+            { name: "spender", type: "address" }
+        ],
+        name: "allowance",
+        outputs: [{ name: "", type: "uint256" }],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        inputs: [
+            { name: "_name", type: "string" },
+            { name: "_symbol", type: "string" },
+            { name: "_decimals", type: "uint8" },
+            { name: "_value", type: "uint256" }
+        ],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "constructor"
+    },
+    {
+        anonymous: false,
+        inputs: [
+            { indexed: true, name: "from", type: "address" },
+            { indexed: true, name: "to", type: "address" },
+            { indexed: false, name: "value", type: "uint256" }
+        ],
+        name: "Transfer",
+        type: "event"
+    },
+    {
+        anonymous: false,
+        inputs: [
+            { indexed: true, name: "owner", type: "address" },
+            { indexed: true, name: "spender", type: "address" },
+            { indexed: false, name: "value", type: "uint256" }
+        ],
+        name: "Approval",
+        type: "event"
+    }
+];

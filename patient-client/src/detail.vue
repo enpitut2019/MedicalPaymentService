@@ -7,15 +7,11 @@
             <div class="list">
                 <dl>
                     <dt>Medical Cost</dt>
-                    <dd>
-                        {{ medicalCost / 10 ** this.tokenData["decimals"] }}
-                        {{ tokenData["symbol"] }}
-                    </dd>
+                    <dd>{{ amountAddSymbol(medicalCost) }}</dd>
                     <dt>Unpaid Medical Cost</dt>
                     <dd v-if="!isSignCompleted">---</dd>
                     <dd v-if="isSignCompleted">
-                        {{ unpaidCost / 10 ** this.tokenData["decimals"] }}
-                        {{ tokenData["symbol"] }}
+                        {{ amountAddSymbol(unpaidCost) }}
                     </dd>
                 </dl>
             </div>
@@ -35,14 +31,10 @@
                     </span>
                     <span>
                         <dt>Deposit Value</dt>
-                        <dd>
-                            {{ deposit / 10 ** this.tokenData["decimals"] }}
-                            {{ tokenData["symbol"] }}
-                        </dd>
+                        <dd>{{ amountAddSymbol(deposit) }}</dd>
                     </span>
                 </dl>
             </div>
-            <ui-button @click="withDraw">Withdraw Deposit</ui-button>
         </div>
         <div class="container">
             <div class="containerTitle">
@@ -105,10 +97,12 @@ export default {
     methods: {
         async init() {
             // コントラクトの読み込み
-            this.contractAddress = this.$route.params.address;
+            this.contractAddress = this.$route.params.contractAddress;
+            let tokenAddress = this.$route.params.tokenAddress;
             this.examination = new Examination(
                 this.$management,
-                this.contractAddress
+                this.contractAddress,
+                tokenAddress
             );
             // イベントの購読
             this.examination.subscribeEvent(this.callBackFunc);
@@ -143,12 +137,22 @@ export default {
             );
             this.openModal("QRCodeModal");
         },
-        withDraw() {
-            // 実際はRefundを使う
-            console.log("サーバーにアクセス - 未実装");
+        /** 小数点の位置をずらしてシンボルを付加
+         *  Ex. 123400000000000000000 -> 123.4 SYMBOL
+         */
+        amountAddSymbol(value) {
+            return (
+                String(
+                    Number(value) / 10 ** Number(this.tokenData["decimals"])
+                ) +
+                " " +
+                this.tokenData["symbol"]
+            );
         },
-        callBackFunc(event, value) {
+        async callBackFunc(event, value) {
             this.$emit("loading", true);
+            // 一瞬で変わると何が起こったか分からないロードを入れる
+            await sleep(250);
             console.log(event);
             console.log(value);
             if (event === "SetMedicalCost")
@@ -157,6 +161,8 @@ export default {
                 this.isSignCompleted = value["signed"];
             if (event === "WithDraw") this.unpaidCost = value["unpaidCost"];
             if (event === "Refund") console.log("Refund" + value["amount"]);
+            if (event === "Transfer")
+                this.deposit = Number(this.deposit) + Number(value["value"]);
             this.$emit("loading", false);
         },
         back() {

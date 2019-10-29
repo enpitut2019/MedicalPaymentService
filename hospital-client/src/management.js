@@ -10,16 +10,14 @@ export default class {
     /** 初期化
      *  @param privateKey Ethereumの秘密鍵
      *  @param passPhrase 適当なパスワード
-     *  @param isHospital 医療機関であればtrue
      */
-    constructor(privateKey, passPhrase, isHospital) {
+    constructor(privateKey, passPhrase) {
         // nodeとの接続
         this.web3 = new Web3(
             "wss://rinkeby.infura.io/ws/v3/cf93a80dccb7456d806de40695023f72"
         );
         // 秘密鍵,パスワードの読み込み
         this.myAccount = this.web3.eth.accounts.privateKeyToAccount(privateKey);
-        this.isHospital = isHospital;
         this.passPhrase = passPhrase;
         // コントラクトの読み込み
         this.myContract = new this.web3.eth.Contract(
@@ -31,8 +29,8 @@ export default class {
     /** イベントの購読設定 */
     subscribeEvent(callBackFunc) {
         this.callBackFunc = callBackFunc;
-        this.subscription = this.myContract.events.allEvents(
-            {},
+        this.subscription = this.myContract.events.StartExamination(
+            { filter: { hospitalAddress: this.myAccount.address } },
             this.processEvent.bind(this)
         );
     }
@@ -54,7 +52,6 @@ export default class {
      *  @param _patientPassPhrase 患者の暗号鍵
      */
     async deploy(_patientData, _signature, _patientPassPhrase) {
-        if (!this.isHospital) return;
         let patientPassPhrase = CryptoJS.AES.encrypt(
             _patientPassPhrase,
             this.passPhrase
@@ -117,12 +114,5 @@ export default class {
         return CryptoJS.AES.decrypt(encryptedString, passPhrase).toString(
             CryptoJS.enc.Utf8
         );
-    }
-
-    /** 自分のEthereumアドレスを取得
-     *  @return Ethereumアドレス
-     */
-    getAddress() {
-        return this.myAccount.address;
     }
 }

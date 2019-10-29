@@ -12,7 +12,13 @@
         <ui-button @click="inputPreSetData">
             テスト用：テスト用データの読み込み
         </ui-button>
-        <ui-button @click="load('0x33571Ca9deC342c9cC14bBaC6d5C50517D2e2c24')"
+        <ui-button
+            @click="
+                load(
+                    '0x9b46bdb6F5371979Da96e359Bd8fb7862Aa948F9',
+                    '0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7'
+                )
+            "
             >テスト用：発行後画面へ遷移
         </ui-button>
     </div>
@@ -80,11 +86,14 @@ export default {
                 }
             });
         },
-        async load(contractAddress) {
+        async load(contractAddress, tokenAddress) {
             this.$emit("loading", true);
             this.$router.push({
                 name: "detail",
-                params: { address: contractAddress }
+                params: {
+                    contractAddress: contractAddress,
+                    tokenAddress: tokenAddress
+                }
             });
         }
     }

@@ -4,17 +4,17 @@ pragma experimental ABIEncoderV2;
 import "./Examination.sol";
 
 contract Management{
-    
-    event StartExamination(address contractAddress, address hospitalAddress, address patientAddress);
-    address tokenAddress = 0x0abcd3eE0378B6BB406cFa8Ea4521E7B03b89713; // TestUSD
-    
+
+    event StartExamination(address contractAddress, address indexed hospitalAddress, address indexed patientAddress, address tokenAddress);
+    address tokenAddress = 0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7; // TestUSD
+
     mapping (address => ExaminationInfo[]) examinationList;
 
     struct ExaminationInfo{
         Examination examinationContract;
         uint256 start;
     }
-    
+
     /** @dev 患者から署名付きの患者データを受け取ってスマートコントラクトをデプロイ
       * @param _patientData 患者データを暗号化した物
       * @param _signature _patientDataに対する患者の署名
@@ -24,9 +24,9 @@ contract Management{
         Examination tmp = new Examination(_patientData, _signature, _patientPassPhrase, msg.sender, tokenAddress);
         examinationList[msg.sender].push(ExaminationInfo(tmp, now));
         // 署名を検証してアドレスを出す
-        emit StartExamination(address(tmp), msg.sender, tmp.getPatientAddress());
+        emit StartExamination(address(tmp), msg.sender, tmp.getPatientAddress(), tokenAddress);
     }
-    
+
     function getExaminationList() public view returns(ExaminationInfo[] memory){
         return examinationList[msg.sender];
     }

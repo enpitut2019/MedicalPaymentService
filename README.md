@@ -18,14 +18,14 @@
 
 ## デモ
 
+医療機関 受付 https://enpitut2019.github.io/MedicalPaymentService/hospital-client/dist/
+
+患者 https://enpitut2019.github.io/MedicalPaymentService/patient-client/dist/
+
+暗号通貨送金テスト用のウォレット https://enpitut2019.github.io/MedicalPaymentService/erc20token-sender/dist/
+
 ### 動作環境
 
 デバイス - カメラがついたスマホ、タブレット、パソコン
+
 ブラウザ - iOS/Safari(11+), other/Chrome,FireFox
-
-### URL
-
-病院側
-https://enpitut2019.github.io/MedicalPaymentService/hospital-client/dist/  
-患者側
-https://enpitut2019.github.io/MedicalPaymentService/patient-client/dist/

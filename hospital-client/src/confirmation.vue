@@ -49,17 +49,19 @@ export default {
                 this.patientPassPhrase
             );
         },
-        async load(contractAddress) {
+        async load(contractAddress, tokenAddress) {
             this.$emit("loading", true);
             this.$router.push({
                 name: "detail",
-                params: { address: contractAddress }
+                params: {
+                    contractAddress: contractAddress,
+                    tokenAddress: tokenAddress
+                }
             });
         },
         callBackFunc(event, value) {
-            if (value.hospitalAddress === this.$management.getAddress()) {
-                this.load(value.contractAddress);
-            }
+            console.log("deploy :" + value.contractAddress);
+            this.load(value.contractAddress, value.tokenAddress);
         }
     },
     destroyed: function() {

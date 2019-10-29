@@ -10,16 +10,14 @@ export default class {
     /** 初期化
      *  @param privateKey Ethereumの秘密鍵
      *  @param passPhrase 適当なパスワード
-     *  @param isHospital 医療機関であればtrue
      */
-    constructor(privateKey, passPhrase, isHospital) {
+    constructor(privateKey, passPhrase) {
         // nodeとの接続
         this.web3 = new Web3(
             "wss://rinkeby.infura.io/ws/v3/cf93a80dccb7456d806de40695023f72"
         );
         // 秘密鍵,パスワードの読み込み
         this.myAccount = this.web3.eth.accounts.privateKeyToAccount(privateKey);
-        this.isHospital = isHospital;
         this.passPhrase = passPhrase;
         // コントラクトの読み込み
         this.myContract = new this.web3.eth.Contract(
@@ -31,8 +29,8 @@ export default class {
     /** イベントの購読設定 */
     subscribeEvent(callBackFunc) {
         this.callBackFunc = callBackFunc;
-        this.subscription = this.myContract.events.allEvents(
-            {},
+        this.subscription = this.myContract.events.StartExamination(
+            { filter: { patientAddress: this.myAccount.address } },
             this.processEvent.bind(this)
         );
     }
@@ -61,35 +59,6 @@ export default class {
                 if (event.length) this.processEvent(error, event.pop());
             }
         );
-    }
-
-    /** スマートコントラクトのデプロイ
-     *  @param _patientData 患者データを暗号化した物
-     *  @param _signature _patientDataに対する患者の署名
-     *  @param _patientPassPhrase 患者の暗号鍵
-     */
-    async deploy(_patientData, _signature, _patientPassPhrase) {
-        if (!this.isHospital) return;
-        let patientPassPhrase = CryptoJS.AES.encrypt(
-            _patientPassPhrase,
-            this.passPhrase
-        ).toString();
-        let encodedABI = this.myContract.methods
-            .startExamination(_patientData, _signature, patientPassPhrase)
-            .encodeABI();
-        let gasAmount =
-            (await this.myContract.methods
-                .startExamination(_patientData, _signature, patientPassPhrase)
-                .estimateGas({ from: this.myAccount.address })) + 10000;
-        let signedTx = await this.myAccount.signTransaction({
-            to: this.myContract.options.address,
-            data: encodedABI,
-            gas: gasAmount
-        });
-        let receipt = await this.web3.eth.sendSignedTransaction(
-            signedTx.rawTransaction
-        );
-        console.log(receipt);
     }
 
     /** メッセージに対して署名

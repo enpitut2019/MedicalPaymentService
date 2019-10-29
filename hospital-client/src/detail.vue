@@ -7,15 +7,11 @@
             <div class="list">
                 <dl>
                     <dt>請求金額</dt>
-                    <dd>
-                        {{ medicalCost / 10 ** this.tokenData["decimals"] }}
-                        {{ tokenData["symbol"] }}
-                    </dd>
+                    <dd>{{ amountAddSymbol(medicalCost) }}</dd>
                     <dt>未収金金額</dt>
                     <dd v-if="!isSignCompleted">---</dd>
                     <dd v-if="isSignCompleted">
-                        {{ unpaidCost / 10 ** this.tokenData["decimals"] }}
-                        {{ tokenData["symbol"] }}
+                        {{ amountAddSymbol(unpaidCost) }}
                     </dd>
                     <dt>発生した手数料</dt>
                     <dd>
@@ -45,10 +41,7 @@
                     </span>
                     <span>
                         <dt>デポジット金額</dt>
-                        <dd>
-                            {{ deposit / 10 ** this.tokenData["decimals"] }}
-                            {{ tokenData["symbol"] }}
-                        </dd>
+                        <dd>{{ amountAddSymbol(deposit) }}</dd>
                     </span>
                 </dl>
             </div>
@@ -101,7 +94,7 @@ export default {
         return {
             examination: "",
             contractAddress: "0x0",
-            tokenData: { decimals: "" },
+            tokenData: { decimals: "", symbol: "" },
             medicalCost: 0,
             deposit: 0,
             unpaidCost: 0,
@@ -115,18 +108,20 @@ export default {
         };
     },
     created: async function() {
+        this.$emit("loading", true);
         await sleep(1000);
         await this.init();
-        // Loading画面非表示
         this.$emit("loading", false);
     },
     methods: {
         async init() {
             // コントラクトの読み込み
-            this.contractAddress = this.$route.params.address;
+            this.contractAddress = this.$route.params.contractAddress;
+            let tokenAddress = this.$route.params.tokenAddress;
             this.examination = new Examination(
                 this.$management,
-                this.contractAddress
+                this.contractAddress,
+                tokenAddress
             );
             // イベントの購読
             this.examination.subscribeEvent(this.callBackFunc);
@@ -190,7 +185,20 @@ export default {
             await this.examination.refund();
             this.$emit("loading", false);
         },
-        callBackFunc(event, value) {
+        /** 小数点の位置をずらしてシンボルを付加
+         *  Ex. 123400000000000000000 -> 123.4 SYMBOL
+         */
+        amountAddSymbol(value) {
+            return (
+                String(
+                    Number(value) / 10 ** Number(this.tokenData["decimals"])
+                ) +
+                " " +
+                this.tokenData["symbol"]
+            );
+        },
+        async callBackFunc(event, value) {
+            this.$emit("loading", true);
             console.log(event);
             console.log(value);
             if (event === "SetMedicalCost")
@@ -199,7 +207,11 @@ export default {
                 this.isSignCompleted = value["signed"];
             if (event === "WithDraw") this.unpaidCost = value["unpaidCost"];
             if (event === "Refund") console.log("Refund" + value["amount"]);
-            // Loading画面非表示
+            if (event === "Transfer") {
+                // 一瞬で変わると何が起こったか分からないロードを入れる
+                await sleep(250);
+                this.deposit = Number(this.deposit) + Number(value["value"]);
+            }
             this.$emit("loading", false);
         },
         openModal(ref) {

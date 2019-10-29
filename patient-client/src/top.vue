@@ -3,12 +3,9 @@
         <div>
             <h1>How To Use</h1>
             <p>適当な文章</p>
-            <p>
-                getPastEventsでデプロイされたアドレスをキャッチしたらそれを勝手に読み込む
-            </p>
         </div>
         <div class="qrCode">
-            <p v-if="!outputData">QRCodeがここに表示される</p>
+            <p v-if="!outputData">QR code will be displayed here!</p>
             <vue-qrcode
                 v-if="outputData"
                 :value="outputData"
@@ -16,10 +13,16 @@
             ></vue-qrcode>
         </div>
         <ui-button @click="$router.push({ name: 'input' })">
-            患者情報の入力
+            Edit Your Information
         </ui-button>
-        <ui-button @click="load('0x33571Ca9deC342c9cC14bBaC6d5C50517D2e2c24')">
-            テスト用：発行後画面へ遷移（遷移後操作不可）
+        <ui-button
+            @click="
+                load(
+                    '0x9b46bdb6F5371979Da96e359Bd8fb7862Aa948F9',
+                    '0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7'
+                )
+            "
+            >テスト用：発行後画面へ遷移
         </ui-button>
     </div>
 </template>
@@ -56,23 +59,24 @@ export default {
         this.$management.subscribeEvent(this.callBackFunc);
         this.outputData = localStorage.getItem("qrCodeData");
         console.log(this.outputData);
-        // 過去のイベントを読み込み
         if (this.outputData) this.$emit("loading", true);
+        // 過去のイベントを読み込み
         await this.$management.getPastStartExaminationEvent();
         this.$emit("loading", false);
     },
     methods: {
-        async load(contractAddress) {
+        async load(contractAddress, tokenAddress) {
             this.$emit("loading", true);
             this.$router.push({
                 name: "detail",
-                params: { address: contractAddress }
+                params: {
+                    contractAddress: contractAddress,
+                    tokenAddress: tokenAddress
+                }
             });
         },
         callBackFunc(event, value) {
-            if (value.patientAddress === this.$management.getAddress()) {
-                this.load(value.contractAddress);
-            }
+            this.load(value.contractAddress, value.tokenAddress);
         }
     },
     destroyed: function() {

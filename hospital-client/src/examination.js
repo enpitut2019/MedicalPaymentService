@@ -1,5 +1,5 @@
 import CryptoJS from "crypto-js";
-import { examinationContractABI } from "./contractData.js";
+import { examinationContractABI, erc20tokenABI } from "./contractData.js";
 
 /** Examination.solに対応したクラス */
 export default class {
@@ -7,13 +7,17 @@ export default class {
      *  @param management management.jsのクラス
      *  @param examinationContractAddress Examinationコントラクトのアドレス
      */
-    constructor(management, examinationContractAddress) {
+    constructor(management, examinationContractAddress, erc20tokenAddress) {
         this.management = management;
         this.myAccount = this.management.myAccount;
         this.web3 = this.management.web3;
         this.myContract = new this.web3.eth.Contract(
             examinationContractABI,
             examinationContractAddress
+        );
+        this.erc20Token = new this.web3.eth.Contract(
+            erc20tokenABI,
+            erc20tokenAddress
         );
     }
 
@@ -22,8 +26,15 @@ export default class {
      */
     subscribeEvent(callBackFunc) {
         this.callBackFunc = callBackFunc;
-        this.subscription = this.myContract.events.allEvents(
+        // Examinationのイベント
+        this.subscription1 = this.myContract.events.allEvents(
             {},
+            this.processEvent.bind(this)
+        );
+        // ERC20トークンのイベント
+        // ExaminationContract宛てのTransfer
+        this.subscription2 = this.erc20Token.events.Transfer(
+            { filter: { to: this.myContract.options.address } },
             this.processEvent.bind(this)
         );
     }
@@ -36,7 +47,8 @@ export default class {
 
     /** イベントの購読解除 */
     unload() {
-        this.subscription.unsubscribe();
+        this.subscription1.unsubscribe();
+        this.subscription2.unsubscribe();
     }
 
     /** 患者の情報を取得
@@ -47,21 +59,14 @@ export default class {
         let patientInfo = await this.myContract.methods.getPatientInfo().call();
         let patientAddress = patientInfo[0];
         let patientData;
-        if (this.management.isHospital) {
-            let patientPassPhrase = this.management.decrypt(
-                patientInfo[2],
-                this.management.passPhrase
-            );
-            patientData = this.management.decrypt(
-                patientInfo[1],
-                patientPassPhrase
-            );
-        } else {
-            patientData = this.management.decrypt(
-                patientInfo[1],
-                this.management.passPhrase
-            );
-        }
+        let patientPassPhrase = this.management.decrypt(
+            patientInfo[2],
+            this.management.passPhrase
+        );
+        patientData = this.management.decrypt(
+            patientInfo[1],
+            patientPassPhrase
+        );
         return { address: patientAddress, data: patientData };
     }
 

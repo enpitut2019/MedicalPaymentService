@@ -30,7 +30,7 @@ const router = new VueRouter({
 });
 
 // アカウントがない場合は管理画面を開く
-if (!localStorage.getItem("privateKey")) {
+if (!localStorage.getItem("hospitalPrivateKey")) {
     // TODO:管理画面を開く
     // テスト用に既定値をセット
     localStorage.setItem(
@@ -48,7 +48,7 @@ let privateKey = localStorage.getItem("hospitalPrivateKey");
 let passPhrase = localStorage.getItem("hospitalPassPhrase");
 
 import Management from "./management.js";
-Vue.prototype.$management = new Management(privateKey, passPhrase, true);
+Vue.prototype.$management = new Management(privateKey, passPhrase);
 
 new Vue({
     el: "#app",
