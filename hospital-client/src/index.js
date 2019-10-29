@@ -1,7 +1,3 @@
-if (location.pathname !== "/") {
-    history.pushState(null, null, "/");
-}
-
 import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
@@ -33,12 +29,23 @@ const router = new VueRouter({
     ]
 });
 
-// テスト用
-// 秘密鍵、パスフレーズの管理方法はちょっと考える（セキュリティ的に）
-let privateKey =
-    "0x0D274BD5D6DC605137D958AC2DB9C9BD189FF86338150A04C7DB4B3E942FAC0C";
-let passPhrase =
-    "0x5f5278ef122e68c6a0d4e037289317178a0555aad18e5cd1366df39683483b1785bc632ac5c7981a9a98e5660ec35e";
+// アカウントがない場合は管理画面を開く
+if (!localStorage.getItem("privateKey")) {
+    // TODO:管理画面を開く
+    // テスト用に既定値をセット
+    localStorage.setItem(
+        "hospitalPrivateKey",
+        "0x0D274BD5D6DC605137D958AC2DB9C9BD189FF86338150A04C7DB4B3E942FAC0C"
+    );
+    localStorage.setItem(
+        "hospitalPassPhrase",
+        "0x5f5278ef122e68c6a0d4e037289317178a0555aad18e5cd1366df39683483b1785bc632ac5c7981a9a98e5660ec35e"
+    );
+}
+
+// アカウント読み込み TODO:localstorageに保存して大丈夫か
+let privateKey = localStorage.getItem("hospitalPrivateKey");
+let passPhrase = localStorage.getItem("hospitalPassPhrase");
 
 import Management from "./management.js";
 Vue.prototype.$management = new Management(privateKey, passPhrase, true);

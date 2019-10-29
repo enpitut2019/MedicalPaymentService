@@ -5,6 +5,7 @@
         </div>
         <h1>使い方</h1>
         <p>使い方<br /><br /><br />aaaaaaaaaa<br /></p>
+        <p>患者のQRコード、アドレスのQRコード</p>
         <ui-button @click="isCameraActive = true">
             QRコードの読込
         </ui-button>
@@ -89,29 +90,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-/*============================================
-アニメーション
-============================================*/
-.v-enter {
-    opacity: 0;
-    transform: translateX(-100%);
-}
-.v-enter-to {
-    opacity: 1;
-}
-.v-enter-active {
-    transition: opacity 300ms ease-out, transform 300ms ease-out;
-}
-.v-leave {
-    opacity: 1;
-}
-.v-leave-to {
-    opacity: 0;
-    transform: translateX(-100%);
-}
-.v-leave-active {
-    transition: opacity 300ms ease-out, transform 300ms ease-out;
-}
-</style>
