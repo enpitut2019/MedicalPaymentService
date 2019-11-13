@@ -18,9 +18,9 @@
 
 ## デモ
 
-医療機関 受付 https://enpitut2019.github.io/MedicalPaymentService/hospital-client/dist/
+医療機関 受付（ipad） https://enpitut2019.github.io/MedicalPaymentService/hospital-client/dist/
 
-患者 https://enpitut2019.github.io/MedicalPaymentService/patient-client/dist/
+患者（スマホ） https://enpitut2019.github.io/MedicalPaymentService/patient-client/dist/
 
 暗号通貨送金テスト用のウォレット https://enpitut2019.github.io/MedicalPaymentService/erc20token-sender/dist/
 
