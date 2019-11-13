@@ -5,13 +5,16 @@
 }
 
 html {
-    background-color: #f5f5dc;
+    background-color: #F6F7F8;
     font-size: 16px;
     line-height: 1.5rem;
 }
 
 h1 {
     font-size: 2rem;
+    font-family: fot-udkakugo-large-pr6n, sans-serif;
+    font-weight: 600;
+    font-style: normal;
 }
 
 img {
@@ -23,9 +26,45 @@ img {
     margin: 0 auto;
 }
 
-button {
-    margin: 5px;
-    width: 100%;
+/*============================================
+ボタンについて
+============================================*/
+.button {
+    text-decoration: none;
+    font-family: fot-udkakugo-large-pr6n, sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    border-radius: 4px; /*角の丸み*/
+    margin-bottom: 20px;
+}
+
+.b-main {
+    margin-top: 20px;
+    font-size: 24pt;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    display: inline-block;
+    color: #FFF;
+    background: #F4733D; /*背景色*/
+    border-bottom: solid 2px #9e4a27; /*少し濃い目の色に*/
+    width: 70%;
+}
+
+.b-test {
+    border: solid 2px #F4733D;
+    font-size: 10pt;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: inline;
+    color: #F4733D;
+    background: #F6F7F8; /*背景色*/
+    border-bottom: solid 2px #c4582d; /*少し濃い目の色に*/
+    width: 35%;
+}
+
+.button:active {
+    border-bottom: solid 2px #F4733D;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
 }
 
 /*============================================

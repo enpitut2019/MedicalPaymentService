@@ -6,21 +6,24 @@
         <h1>使い方</h1>
         <p>使い方<br /><br /><br />aaaaaaaaaa<br /></p>
         <p>患者のQRコード、アドレスのQRコード</p>
-        <ui-button @click="isCameraActive = true">
+        <div style="text-align: center">
+            <button @click="isCameraActive = true" class="button b-main">
             QRコードの読込
-        </ui-button>
-        <ui-button @click="inputPreSetData">
+            </button>
+            <button @click="inputPreSetData" class="button b-test">
             テスト用：テスト用データの読み込み
-        </ui-button>
-        <ui-button
-            @click="
+            </button>
+            <button
+                    @click="
                 load(
                     '0x9b46bdb6F5371979Da96e359Bd8fb7862Aa948F9',
                     '0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7'
                 )
             "
+                    class="button b-test"
             >テスト用：発行後画面へ遷移
-        </ui-button>
+            </button>
+        </div>
     </div>
 </template>
 
