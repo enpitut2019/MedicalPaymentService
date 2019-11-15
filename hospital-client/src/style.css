@@ -34,13 +34,25 @@ img {
     font-family: fot-udkakugo-large-pr6n, sans-serif;
     font-weight: 600;
     font-style: normal;
-    border-radius: 4px; /*角の丸み*/
+    border-radius: 8px; /*角の丸み*/
     margin-bottom: 20px;
 }
 
-.b-main {
-    margin-top: 20px;
+.b-mainTop {
+    margin-top: 200px;
     font-size: 24pt;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    display: inline-block;
+    color: #FFF;
+    background: #F4733D; /*背景色*/
+    border-bottom: solid 2px #9e4a27; /*少し濃い目の色に*/
+    width: 70%;
+}
+
+.b-mainConf {
+    margin-top: 20px;
+    font-size: 18pt;
     padding-top: 40px;
     padding-bottom: 40px;
     display: inline-block;
@@ -52,7 +64,7 @@ img {
 
 .b-test {
     border: solid 2px #F4733D;
-    font-size: 10pt;
+    font-size: 8pt;
     padding-top: 10px;
     padding-bottom: 10px;
     display: inline;
@@ -133,15 +145,18 @@ QRコードリーダー
 .header {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    background-color: #00adb5;
+    background: -moz-linear-gradient(top, #01a7b2, #2CC0B3);
+    background: -webkit-linear-gradient(top, #01a7b2, #2CC0B3);
+    background: linear-gradient(to bottom, #01a7b2, #2CC0B3);
     width: 100%;
+    /*repeat: no-repeat;*/
 }
 
 .header h1 {
     color: white;
     font-size: 2rem;
     text-align: center;
-    margin: 0.5rem;
+    margin: 1rem;
 }
 
 /*============================================

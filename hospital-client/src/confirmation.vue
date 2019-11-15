@@ -16,10 +16,12 @@
                 </dl>
             </div>
         </div>
-        <ui-button @click="deployContract">患者専用のアドレスを発行 </ui-button>
-        <ui-button @click="load('0x33571Ca9deC342c9cC14bBaC6d5C50517D2e2c24')"
+        <div style="text-align: center">
+            <button class="button b-mainConf" @click="deployContract">アドレスを発行する</button><br>
+            <button class="button b-test" @click="load('0x33571Ca9deC342c9cC14bBaC6d5C50517D2e2c24')"
             >テスト用：発行後画面へ遷移
-        </ui-button>
+            </button>
+        </div>
     </div>
 </template>
 

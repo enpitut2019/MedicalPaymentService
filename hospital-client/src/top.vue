@@ -3,12 +3,9 @@
         <div class="fullscreen" v-if="isCameraActive">
             <qrcode-stream @decode="inputData"></qrcode-stream>
         </div>
-        <h1>使い方</h1>
-        <p>使い方<br /><br /><br />aaaaaaaaaa<br /></p>
-        <p>患者のQRコード、アドレスのQRコード</p>
         <div style="text-align: center">
-            <button @click="isCameraActive = true" class="button b-main">
-            QRコードの読込
+            <button @click="isCameraActive = true" class="button b-mainTop">
+            QRコードを読み込む
             </button>
             <button @click="inputPreSetData" class="button b-test">
             テスト用：テスト用データの読み込み
