@@ -9,6 +9,11 @@
                 @click="back"
                 v-if="this.$route.path === '/input'"
             ></div>
+            <!-- <div
+                class="backbutton"
+                @click="back"
+                v-if="this.$route.path === '/detail'"
+            ></div> -->
             <h1 v-if="this.$route.path === '/'">Top</h1>
             <h1 v-if="this.$route.path === '/input'">Input</h1>
             <h1 v-if="this.$route.path === '/detail'">Detail</h1>

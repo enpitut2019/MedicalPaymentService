@@ -1,15 +1,15 @@
 <template>
     <div class="page">
         <div>
-            <h1>How To Use</h1>
-            <p>適当な文章</p>
+            <!-- <h1>How To Use</h1> -->
+            <p v-if="outputData">Please show a hospital this QR code!</p>
         </div>
         <div class="qrCode">
             <p v-if="!outputData">QR code will be displayed here!</p>
             <vue-qrcode
                 v-if="outputData"
                 :value="outputData"
-                :options="{ width: 500 }"
+                :options="{ width: 500, color: {dark: '#000000ff', light: '#f5f5dc'} }"
             ></vue-qrcode>
         </div>
         <ui-button @click="$router.push({ name: 'input' })">
