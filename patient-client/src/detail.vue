@@ -14,6 +14,19 @@
                         {{ amountAddSymbol(unpaidCost) }}
                     </dd>
                 </dl>
+                <!-- <table>
+                    <tr>
+                        <th>Medical Cost</th>
+                        <th>{{ amountAddSymbol(medicalCost) }}</th>
+                    </tr>
+                    <tr>
+                        <td>Unpaid Medical Cost</td>
+                        <td v-if="!isSignCompleted">---</td>
+                        <td v-if="isSignCompleted">
+                          {{ amountAddSymbol(unpaidCost) }}
+                        </td>
+                    </tr>
+                </table> -->
             </div>
             <ui-button @click="generateSignQRCode"
                 >Agree to Medical Cost</ui-button
@@ -28,8 +41,6 @@
                     <span>
                         <dt>Remittance Address</dt>
                         <dd>{{ contractAddress }}</dd>
-                    </span>
-                    <span>
                         <dt>Deposit Value</dt>
                         <dd>{{ amountAddSymbol(deposit) }}</dd>
                     </span>

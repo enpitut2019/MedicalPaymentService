@@ -6,7 +6,7 @@
 
 html {
     background-color: #f5f5dc;
-    font-size: 16px;
+    font-size: 50px;
     line-height: 1.5rem;
 }
 
@@ -43,7 +43,7 @@ button {
 }
 
 .containerTitle {
-    margin: 1rem;
+    /* margin: 1rem; */
     border-bottom: 2px solid hsl(0, 0%, 85%);
     margin: 0.5rem, 0rem;
     padding-bottom: 0.5rem;
@@ -51,9 +51,12 @@ button {
 
 .list {
     display: grid;
-    grid-template-columns: max-content 1fr;
+    /* grid-template-columns: max-content 1fr; */
+    grid-template-columns: 50% 50%;
     margin: 0.5rem;
+    margin-top: 0rem;
     padding: 0.5rem;
+    width: 100%;
 }
 
 dl,
@@ -61,19 +64,25 @@ dl span {
     display: contents;
 }
 
-dt,
+dt, 
 dd {
     font-size: 1rem;
-    padding: 0.75em 1rem;
+    padding: 0.75em 0.5rem;
     border-bottom: 1px solid hsl(0, 0%, 90%);
+    white-space: normal;
+    margin: 0;
 }
 
 dt {
-    text-align: right;
+    text-align: left;
+    float: left;
+    width: 70%;
 }
 
 dd {
     text-align: left;
+    float: left;
+    width: 30%;
 }
 
 /*============================================
@@ -96,6 +105,7 @@ QRコードリーダー
     grid-template-columns: 1fr 1fr 1fr;
     background-color: #00adb5;
     width: 100%;
+    margin-bottom: 1rem;
 }
 
 .header h1 {
@@ -109,11 +119,11 @@ QRコードリーダー
 バックボタン
 ============================================*/
 .backbutton {
-    margin-top: 0.75rem;
+    margin-top: 1.00rem;
     margin-left: 1.5rem;
-    width: 1.41rem;
-    height: 1.41rem;
-    border: 5px solid;
+    width: 1.0rem;
+    height: 1.0rem;
+    border: 3px solid;
     border-color: transparent transparent white white;
     transform: rotate(45deg);
     cursor: pointer;
