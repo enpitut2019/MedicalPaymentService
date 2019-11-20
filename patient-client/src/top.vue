@@ -1,18 +1,21 @@
 <template>
     <div class="page">
-        <div>
-            <!-- <h1>How To Use</h1> -->
+        <div class="center">
             <p v-if="outputData">Please show a hospital this QR code!</p>
+            <p v-if="!outputData">QR code will be displayed here!</p>
+            <p v-if="!outputData">Please register your information!</p>
         </div>
         <div class="qrCode">
-            <p v-if="!outputData">QR code will be displayed here!</p>
             <vue-qrcode
                 v-if="outputData"
                 :value="outputData"
                 :options="{ width: 500, color: {dark: '#000000ff', light: '#f5f5dc'} }"
             ></vue-qrcode>
         </div>
-        <ui-button @click="$router.push({ name: 'input' })">
+        <ui-button v-if="!outputData" @click="$router.push({ name: 'input' })">
+            Register Your Information
+        </ui-button>
+        <ui-button v-if="outputData" @click="$router.push({ name: 'input' })">
             Edit Your Information
         </ui-button>
         <ui-button
