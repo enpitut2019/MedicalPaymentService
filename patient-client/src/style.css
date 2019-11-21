@@ -10,6 +10,12 @@ html {
     line-height: 1.5rem;
 }
 
+html,
+body,
+.app {
+    height: 100%
+}
+
 h1 {
     font-size: 2rem;
 }
@@ -20,12 +26,30 @@ img {
 
 .page {
     width: 95%;
+    height: 100%;
     margin: 0 auto;
+    position: relative;
 }
 
 button {
     margin: 5px;
     width: 100%;
+}
+
+.center {
+    text-align: center;
+}
+
+p {
+    margin-bottom: 0.3rem;
+}
+
+/*============================================
+ボタンの位置調整
+============================================*/
+.under_button {
+    position: absolute;
+    bottom: 7.0rem;
 }
 
 /*============================================
