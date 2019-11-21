@@ -23,12 +23,16 @@
                 </dl>
             </div>
             <div style="text-align: center">
-            <ui-button @click="openModal('inputModal')" v-if="!isSignCompleted"
-                >医療費を入力</ui-button
-            >
-            <ui-button @click="isCameraActive = true" v-if="!isSignCompleted"
-                >医療費を確定（QRコード読み込み）</ui-button
-            >
+                <ui-button
+                    @click="openModal('inputModal')"
+                    v-if="!isSignCompleted"
+                    >医療費を入力</ui-button
+                >
+                <ui-button
+                    @click="isCameraActive = true"
+                    v-if="!isSignCompleted"
+                    >医療費を確定（QRコード読み込み）</ui-button
+                >
             </div>
         </div>
         <div class="container">
@@ -46,14 +50,6 @@
                         <dd>{{ amountAddSymbol(deposit) }}</dd>
                     </span>
                 </dl>
-            </div>
-            <div style="text-align: center">
-                <ui-button @click="withDraw" :disabled="!isSignCompleted"
-                >引き出し（医療費確定後）</ui-button
-            >
-            <ui-button @click="refund" :disabled="!isSignCompleted"
-                >返金（医療費確定後）</ui-button
-            >
             </div>
         </div>
         <div class="container">
@@ -171,22 +167,13 @@ export default {
             this.$emit("loading", false);
         },
         async signMedicalCost(result) {
+            this.isCameraActive = false;
             this.$emit("loading", true);
             await this.examination.signMedicalCost(
                 this.medicalCost,
                 result,
                 this.patientAddress
             );
-            this.$emit("loading", false);
-        },
-        async withDraw() {
-            this.$emit("loading", true);
-            await this.examination.withDraw();
-            this.$emit("loading", false);
-        },
-        async refund() {
-            this.$emit("loading", true);
-            await this.examination.refund();
             this.$emit("loading", false);
         },
         /** 小数点の位置をずらしてシンボルを付加
@@ -207,16 +194,20 @@ export default {
             console.log(value);
             if (event === "SetMedicalCost")
                 this.medicalCost = value["medicalCost"];
-            if (event === "SignMedicalCost")
-                this.isSignCompleted = value["signed"];
-            if (event === "WithDraw") this.unpaidCost = value["unpaidCost"];
-            if (event === "Refund") console.log("Refund" + value["amount"]);
+            if (event === "WithDraw") {
+                this.unpaidCost = value["unpaidCost"];
+                this.deposit = 0;
+            }
             if (event === "Transfer") {
                 // 一瞬で変わると何が起こったか分からないロードを入れる
                 await sleep(250);
                 this.deposit = Number(this.deposit) + Number(value["value"]);
             }
             this.$emit("loading", false);
+            // ----------------------------------------------------------
+            // 以下のイベントはロード終了なし
+            if (event === "SignMedicalCost")
+                this.isSignCompleted = value["signed"];
         },
         openModal(ref) {
             this.$refs[ref].open();

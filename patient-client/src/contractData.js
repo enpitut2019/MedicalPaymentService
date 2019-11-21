@@ -13,9 +13,21 @@ export let examinationContractABI = [
         inputs: [],
         name: "getPatientInfo",
         outputs: [
-            { internalType: "address", name: "", type: "address" },
-            { internalType: "string", name: "", type: "string" },
-            { internalType: "string", name: "", type: "string" }
+            {
+                internalType: "address",
+                name: "",
+                type: "address"
+            },
+            {
+                internalType: "string",
+                name: "",
+                type: "string"
+            },
+            {
+                internalType: "string",
+                name: "",
+                type: "string"
+            }
         ],
         payable: false,
         stateMutability: "view",
@@ -25,7 +37,13 @@ export let examinationContractABI = [
         constant: true,
         inputs: [],
         name: "getPatientAddress",
-        outputs: [{ internalType: "address", name: "", type: "address" }],
+        outputs: [
+            {
+                internalType: "address",
+                name: "",
+                type: "address"
+            }
+        ],
         payable: false,
         stateMutability: "view",
         type: "function"
@@ -47,7 +65,13 @@ export let examinationContractABI = [
     },
     {
         constant: false,
-        inputs: [{ internalType: "bytes", name: "_signature", type: "bytes" }],
+        inputs: [
+            {
+                internalType: "bytes",
+                name: "_signature",
+                type: "bytes"
+            }
+        ],
         name: "signMedicalCost",
         outputs: [],
         payable: false,
@@ -58,7 +82,13 @@ export let examinationContractABI = [
         constant: true,
         inputs: [],
         name: "getUsedEther",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+            }
+        ],
         payable: false,
         stateMutability: "view",
         type: "function"
@@ -68,10 +98,26 @@ export let examinationContractABI = [
         inputs: [],
         name: "getPaymentStatus",
         outputs: [
-            { internalType: "uint256", name: "", type: "uint256" },
-            { internalType: "uint256", name: "", type: "uint256" },
-            { internalType: "uint256", name: "", type: "uint256" },
-            { internalType: "bool", name: "", type: "bool" }
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+            },
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+            },
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+            },
+            {
+                internalType: "bool",
+                name: "",
+                type: "bool"
+            }
         ],
         payable: false,
         stateMutability: "view",
@@ -82,9 +128,21 @@ export let examinationContractABI = [
         inputs: [],
         name: "getTokenData",
         outputs: [
-            { internalType: "string", name: "name", type: "string" },
-            { internalType: "string", name: "symbol", type: "string" },
-            { internalType: "uint8", name: "decimals", type: "uint8" }
+            {
+                internalType: "string",
+                name: "name",
+                type: "string"
+            },
+            {
+                internalType: "string",
+                name: "symbol",
+                type: "string"
+            },
+            {
+                internalType: "uint8",
+                name: "decimals",
+                type: "uint8"
+            }
         ],
         payable: false,
         stateMutability: "view",
@@ -97,7 +155,11 @@ export let examinationContractABI = [
                 name: "_patientData",
                 type: "string"
             },
-            { internalType: "bytes", name: "_signature", type: "bytes" },
+            {
+                internalType: "bytes",
+                name: "_signature",
+                type: "bytes"
+            },
             {
                 internalType: "string",
                 name: "_patientPassPhrase",
@@ -118,7 +180,11 @@ export let examinationContractABI = [
         stateMutability: "nonpayable",
         type: "constructor"
     },
-    { payable: false, stateMutability: "nonpayable", type: "fallback" },
+    {
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "fallback"
+    },
     {
         anonymous: false,
         inputs: [
@@ -163,12 +229,18 @@ export let examinationContractABI = [
         inputs: [
             {
                 indexed: false,
-                internalType: "uint256",
-                name: "amount",
-                type: "uint256"
+                internalType: "string",
+                name: "eventName",
+                type: "string"
+            },
+            {
+                indexed: false,
+                internalType: "string",
+                name: "message",
+                type: "string"
             }
         ],
-        name: "Refund",
+        name: "EventFailed",
         type: "event"
     }
 ];
@@ -206,6 +278,47 @@ export let managementContractABI = [
         inputs: [
             {
                 internalType: "string",
+                name: "_publicKey",
+                type: "string"
+            },
+            {
+                internalType: "address",
+                name: "_hospitaladdress",
+                type: "address"
+            }
+        ],
+        name: "setPublicKey",
+        outputs: [],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [
+            {
+                internalType: "address",
+                name: "_hospitaladdress",
+                type: "address"
+            }
+        ],
+        name: "getPublicKey",
+        outputs: [
+            {
+                internalType: "string",
+                name: "",
+                type: "string"
+            }
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: false,
+        inputs: [
+            {
+                internalType: "string",
                 name: "_patientData",
                 type: "string"
             },
@@ -225,6 +338,27 @@ export let managementContractABI = [
         payable: false,
         stateMutability: "nonpayable",
         type: "function"
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: "getOwnerPublicKey",
+        outputs: [
+            {
+                internalType: "string",
+                name: "",
+                type: "string"
+            }
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        inputs: [],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "constructor"
     },
     {
         anonymous: false,
@@ -260,7 +394,7 @@ export let managementContractABI = [
 ];
 
 export let managementContractAddress =
-    "0xe4d7464Dc6C25e7e7D554DE34758eeB247694679";
+    "0x3E32E16E354123FC2d8030f1C819C6F01e86b936";
 
 export let erc20tokenABI = [
     {

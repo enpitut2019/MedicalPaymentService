@@ -42,7 +42,26 @@ export default class {
     /** Eventを処理してからcallBackFuncに渡す */
     processEvent(error, event) {
         if (error) console.log(error);
+
+        // WithDrawが実行された後は自動でRefundを実行
+        // TODO:deposit = 0 だった時は実行しない
+        if (event === "SignMedicalCost") this.withDraw();
+
         this.callBackFunc(event.event, event.returnValues);
+    }
+
+    /* 過去のイベントを読み込んで処理する */
+    async getPastEvent() {
+        await this.myContract.getPastEvents(
+            "SignMedicalCost",
+            {
+                fromBlock: 0,
+                toBlock: "latest"
+            },
+            (error, event) => {
+                if (event.length) this.processEvent(error, event.pop());
+            }
+        );
     }
 
     /** イベントの購読解除 */
@@ -178,24 +197,6 @@ export default class {
                 .withDraw()
                 .estimateGas({ from: this.myAccount.address })) + 10000;
         let signedTx = await this.myAccount.signTransaction({
-            to: this.myContract.options.address,
-            data: encodedABI,
-            gas: gasAmount
-        });
-        let receipt = await this.web3.eth.sendSignedTransaction(
-            signedTx.rawTransaction
-        );
-        console.log(receipt);
-    }
-
-    /** 医療費の返金(病院のみ実行可) */
-    async refund() {
-        const encodedABI = this.myContract.methods.refund().encodeABI();
-        let gasAmount =
-            (await this.myContract.methods
-                .refund()
-                .estimateGas({ from: this.myAccount.address })) + 10000;
-        let signedTx = await this.account.signTransaction({
             to: this.myContract.options.address,
             data: encodedABI,
             gas: gasAmount

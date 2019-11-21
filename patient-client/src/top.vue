@@ -9,7 +9,10 @@
             <vue-qrcode
                 v-if="outputData"
                 :value="outputData"
-                :options="{ width: 500, color: {dark: '#000000ff', light: '#f5f5dc'} }"
+                :options="{
+                    width: 500,
+                    color: { dark: '#000000ff', light: '#f5f5dc' }
+                }"
             ></vue-qrcode>
         </div>
         <ui-button @click="$router.push({ name: 'input' })">

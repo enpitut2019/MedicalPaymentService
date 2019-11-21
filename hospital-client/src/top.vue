@@ -5,20 +5,21 @@
         </div>
         <div style="text-align: center">
             <button @click="isCameraActive = true" class="button b-mainTop">
-            QRコードを読み込む
+                QRコードを読み込む
             </button>
             <button @click="inputPreSetData" class="button b-test">
-            テスト用：テスト用データの読み込み
+                テスト用：テスト用データの読み込み
             </button>
             <button
-                    @click="
-                load(
-                    '0x9b46bdb6F5371979Da96e359Bd8fb7862Aa948F9',
-                    '0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7'
-                )
-            "
-                    class="button b-test"
-            >テスト用：発行後画面へ遷移
+                @click="
+                    load(
+                        '0x4CbF5aB603F48f703912733b85E61CFaEa22D9Cb',
+                        '0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7'
+                    )
+                "
+                class="button b-test"
+            >
+                テスト用：発行後画面へ遷移
             </button>
         </div>
     </div>

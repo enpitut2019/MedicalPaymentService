@@ -1,7 +1,7 @@
 const { VueLoaderPlugin } = require("vue-loader");
 
 module.exports = {
-    mode: "development",
+    //mode: "development",
     entry: "./src/index.js",
     output: {
         path: `${__dirname}/dist`,
@@ -19,14 +19,14 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif)$/i,
-                use: ['file-loader']
+                use: ["file-loader"]
             }
         ]
     },
     devServer: {
         open: true,
         port: 8082,
-        host: '0.0.0.0',
+        host: "0.0.0.0",
         disableHostCheck: true,
         contentBase: `${__dirname}/dist`,
         historyApiFallback: true,

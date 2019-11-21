@@ -21,7 +21,7 @@ contract Examination{
     event SetMedicalCost(uint256 medicalCost);
     event SignMedicalCost(bool signed);
     event WithDraw(uint256 unpaidCost);
-    event Refund(uint256 amount);
+    event EventFailed(string eventName, string message);
 
     /** @dev 患者から署名付きの患者データを受け取ってスマートコントラクトを初期化
       * @param _patientData 患者データを暗号化した物
@@ -98,7 +98,10 @@ contract Examination{
       * @param _medicalCost 医療費
       */
     function setMedicalCost(uint256 _medicalCost) public onlyOwner countUsedETH{
-        require(signCompleted == false);
+        if(signCompleted == true){
+            emit EventFailed("setMedicalCost", "確定済み");
+            return;
+        }
         medicalCost = _medicalCost;
         emit SetMedicalCost(medicalCost);
     }
@@ -107,8 +110,14 @@ contract Examination{
       * @param _signature 文字列に変換した医療費に対する患者の署名
       */
     function signMedicalCost(bytes memory _signature) public onlyOwner countUsedETH{
-        require(signCompleted == false, "医療費が既に確定");
-        require(recoverAddress(uintToString(medicalCost), _signature) == patientAddress, "患者による署名でない");
+        if(signCompleted == true){
+            emit EventFailed("signMedicalCost", "確定済み");
+            return;
+        }
+        if(recoverAddress(uintToString(medicalCost), _signature) != patientAddress){
+            emit EventFailed("signMedicalCost", "患者による署名でない");
+            return;
+        }
         unpaidCost = medicalCost;
         signCompleted = true;
         emit SignMedicalCost(true);
@@ -117,27 +126,31 @@ contract Examination{
     /** @dev 明細登録後の医療費の引き出し
       */
     function withDraw() public onlyOwner countUsedETH{
-        require(signCompleted == true);
+        if(signCompleted == false){
+            emit EventFailed("withDraw", "医療費未確定");
+            return;
+        }
         uint256 tokenBalance = ERC20Token.balanceOf(address(this));
+        uint256 transferBalance;
 
         if(tokenBalance == 0) {
-            // 何もしない
+            emit EventFailed("withDraw", "デポジットがありません");
+            return;
         }else if(tokenBalance <= unpaidCost) {
-            ERC20Token.transfer(hospitalAddress, tokenBalance);
+            transferBalance = tokenBalance;
             unpaidCost -= tokenBalance;
         }else{
-            ERC20Token.transfer(hospitalAddress, unpaidCost);
+            transferBalance = unpaidCost;
             unpaidCost = 0;
         }
-        emit WithDraw(unpaidCost);
-    }
 
-    /** @dev トークン残高全てを患者へ送金
-      */
-    function refund() private onlyOwner countUsedETH{
-        uint256 tokenBalance = ERC20Token.balanceOf(address(this));
-        ERC20Token.transfer(patientAddress, tokenBalance);
-        emit Refund(tokenBalance);
+        // 病院側に送金
+        if(transferBalance > 0) ERC20Token.transfer(hospitalAddress, transferBalance);
+
+        // 患者側に返金
+        if(unpaidCost == 0) ERC20Token.transfer(hospitalAddress, tokenBalance-transferBalance);
+
+        emit WithDraw(unpaidCost);
     }
 
     function getPatientAddress() public view returns (address){
