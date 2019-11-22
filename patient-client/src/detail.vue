@@ -41,7 +41,13 @@
                 <dl>
                     <span>
                         <dt>Remittance Address</dt>
-                        <dd><ui-button class="copy-btn" data-clipboard-target="#foo">copy address</ui-button></dd>
+                        <dd>
+                            <ui-button @click="clipboardAlert"
+                                class="copy-btn" 
+                                data-clipboard-action="copy" 
+                                data-clipboard-target="#foo">
+                                copy address</ui-button>
+                        </dd>
                         <dt>Deposit Value</dt>
                         <dd>{{ amountAddSymbol(deposit) }}</dd>
                     </span>
@@ -157,6 +163,9 @@ export default {
                 String(this.medicalCost)
             );
             this.openModal("QRCodeModal");
+        },
+        clipboardAlert() {
+            alert("アドレスをコピーできました！" + this.contractAddress);
         },
         /** 小数点の位置をずらしてシンボルを付加
          *  Ex. 123400000000000000000 -> 123.4 SYMBOL
