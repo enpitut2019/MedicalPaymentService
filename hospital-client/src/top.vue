@@ -1,7 +1,10 @@
 <template>
     <div class="page">
         <div class="fullscreen" v-if="isCameraActive">
-            <qrcode-stream @decode="inputData"></qrcode-stream>
+            <qrcode-stream @decode="inputData">
+                <div style="text-align: center">
+                </div>
+            </qrcode-stream>
         </div>
         <div style="text-align: center">
             <button @click="isCameraActive = true" class="button b-mainTop">
