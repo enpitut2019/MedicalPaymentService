@@ -41,6 +41,7 @@
                 <dl>
                     <span>
                         <dt>Remittance Address</dt>
+                        <!-- <dd><ui-button @click="copyAddress">copy address</ui-button></dd> -->
                         <dd>{{ contractAddress }}</dd>
                         <dt>Deposit Value</dt>
                         <dd>{{ amountAddSymbol(deposit) }}</dd>
@@ -149,6 +150,11 @@ export default {
             );
             this.openModal("QRCodeModal");
         },
+        // copyAddress() {
+        //     enavigator.clipboard.writeText(this.contractAddress);
+        //     // document.execCommand(this.contractAddress);
+        //     console.log(this.contractAddress);
+        // },
         /** 小数点の位置をずらしてシンボルを付加
          *  Ex. 123400000000000000000 -> 123.4 SYMBOL
          */

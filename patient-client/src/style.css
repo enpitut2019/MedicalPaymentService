@@ -97,17 +97,17 @@ dd {
     margin: 0;
 }
 
-dt {
+/* dt {
     text-align: left;
     float: left;
     width: 70%;
-}
+} */
 
-dd {
+/* dd {
     text-align: left;
     float: left;
     width: 30%;
-}
+} */
 
 /*============================================
 QRコードリーダー
@@ -160,6 +160,7 @@ QRコード
     width: 500px;
     margin: 0 auto;
     text-align: center;
+    margin-top: 2.0rem;
 }
 
 /*============================================
