@@ -41,8 +41,7 @@
                 <dl>
                     <span>
                         <dt>Remittance Address</dt>
-                        <!-- <dd><ui-button @click="copyAddress">copy address</ui-button></dd> -->
-                        <dd>{{ contractAddress }}</dd>
+                        <dd><ui-button class="copy-btn" data-clipboard-target="#foo">copy address</ui-button></dd>
                         <dt>Deposit Value</dt>
                         <dd>{{ amountAddSymbol(deposit) }}</dd>
                     </span>
@@ -75,6 +74,7 @@
                 :options="{ width: 300 }"
             ></vue-qrcode>
         </ui-modal>
+        <div id="foo">{{ contractAddress }}</div>
     </div>
 </template>
 
@@ -101,11 +101,19 @@ export default {
             medicalCostSign: ""
         };
     },
+    beforeCreate: async function() {
+        // clipboard.js の読み込み
+        let recaptchaScript = document.createElement('script');
+        recaptchaScript.setAttribute('src', 'https://unpkg.com/clipboard@2/dist/clipboard.min.js');
+        document.head.appendChild(recaptchaScript);
+    },
     created: async function() {
         this.$emit("loading", true);
         await sleep(1000);
         await this.init();
         this.$emit("loading", false);
+        // clipboard.js の初期化
+        new ClipboardJS('.copy-btn');
     },
     methods: {
         async init() {
@@ -150,11 +158,6 @@ export default {
             );
             this.openModal("QRCodeModal");
         },
-        // copyAddress() {
-        //     enavigator.clipboard.writeText(this.contractAddress);
-        //     // document.execCommand(this.contractAddress);
-        //     console.log(this.contractAddress);
-        // },
         /** 小数点の位置をずらしてシンボルを付加
          *  Ex. 123400000000000000000 -> 123.4 SYMBOL
          */
