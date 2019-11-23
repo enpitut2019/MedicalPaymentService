@@ -1,9 +1,8 @@
 <template>
     <div class="page">
-        <div class="fullscreen" v-if="isCameraActive">
+        <div v-if="isCameraActive">
             <qrcode-stream @decode="inputData">
-                <div style="text-align: center">
-                </div>
+                <div class="box">test text</div>
             </qrcode-stream>
         </div>
         <div style="text-align: center">
