@@ -7,7 +7,7 @@
             <div
                 class="backbutton"
                 @click="back"
-                v-if="this.$route.path !== '/' && isCameraActive"
+                v-if="this.$route.path !== '/' || isCameraActive"
             ></div>
             <h1 v-if="this.$route.path === '/'">受　付</h1>
             <h1 v-if="this.$route.path === '/confirmation'">確　認</h1>
