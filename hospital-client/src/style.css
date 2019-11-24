@@ -5,7 +5,7 @@
 }
 
 html {
-    background-color: #F6F7F8;
+    background-color: #FFFFFF;
     font-size: 16px;
     line-height: 1.5rem;
 }
@@ -65,26 +65,26 @@ img {
     padding-bottom: 40px;
     display: inline-block;
     color: #FFF;
-    background: #F4733D; /*背景色*/
-    border-bottom: solid 2px #9e4a27; /*少し濃い目の色に*/
+    background: #35D8A6; /*背景色*/
+    border-bottom: solid 2px #19769F; /*少し濃い目の色に*/
     width: 70%;
 }
 
 .b-test {
-    border: solid 2px #F4733D;
+    border: solid 2px #239472;
     font-size: 8pt;
     padding-top: 10px;
     padding-bottom: 10px;
     display: inline;
-    color: #F4733D;
+    color: #19769F;
     background: #F6F7F8; /*背景色*/
-    border-bottom: solid 2px #c4582d; /*少し濃い目の色に*/
+    border-bottom: solid 2px #19769F; /*少し濃い目の色に*/
     width: 35%;
 }
 
 .button:active {
-    border-bottom: solid 2px #F4733D;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+    border-bottom: solid 2px #35D8A6;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
 /*============================================

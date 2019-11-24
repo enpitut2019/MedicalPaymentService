@@ -7,11 +7,11 @@
             <div
                 class="backbutton"
                 @click="back"
-                v-if="this.$route.path !== '/'"
+                v-if="this.$route.path !== '/' && isCameraActive"
             ></div>
-            <h1 v-if="this.$route.path === '/'">受付</h1>
-            <h1 v-if="this.$route.path === '/confirmation'">確認</h1>
-            <h1 v-if="this.$route.path === '/detail'">詳細</h1>
+            <h1 v-if="this.$route.path === '/'">受　付</h1>
+            <h1 v-if="this.$route.path === '/confirmation'">確　認</h1>
+            <h1 v-if="this.$route.path === '/detail'">詳　細</h1>
         </div>
         <transition mode="out-in" :name="transitionName">
             <router-view @loading="loading"></router-view>
