@@ -18,7 +18,7 @@
 
 ## デモ
 
-医療機関 受付（ipad） https://enpitut2019.github.io/MedicalPaymentService/hospital-client/dist/
+医療機関 受付（ipad） https://dist.nsym.now.sh
 
 患者（スマホ） https://enpitut2019.github.io/MedicalPaymentService/patient-client/dist/
 
