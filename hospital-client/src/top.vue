@@ -1,8 +1,10 @@
 <template>
     <div class="page">
         <div v-if="isCameraActive">
-            <qrcode-stream @decode="inputData" style="text-align: center">
-                <div style="text-align: center" class="box">test text</div>
+            <qrcode-stream @decode="inputData" class="fullscreen">
+                <div style="text-align: center">
+                    <div class="com_note">患者のQRコードを読み取ってください。</div>
+                </div>
             </qrcode-stream>
         </div>
         <div style="text-align: center">
@@ -98,7 +100,18 @@ export default {
                     tokenAddress: tokenAddress
                 }
             });
-        }
+        },
+        ScroleControle() {
+            // スクロールを無効にする
+            if (isCameraActive) {
+                $(window).on('touchmove.noScroll', function (e) {
+                    e.preventDefault();
+                });
+            } else {
+                // スクロール無効を解除する
+                $(window).off('.noScroll');
+            }
+        },
     }
-};
+}
 </script>

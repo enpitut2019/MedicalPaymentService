@@ -26,12 +26,6 @@ img {
     margin: 0 auto;
 }
 
-.box{
-    position: fixed;
-    background-color:#CCCCFF;
-    width:200px;
-    height:100px;
-}
 /*============================================
 ボタンについて
 ============================================*/
@@ -140,30 +134,46 @@ QRコードリーダー
 ============================================*/
 .fullscreen {
     position: fixed;
-    z-index: 1000;
+    z-index: 1;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
 }
 
+.com_note {
+    text-align: center;
+    margin: 3em;
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 70%;
+    height: 70px;
+    color: #FFFFFF;
+    -webkit-border-radius: 0 0 8px 8px / 0 0 8px 8px;
+    -moz-border-radius: 0 0 8px 8px / 0 0 8px 8px;
+    border-radius: 0 0 8px 8px / 0 0 8px 8px;
+    z-index: 2;
+}
 /*============================================
 ヘッダー
 ============================================*/
 .header {
-    display: grid;
+    display: table;
     grid-template-columns: 1fr 1fr 1fr;
     background: -moz-linear-gradient(top, #19769F, #35D8A6);
     background: -webkit-linear-gradient(top, #19769F, #35D8A6);
     background: linear-gradient(to left, #19769F, #35D8A6);
     width: 100%;
+    height: 100px;
+    text-align: center;
     /*repeat: no-repeat;*/
 }
 
 .header h1 {
+    display: table-cell;
+    vertical-align: middle;
     color: white;
     font-size: 2rem;
-    text-align: center;
     margin: 1rem;
 }
 
