@@ -139,12 +139,13 @@ QRコードリーダー
     bottom: 0;
     right: 0;
     left: 0;
+    text-align: center;
 }
 
 .com_note {
     text-align: center;
-    margin: 3em;
-    display: inline-block;
+    display: table-cell;
+    vertical-align: middle;
     background-color: rgba(0, 0, 0, 0.8);
     width: 70%;
     height: 70px;
@@ -164,7 +165,7 @@ QRコードリーダー
     background: -webkit-linear-gradient(top, #19769F, #35D8A6);
     background: linear-gradient(to left, #19769F, #35D8A6);
     width: 100%;
-    height: 100px;
+    height: 75px;
     text-align: center;
     /*repeat: no-repeat;*/
 }
@@ -177,6 +178,12 @@ QRコードリーダー
     margin: 1rem;
 }
 
+.header img {
+    position: absolute;
+    height: 65px;
+    margin-top: 5px;
+    right: 5px;
+}
 /*============================================
 バックボタン
 ============================================*/
