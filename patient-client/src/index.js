@@ -11,6 +11,7 @@ import App from "./app.vue";
 import Top from "./top.vue";
 import Detail from "./detail.vue";
 import Input from "./input.vue";
+import Settlement from "./settlement.vue";
 
 // CSSリセット
 import "../node_modules/reset.css";
@@ -27,7 +28,8 @@ const router = new VueRouter({
     routes: [
         { path: "/", component: Top },
         { path: "/detail", name: "detail", component: Detail },
-        { path: "/input", name: "input", component: Input }
+        { path: "/input", name: "input", component: Input },
+        { path: "/settlement", name: "settlement", component: Settlement }
     ]
 });
 
