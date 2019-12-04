@@ -204,10 +204,11 @@ export default {
                 this.deposit = Number(this.deposit) + Number(value["value"]);
             }
             this.$emit("loading", false);
-            // ----------------------------------------------------------
-            // 以下のイベントはロード終了なし
-            if (event === "SignMedicalCost")
+            // js側でさらにwithdrawを呼ぶためロード再開
+            if (event === "SignMedicalCost") {
                 this.isSignCompleted = value["signed"];
+                this.$emit("loading", true);
+            }
         },
         openModal(ref) {
             this.$refs[ref].open();
