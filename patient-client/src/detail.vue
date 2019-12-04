@@ -74,11 +74,13 @@
             <div slot="header">
                 <b>Show QRCode to Hospital</b>
             </div>
-            <vue-qrcode
-                v-if="medicalCostSign"
-                :value="medicalCostSign"
-                :options="{ width: 300 }"
-            ></vue-qrcode>
+            <div class="popupQrCode">
+                <vue-qrcode
+                    v-if="medicalCostSign"
+                    :value="medicalCostSign"
+                    :options="{ width: 500 }"
+                ></vue-qrcode>
+            </div>
         </ui-modal>
         <div id="foo">{{ contractAddress }}</div>
     </div>
@@ -120,6 +122,13 @@ export default {
         this.$emit("loading", false);
         // clipboard.js の初期化
         new ClipboardJS('.copy-btn');
+    },
+    watch: {
+        unpaidCost: function(val, oldval) {
+            if (this.isSignCompleted == true) {
+                this.$router.push("/settlement");
+            }
+        },
     },
     methods: {
         async init() {

@@ -12,6 +12,7 @@
             <h1 v-if="this.$route.path === '/'">Top</h1>
             <h1 v-if="this.$route.path === '/input'">Input</h1>
             <h1 v-if="this.$route.path === '/detail'">Detail</h1>
+            <h1 v-if="this.$route.path === '/settlement'">Settlement</h1>            
         </div>
         <transition mode="out-in" :name="transitionName">
             <router-view @loading="loading"></router-view>
@@ -49,6 +50,9 @@ export default {
                 this.transitionName = "slide-left";
             }
             if (to.path === "/detail") {
+                this.transitionName = "slide-left";
+            }
+            if (to.path === "/settlement") {
                 this.transitionName = "slide-left";
             }
         }
