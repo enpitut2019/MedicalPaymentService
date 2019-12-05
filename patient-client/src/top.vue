@@ -16,16 +16,22 @@
             ></vue-qrcode>
         </div>
         <div class="under_button">
-            <ui-button v-if="!outputData" @click="$router.push({ name: 'input' })">
+            <ui-button
+                v-if="!outputData"
+                @click="$router.push({ name: 'input' })"
+            >
                 Register Your Information
             </ui-button>
-            <ui-button v-if="outputData" @click="$router.push({ name: 'input' })">
+            <ui-button
+                v-if="outputData"
+                @click="$router.push({ name: 'input' })"
+            >
                 Edit Your Information
             </ui-button>
             <ui-button
                 @click="
                     load(
-                        '0x9b46bdb6F5371979Da96e359Bd8fb7862Aa948F9',
+                        '0x2C466b77105fA141afe9dcF8835582AaebFe4077',
                         '0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7'
                     )
                 "

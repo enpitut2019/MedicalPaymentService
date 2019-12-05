@@ -59,10 +59,7 @@ export default class {
         let patientInfo = await this.myContract.methods.getPatientInfo().call();
         let patientAddress = patientInfo[0];
         let patientData;
-        patientData = this.management.decrypt(
-            patientInfo[1],
-            this.management.passPhrase
-        );
+        patientData = this.management.decryptByOwn(patientInfo[1]);
         return { address: patientAddress, data: patientData };
     }
 
@@ -94,5 +91,18 @@ export default class {
             .getPaymentStatus()
             .call();
         return paymentStatus;
+    }
+
+    async getMedicalNotes() {
+        let medicalNotes = await this.myContract.methods
+            .getMedicalNotes()
+            .call();
+        for (let i = 0; i < medicalNotes.length; i++) {
+            medicalNotes[i].timestamp = medicalNotes[i].timestamp;
+            medicalNotes[i].note = this.management.decryptByOwn(
+                medicalNotes[i].note
+            );
+        }
+        return medicalNotes;
     }
 }

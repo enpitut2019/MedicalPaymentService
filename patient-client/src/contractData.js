@@ -11,6 +11,33 @@ export let examinationContractABI = [
     {
         constant: true,
         inputs: [],
+        name: "getMedicalNotes",
+        outputs: [
+            {
+                components: [
+                    {
+                        internalType: "string",
+                        name: "note",
+                        type: "string"
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "timestamp",
+                        type: "uint256"
+                    }
+                ],
+                internalType: "struct Examination.MedicalNote[]",
+                name: "",
+                type: "tuple[]"
+            }
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [],
         name: "getPatientInfo",
         outputs: [
             {
@@ -86,6 +113,47 @@ export let examinationContractABI = [
             {
                 internalType: "uint256",
                 name: "",
+                type: "uint256"
+            }
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: false,
+        inputs: [
+            {
+                internalType: "string",
+                name: "_note",
+                type: "string"
+            }
+        ],
+        name: "addMedicalNote",
+        outputs: [],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+            }
+        ],
+        name: "medicalNotes",
+        outputs: [
+            {
+                internalType: "string",
+                name: "note",
+                type: "string"
+            },
+            {
+                internalType: "uint256",
+                name: "timestamp",
                 type: "uint256"
             }
         ],
@@ -222,6 +290,25 @@ export let examinationContractABI = [
             }
         ],
         name: "WithDraw",
+        type: "event"
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "timestamp",
+                type: "uint256"
+            },
+            {
+                indexed: false,
+                internalType: "string",
+                name: "note",
+                type: "string"
+            }
+        ],
+        name: "AddMedicalNote",
         type: "event"
     },
     {
@@ -394,7 +481,7 @@ export let managementContractABI = [
 ];
 
 export let managementContractAddress =
-    "0x3E32E16E354123FC2d8030f1C819C6F01e86b936";
+    "0x23f537c5C281A125b46d021b8c991Dae72554313";
 
 export let erc20tokenABI = [
     {

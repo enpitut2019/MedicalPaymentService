@@ -78,13 +78,10 @@ export default class {
         let patientInfo = await this.myContract.methods.getPatientInfo().call();
         let patientAddress = patientInfo[0];
         let patientData;
-        let patientPassPhrase = this.management.decrypt(
-            patientInfo[2],
-            this.management.passPhrase
-        );
+        this.patientPassPhrase = this.management.decryptByOwn(patientInfo[2]);
         patientData = this.management.decrypt(
             patientInfo[1],
-            patientPassPhrase
+            this.patientPassPhrase
         );
         return { address: patientAddress, data: patientData };
     }
@@ -205,5 +202,46 @@ export default class {
             signedTx.rawTransaction
         );
         console.log(receipt);
+    }
+
+    /** 簡易的な診療記録の書き込み(病院のみ実行可)
+     *  @param note {string} 簡易的な診療記録
+     */
+    async addMedicalNote(note) {
+        console.log("addMedicalNote:", note);
+        let encryptedNote = this.management.encrypt(
+            note,
+            this.patientPassPhrase
+        );
+        let encodedABI = this.myContract.methods
+            .addMedicalNote(encryptedNote)
+            .encodeABI();
+        let gasAmount =
+            (await this.myContract.methods
+                .addMedicalNote(encryptedNote)
+                .estimateGas({ from: this.myAccount.address })) + 10000;
+        let signedTx = await this.myAccount.signTransaction({
+            to: this.myContract.options.address,
+            data: encodedABI,
+            gas: gasAmount
+        });
+        let receipt = await this.web3.eth.sendSignedTransaction(
+            signedTx.rawTransaction
+        );
+        console.log(receipt);
+    }
+
+    async getMedicalNotes() {
+        let medicalNotes = await this.myContract.methods
+            .getMedicalNotes()
+            .call();
+        for (let i = 0; i < medicalNotes.length; i++) {
+            medicalNotes[i].timestamp = medicalNotes[i].timestamp;
+            medicalNotes[i].note = this.management.decrypt(
+                medicalNotes[i].note,
+                this.patientPassPhrase
+            );
+        }
+        return medicalNotes;
     }
 }
