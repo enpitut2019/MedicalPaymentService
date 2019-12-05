@@ -37,18 +37,18 @@ export default {
 
 <style scoped>
 .fadeLayer {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0px;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background-color: #000000;
     opacity: 0.75;
     z-index: 2;
 }
 
 .animationLayer {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
