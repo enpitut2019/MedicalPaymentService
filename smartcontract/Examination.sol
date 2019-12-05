@@ -162,7 +162,7 @@ contract Examination{
 
     /** @dev 簡易的な診療記録の書き込み
       */
-    function addMedicalNote(string memory _note) public onlyOwner {
+    function addMedicalNote(string memory _note) public onlyOwner countUsedETH {
         medicalNotes.push(MedicalNote(_note, now));
         emit AddMedicalNote(now, _note);
     }
