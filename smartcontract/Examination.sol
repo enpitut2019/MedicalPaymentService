@@ -16,13 +16,20 @@ contract Examination{
     string private patientData;
     string private patientPassPhrase;
     uint256 private usedEther;
+    MedicalNote[] public medicalNotes;
     ERC20Detailed internal ERC20Token;
 
+    struct MedicalNote {
+        string note;
+        uint256 timestamp;
+    }
+    
     event SetMedicalCost(uint256 medicalCost);
     event SignMedicalCost(bool signed);
     event WithDraw(uint256 unpaidCost);
+    event AddMedicalNote(uint256 timestamp, string note);
     event EventFailed(string eventName, string message);
-
+    
     /** @dev 患者から署名付きの患者データを受け取ってスマートコントラクトを初期化
       * @param _patientData 患者データを暗号化した物
       * @param _signature _patientDataに対する患者の署名
@@ -153,6 +160,19 @@ contract Examination{
         emit WithDraw(unpaidCost);
     }
 
+    /** @dev 簡易的な診療記録の書き込み
+      */
+    function addMedicalNote(string memory _note) public onlyOwner {
+        medicalNotes.push(MedicalNote(_note, now));
+        emit AddMedicalNote(now, _note);
+    }
+    
+    /** @dev 簡易的な診療記録の読み込み
+      */
+    function getMedicalNotes() public view returns (MedicalNote[] memory) {
+        return medicalNotes;
+    }
+    
     function getPatientAddress() public view returns (address){
         return patientAddress;
     }
