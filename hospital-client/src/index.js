@@ -28,7 +28,7 @@ const router = new VueRouter({
     mode: "history",
     base: "MedicalPaymentService/hospital-client/dist/",
     routes: [
-        { path: "/", component: Top },
+        {path: "/", name: "top", component: Top},
         { path: "/detail", name: "detail", component: Detail },
         { path: "/confirmation", name: "confirmation", component: Confirmation }
     ]
@@ -61,32 +61,29 @@ new Vue({
     render: h => h(App)
 });
 
+
 (function(d) {
     var config = {
-            kitId: "yml0ifp",
+            kitId: 'yml0ifp',
             scriptTimeout: 3000,
             async: true
         },
-        h = d.documentElement,
-        t = setTimeout(function() {
-            h.className =
-                h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-        }, config.scriptTimeout),
-        tk = d.createElement("script"),
-        f = false,
-        s = d.getElementsByTagName("script")[0],
-        a;
+        h = d.documentElement, t = setTimeout(function () {
+            h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+        }, config.scriptTimeout), tk = d.createElement("script"), f = false, s = d.getElementsByTagName("script")[0], a;
     h.className += " wf-loading";
-    tk.src = "https://use.typekit.net/" + config.kitId + ".js";
+    tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
     tk.async = true;
-    tk.onload = tk.onreadystatechange = function() {
+    tk.onload = tk.onreadystatechange = function () {
         a = this.readyState;
-        if (f || (a && a != "complete" && a != "loaded")) return;
+        if (f || a && a != "complete" && a != "loaded") return;
         f = true;
         clearTimeout(t);
         try {
-            Typekit.load(config);
-        } catch (e) {}
+            Typekit.load(config)
+        } catch (e) {
+        }
     };
-    s.parentNode.insertBefore(tk, s);
+    s.parentNode.insertBefore(tk, s)
 })(document);
+
