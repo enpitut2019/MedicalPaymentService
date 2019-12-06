@@ -82,9 +82,11 @@
                             v-model="medLog"
                     ></ui-textbox>
                 </div>
-                <button @click="addMedicalNote(medLog)">
+                <div style=" text-align: center; margin-top: 5px">
+                    <button class="button b-detLog" @click="addMedicalNote(medLog)">
                     記録する
                 </button>
+                </div>
             </div>
             <div class="list">
                 <dl>
