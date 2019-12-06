@@ -48,7 +48,7 @@ export default {
     methods: {
         perocessData: function() {
             let patientDataJson = JSON.stringify(this.patientData);
-            let encryptedPatientData = this.$management.encrypt(
+            let encryptedPatientData = this.$management.encryptByOwn(
                 patientDataJson
             );
             let qrCodeData =
