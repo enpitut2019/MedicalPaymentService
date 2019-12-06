@@ -51,6 +51,7 @@ export default {
                 this.encryptedPatientData,
                 this.patientPassPhrase
             );
+            console.log(patientDataJson);
             this.patientData = JSON.parse(patientDataJson);
             this.patientDataActive = true;
             this.isCameraActive = false;
