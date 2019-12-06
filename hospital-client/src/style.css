@@ -166,7 +166,7 @@ QRコードリーダー
 
 .com_note {
     z-index: 30;
-    position: relative;
+    position: center;
     text-align: center;
     display: table-cell;
     vertical-align: middle;

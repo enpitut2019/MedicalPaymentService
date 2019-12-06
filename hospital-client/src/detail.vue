@@ -73,8 +73,17 @@
         <div class="container">
             <div class="containerTitle">
                 <h1>簡易的な診療記録</h1>
-                <button @click="addMedicalNote('test')">
-                    addMedicalNote:"test"
+                <div style="margin-top: 10px">
+                    <ui-textbox
+                            icon="edit"
+                            floating-label
+                            label="診療記録"
+
+                            v-model="medLog"
+                    ></ui-textbox>
+                </div>
+                <button @click="addMedicalNote(medLog)">
+                    記録する
                 </button>
             </div>
             <div class="list">
