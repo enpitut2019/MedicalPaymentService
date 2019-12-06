@@ -4,10 +4,10 @@
 
 ## プロダクトの詳細
 
-詳細なスライド（随時更新）
+詳細なスライド（随時更新）  
 https://docs.google.com/presentation/d/1sWLaGFLuqrsiLBI0XSPL6LeMlHccgU14If_yPLLHM-s
 
-Sprint6 レビュー用
+Sprint6 レビュー用  
 https://docs.google.com/presentation/d/1uoOUH9xt3GtGnf1wZke-X-btjfWeIMzLQMGaeJpj7uI
 
 ## メンバー
@@ -20,7 +20,7 @@ https://docs.google.com/presentation/d/1uoOUH9xt3GtGnf1wZke-X-btjfWeIMzLQMGaeJpj
 
 医療機関 受付（ipad） https://dist.nsym.now.sh
 
-患者（スマホ） https://enpitut2019.github.io/MedicalPaymentService/patient-client/dist/
+患者（スマホ） https://dist.kousuke.now.sh
 
 暗号通貨送金テスト用のウォレット https://enpitut2019.github.io/MedicalPaymentService/erc20token-sender/dist/
 
