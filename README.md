@@ -4,9 +4,11 @@
 
 ## プロダクトの詳細
 
-詳細はスライドを見てください  
-12/4:手が回らないので半分程度しか出来てないですが取り急ぎ（随時更新します）
+詳細なスライド（随時更新）
 https://docs.google.com/presentation/d/1sWLaGFLuqrsiLBI0XSPL6LeMlHccgU14If_yPLLHM-s
+
+Sprint6 レビュー用
+https://docs.google.com/presentation/d/1uoOUH9xt3GtGnf1wZke-X-btjfWeIMzLQMGaeJpj7uI
 
 ## メンバー
 
