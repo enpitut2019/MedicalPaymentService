@@ -2,9 +2,7 @@
     <div class="page">
         <div v-if="isCameraActive">
             <qrcode-stream class="fullscreen" @decode="inputData">
-                <div style="display:inline-block">
-                    <div class="com_note"><p class="shingo"> 患者のQRコードを読み取ってください。</p></div>
-                </div>
+                <div class="com_note">患者のQRコードを読み取ってください。</div>
             </qrcode-stream>
         </div>
         <div style="text-align: center; width: 100%">
@@ -17,7 +15,7 @@
             <button
                 @click="
                     load(
-                        '0x4CbF5aB603F48f703912733b85E61CFaEa22D9Cb',
+                        '0x2C466b77105fA141afe9dcF8835582AaebFe4077',
                         '0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7'
                     )
                 "
@@ -100,7 +98,18 @@ export default {
                     tokenAddress: tokenAddress
                 }
             });
+        },
+        scroleControle() {
+            // スクロールを無効にする
+            if (this.isCameraActive) {
+                $(window).on("touchmove.noScroll", function(e) {
+                    e.preventDefault();
+                });
+            } else {
+                // スクロール無効を解除する
+                $(window).off(".noScroll");
+            }
         }
     }
-}
+};
 </script>

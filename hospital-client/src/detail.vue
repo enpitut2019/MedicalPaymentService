@@ -54,7 +54,7 @@
         </div>
         <div class="container">
             <div class="containerTitle">
-                <h1>Patient Information</h1>
+                <h1>患者の情報</h1>
             </div>
             <div class="list">
                 <dl>
@@ -67,6 +67,22 @@
                     </span>
                     <dt>その他</dt>
                     <dd>リストで下にばーっと</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="container">
+            <div class="containerTitle">
+                <h1>簡易的な診療記録</h1>
+                <button @click="addMedicalNote('test')">
+                    addMedicalNote:"test"
+                </button>
+            </div>
+            <div class="list">
+                <dl>
+                    <span v-for="(item, index) in medicalNotes" :key="index">
+                        <dt>{{ Date(item.timestamp * 1000).toString() }}</dt>
+                        <dd>{{ item.note }}</dd>
+                    </span>
                 </dl>
             </div>
         </div>
@@ -104,7 +120,8 @@ export default {
             patientAddress: "0x0",
             patientData: "",
             inputMedicalCost: "",
-            isCameraActive: false
+            isCameraActive: false,
+            medicalNotes: false
         };
     },
     created: async function() {
@@ -133,9 +150,19 @@ export default {
             let promise3 = this.getToeknData();
             // 手数料（使用したEther量）を取得
             let promise4 = this.getContractFee();
+            // 簡易的な診療記録を取得
+            let promise5 = this.getMedicalNotes();
 
             // 全てのプロミスを実行
-            await Promise.all([promise1, promise2, promise3, promise4]);
+            await Promise.all([
+                promise1,
+                promise2,
+                promise3,
+                promise4,
+                promise5
+            ]);
+
+            this.$emit("loading", false);
         },
         async getPatientInfo() {
             let patientInfo = await this.examination.getPatientInfo();
@@ -176,6 +203,12 @@ export default {
             );
             this.$emit("loading", false);
         },
+        async addMedicalNote(note) {
+            await this.examination.addMedicalNote(note);
+        },
+        async getMedicalNotes() {
+            this.medicalNotes = await this.examination.getMedicalNotes();
+        },
         /** 小数点の位置をずらしてシンボルを付加
          *  Ex. 123400000000000000000 -> 123.4 SYMBOL
          */
@@ -203,11 +236,18 @@ export default {
                 await sleep(250);
                 this.deposit = Number(this.deposit) + Number(value["value"]);
             }
+            if (event === "AddMedicalNote") {
+                // イベントが発生してもaddMedicalNoteは終了してない、少し待つ
+                await sleep(500);
+                // TODO:getMedicalNotesを呼ばずにeventの引数を復号して表示するようにする
+                await this.getMedicalNotes();
+            }
             this.$emit("loading", false);
-            // ----------------------------------------------------------
-            // 以下のイベントはロード終了なし
-            if (event === "SignMedicalCost")
+            // js側でさらにwithdrawを呼ぶためロード再開
+            if (event === "SignMedicalCost") {
                 this.isSignCompleted = value["signed"];
+                this.$emit("loading", true);
+            }
         },
         openModal(ref) {
             this.$refs[ref].open();

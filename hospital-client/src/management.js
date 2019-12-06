@@ -87,10 +87,19 @@ export default class {
      *  @param string 暗号化したい文字列
      *  @return 暗号文
      */
-    encrypt(string) {
+    encryptByOwn(string) {
+        return this.decrypt(string, this.passPhrase);
+    }
+
+    /** データを暗号化（引数のパスフレーズで）
+     *  @param string 暗号化したい文字列
+     *  @param passPhrase パスフレーズ
+     *  @return 暗号文
+     */
+    encrypt(string, passPhrase) {
         let encryptedString = CryptoJS.AES.encrypt(
             string,
-            this.passPhrase
+            passPhrase
         ).toString();
         return encryptedString;
     }
@@ -99,10 +108,8 @@ export default class {
      *  @param encryptedString 暗号文
      *  @return 復号した文字列
      */
-    decrypt(encryptedString) {
-        return CryptoJS.AES.decrypt(encryptedString, this.passPhrase).toString(
-            CryptoJS.enc.Utf8
-        );
+    decryptByOwn(encryptedString) {
+        return this.decrypt(encryptedString, this.passPhrase);
     }
 
     /** データを復号（引数のパスフレーズで）
