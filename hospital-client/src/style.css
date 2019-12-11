@@ -61,12 +61,14 @@ p.shingo{
 
 .b-mainConf {
     margin-top: 20px;
-    font-size: 18pt;
+    font-size: 24pt;
     padding-top: 40px;
     padding-bottom: 40px;
     display: inline-block;
     color: #FFF;
-    background: #35D8A6; /*背景色*/
+    background: -moz-linear-gradient(top, #19769F, #35D8A6);
+    background: -webkit-linear-gradient(top, #19769F, #35D8A6);
+    background: linear-gradient(to left, #19769F, #35D8A6);
     border-bottom: solid 2px #19769F; /*少し濃い目の色に*/
     width: 70%;
 }

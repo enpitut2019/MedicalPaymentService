@@ -1,117 +1,119 @@
 <template>
     <div class="page">
-        <div class="container">
-            <div class="containerTitle">
-                <h1>ステータス</h1>
-            </div>
-            <div class="list">
-                <dl>
-                    <dt>請求金額</dt>
-                    <dd>{{ amountAddSymbol(medicalCost) }}</dd>
-                    <dt>未収金金額</dt>
-                    <dd v-if="!isSignCompleted">---</dd>
-                    <dd v-if="isSignCompleted">
-                        {{ amountAddSymbol(unpaidCost) }}
-                    </dd>
-                    <dt>発生した手数料</dt>
-                    <dd>
-                        {{ Math.ceil(usedEther * ethPrice) }} JPY ({{
-                            usedEther
-                        }}
-                        ETH)
-                    </dd>
-                </dl>
-            </div>
-            <div style="text-align: center">
-                <ui-button
-                    @click="openModal('inputModal')"
-                    v-if="!isSignCompleted"
-                    >医療費を入力</ui-button
-                >
-                <ui-button
-                    @click="isCameraActive = true"
-                    v-if="!isSignCompleted"
-                    >医療費を確定（QRコード読み込み）</ui-button
-                >
-            </div>
+        <div class="fullscreen" v-if="isCameraActive">
+            <qrcode-stream @decode="signMedicalCost"></qrcode-stream>
         </div>
-        <div class="container">
-            <div class="containerTitle">
-                <h1>デポジット情報</h1>
+        <div v-else>
+            <div class="container">
+                <div class="containerTitle">
+                    <h1>ステータス</h1>
+                </div>
+                <div class="list">
+                    <dl>
+                        <dt>請求金額</dt>
+                        <dd>{{ amountAddSymbol(medicalCost) }}</dd>
+                        <dt>未収金金額</dt>
+                        <dd v-if="!isSignCompleted">---</dd>
+                        <dd v-if="isSignCompleted">
+                            {{ amountAddSymbol(unpaidCost) }}
+                        </dd>
+                        <dt>発生した手数料</dt>
+                        <dd>
+                            {{ Math.ceil(usedEther * ethPrice) }} JPY ({{
+                            usedEther
+                            }}
+                            ETH)
+                        </dd>
+                    </dl>
+                </div>
+                <div style="text-align: center">
+                    <ui-button
+                            @click="openModal('inputModal')"
+                            v-if="!isSignCompleted"
+                    >医療費を入力</ui-button
+                    >
+                    <ui-button
+                            @click="isCameraActive = true"
+                            v-if="!isSignCompleted"
+                    >医療費を確定（QRコード読み込み）</ui-button
+                    >
+                </div>
             </div>
-            <div class="list">
-                <dl>
+            <div class="container">
+                <div class="containerTitle">
+                    <h1>デポジット情報</h1>
+                </div>
+                <div class="list">
+                    <dl>
                     <span>
                         <dt>デポジット先アドレス</dt>
                         <dd>{{ contractAddress }}</dd>
                     </span>
-                    <span>
+                        <span>
                         <dt>デポジット金額</dt>
                         <dd>{{ amountAddSymbol(deposit) }}</dd>
                     </span>
-                </dl>
+                    </dl>
+                </div>
             </div>
-        </div>
-        <div class="container">
-            <div class="containerTitle">
-                <h1>患者の情報</h1>
-            </div>
-            <div class="list">
-                <dl>
+            <div class="container">
+                <div class="containerTitle">
+                    <h1>患者の情報</h1>
+                </div>
+                <div class="list">
+                    <dl>
                     <span
-                        v-for="(value, name, index) in patientData"
-                        :key="index"
+                            v-for="(value, name, index) in patientData"
+                            :key="index"
                     >
                         <dt>{{ name }}</dt>
                         <dd>{{ value }}</dd>
                     </span>
-                    <dt>その他</dt>
-                    <dd>リストで下にばーっと</dd>
-                </dl>
-            </div>
-        </div>
-        <div class="container">
-            <div class="containerTitle">
-                <h1>簡易的な診療記録</h1>
-                <div style="margin-top: 10px">
-                    <ui-textbox
-                        icon="edit"
-                        floating-label
-                        label="診療記録"
-                        v-model="medLog"
-                    ></ui-textbox>
-                </div>
-                <div style=" text-align: center; margin-top: 5px">
-                    <button
-                        class="button b-detLog"
-                        @click="addMedicalNote(medLog)"
-                    >
-                        記録する
-                    </button>
+                        <dt>その他</dt>
+                        <dd>リストで下にばーっと</dd>
+                    </dl>
                 </div>
             </div>
-            <div class="list">
-                <dl>
+            <div class="container">
+                <div class="containerTitle">
+                    <h1>簡易的な診療記録</h1>
+                    <div style="margin-top: 10px">
+                        <ui-textbox
+                                icon="edit"
+                                floating-label
+                                label="診療記録"
+                                v-model="medLog"
+                        ></ui-textbox>
+                    </div>
+                    <div style=" text-align: center; margin-top: 5px">
+                        <button
+                                class="button b-detLog"
+                                @click="addMedicalNote(medLog)"
+                        >
+                            記録する
+                        </button>
+                    </div>
+                </div>
+                <div class="list">
+                    <dl>
                     <span v-for="(item, index) in medicalNotes" :key="index">
                         <dt>{{ Date(item.timestamp * 1000).toString() }}</dt>
                         <dd>{{ item.note }}</dd>
                     </span>
-                </dl>
+                    </dl>
+                </div>
             </div>
+            <ui-modal ref="inputModal" transition="scale-up">
+                <div slot="header">
+                    <b>医療費の入力</b>
+                </div>
+                <ui-textbox
+                        v-model="inputMedicalCost"
+                        label="Medical Cost"
+                ></ui-textbox>
+                <ui-button @click="setMedicalCost">決定</ui-button>
+            </ui-modal>
         </div>
-        <div class="fullscreen" v-if="isCameraActive">
-            <qrcode-stream @decode="signMedicalCost"></qrcode-stream>
-        </div>
-        <ui-modal ref="inputModal" transition="scale-up">
-            <div slot="header">
-                <b>医療費の入力</b>
-            </div>
-            <ui-textbox
-                v-model="inputMedicalCost"
-                label="Medical Cost"
-            ></ui-textbox>
-            <ui-button @click="setMedicalCost">決定</ui-button>
-        </ui-modal>
     </div>
 </template>
 
@@ -221,7 +223,8 @@ export default {
             await this.examination.addMedicalNote(note);
         },
         async getMedicalNotes() {
-            this.medicalNotes = await this.examination.getMedicalNotes();
+            let n = await this.examination.getMedicalNotes();
+            this.medicalNotes = n.slice().reverse();
         },
         /** 小数点の位置をずらしてシンボルを付加
          *  Ex. 123400000000000000000 -> 123.4 SYMBOL
