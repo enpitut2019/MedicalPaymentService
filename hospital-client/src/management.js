@@ -122,4 +122,12 @@ export default class {
             CryptoJS.enc.Utf8
         );
     }
+
+    /**  引数の文字列がEthereumのアドレスか
+     *  @param {string} address
+     *  @return {boolean} true/false
+     */
+    isAddress(address) {
+        return this.web3.utils.isAddress(address);
+    }
 }

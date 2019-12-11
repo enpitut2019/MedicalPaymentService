@@ -86,6 +86,10 @@
             </div>
         </ui-modal>
         <div id="foo">{{ contractAddress }}</div>
+        <vue-qrcode
+            :value="contractAddress"
+            :options="{ width: 500 }"
+        ></vue-qrcode>
     </div>
 </template>
 
@@ -104,6 +108,7 @@ export default {
             contractAddress: "0x0",
             tokenAddress: "0x0",
             tokenData: { decimals: "" },
+            tokenAddress: "",
             medicalCost: 0,
             deposit: 0,
             unpaidCost: 0,
