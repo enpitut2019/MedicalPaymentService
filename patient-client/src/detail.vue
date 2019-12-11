@@ -134,13 +134,13 @@ export default {
         isSignCompleted: function() {
             if (this.unpaidCost == 0) {
                 this.$router.push("/settlement");
-                // this.$router.push({
-                //     name: 'settlement',
-                //     params: {
-                //     contractAddress: contractAddress,
-                //     tokenAddress: tokenAddress
-                //     }
-                // });
+                this.$router.push({
+                    name: 'settlement',
+                    params: {
+                    contractAddress: contractAddress,
+                    tokenAddress: tokenAddress
+                    }
+                });
             };
         },
     },
