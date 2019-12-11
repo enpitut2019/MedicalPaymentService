@@ -130,13 +130,20 @@ export default {
         // clipboard.js の初期化
         new ClipboardJS(".copy-btn");
     },
-    // watch: {
-    //     isSignCompleted: function() {
-    //         if (this.unpaidCost == 0) {
-    //             this.$router.push("/settlement");
-    //         }
-    //     }
-    // },
+    watch: {
+        isSignCompleted: function() {
+            if (this.unpaidCost == 0) {
+                this.$router.push("/settlement");
+                this.$router.push({ 
+                    name: 'settlement',
+                    params: {
+                    contractAddress: contractAddress,
+                    tokenAddress: tokenAddress
+                    }
+                });
+            };
+        },
+    },
     methods: {
         async init() {
             // コントラクトの読み込み
