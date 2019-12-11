@@ -75,17 +75,19 @@
                 <h1>簡易的な診療記録</h1>
                 <div style="margin-top: 10px">
                     <ui-textbox
-                            icon="edit"
-                            floating-label
-                            label="診療記録"
-
-                            v-model="medLog"
+                        icon="edit"
+                        floating-label
+                        label="診療記録"
+                        v-model="medLog"
                     ></ui-textbox>
                 </div>
                 <div style=" text-align: center; margin-top: 5px">
-                    <button class="button b-detLog" @click="addMedicalNote(medLog)">
-                    記録する
-                </button>
+                    <button
+                        class="button b-detLog"
+                        @click="addMedicalNote(medLog)"
+                    >
+                        記録する
+                    </button>
                 </div>
             </div>
             <div class="list">
@@ -132,7 +134,8 @@ export default {
             patientData: "",
             inputMedicalCost: "",
             isCameraActive: false,
-            medicalNotes: false
+            medicalNotes: false,
+            medLog: ""
         };
     },
     created: async function() {
