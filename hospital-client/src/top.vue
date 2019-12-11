@@ -1,8 +1,8 @@
 <template>
     <div class="page">
-        <div v-if="isCameraActive">
+        <div v-if="isCameraActive" style="text-align: center; width: 100%">
             <qrcode-stream class="fullscreen" @decode="inputData">
-                <div style="text-align: center">
+                <div v-if="isCameraActive">
                     <div class="com_note">患者のQRコードを読み取ってください。</div>
                 </div>
             </qrcode-stream>
