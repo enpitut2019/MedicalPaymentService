@@ -86,6 +86,10 @@
             </div>
         </ui-modal>
         <div id="foo">{{ contractAddress }}</div>
+        <vue-qrcode
+            :value="contractAddress"
+            :options="{ width: 500 }"
+        ></vue-qrcode>
     </div>
 </template>
 
@@ -103,6 +107,7 @@ export default {
             examination: "",
             contractAddress: "0x0",
             tokenData: { decimals: "" },
+            tokenAddress: "",
             medicalCost: 0,
             deposit: 0,
             unpaidCost: 0,
@@ -148,11 +153,11 @@ export default {
         async init() {
             // コントラクトの読み込み
             this.contractAddress = this.$route.params.contractAddress;
-            let tokenAddress = this.$route.params.tokenAddress;
+            this.tokenAddress = this.$route.params.tokenAddress;
             this.examination = new Examination(
                 this.$management,
                 this.contractAddress,
-                tokenAddress
+                this.tokenAddress
             );
             // イベントの購読
             this.examination.subscribeEvent(this.callBackFunc);
