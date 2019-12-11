@@ -102,6 +102,7 @@ export default {
         return {
             examination: "",
             contractAddress: "0x0",
+            tokenAddress: "0x0",
             tokenData: { decimals: "" },
             medicalCost: 0,
             deposit: 0,
@@ -133,12 +134,11 @@ export default {
     watch: {
         isSignCompleted: function() {
             if (this.unpaidCost == 0) {
-                this.$router.push("/settlement");
                 this.$router.push({
                     name: 'settlement',
                     params: {
-                    contractAddress: contractAddress,
-                    tokenAddress: tokenAddress
+                        contractAddress: this.contractAddress,
+                        tokenAddress: this.tokenAddress
                     }
                 });
             };
@@ -148,11 +148,11 @@ export default {
         async init() {
             // コントラクトの読み込み
             this.contractAddress = this.$route.params.contractAddress;
-            let tokenAddress = this.$route.params.tokenAddress;
+            this.tokenAddress = this.$route.params.tokenAddress;
             this.examination = new Examination(
                 this.$management,
                 this.contractAddress,
-                tokenAddress
+                this.tokenAddress
             );
             // イベントの購読
             this.examination.subscribeEvent(this.callBackFunc);
