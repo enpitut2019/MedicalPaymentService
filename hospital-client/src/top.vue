@@ -2,14 +2,16 @@
     <div class="page">
         <div v-if="isCameraActive" style="text-align: center; width: 100%">
             <qrcode-stream class="fullscreen" @decode="inputData">
-                <div style="text-align: center">
-                    <div class="com_note">
-                        患者のQRコードを読み取ってください。
+
+                <div v-if="isCameraActive">
+                    <div class="com_note">患者のQRコードを読み取ってください。
+                        <button @click="isCameraActive = false">キャンセル</button>
+
                     </div>
                 </div>
             </qrcode-stream>
         </div>
-        <div style="text-align: center; width: 100%">
+        <div v-else style="text-align: center; width: 100%">
             <button @click="isCameraActive = true" class="button b-mainTop">
                 QRコードを読み込む
             </button>
