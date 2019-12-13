@@ -122,7 +122,7 @@ contract Examination{
             return;
         }
         if(recoverAddress(uintToString(medicalCost), _signature) != patientAddress){
-            emit EventFailed("signMedicalCost", "患者による署名でない");
+            emit EventFailed("signMedicalCost", "患者による署名でない/同意した医療費が異なる");
             return;
         }
         unpaidCost = medicalCost;
@@ -155,7 +155,7 @@ contract Examination{
         if(transferBalance > 0) ERC20Token.transfer(hospitalAddress, transferBalance);
 
         // 患者側に返金
-        if(unpaidCost == 0) ERC20Token.transfer(hospitalAddress, tokenBalance-transferBalance);
+        if(unpaidCost == 0) ERC20Token.transfer(patientAddress, tokenBalance-transferBalance);
 
         emit WithDraw(unpaidCost);
     }

@@ -8,7 +8,9 @@
                 <span>
                     <dt>MedicalCost</dt>
                     <dd>{{ amountAddSymbol(medicalCost) }}</dd>
-                    <dt>Deposit Value</dt>
+                    <dt>unpaidCost</dt>
+                    <dd>{{ amountAddSymbol(unpaidCost) }}</dd>
+                    <dt>deposit</dt>
                     <dd>{{ amountAddSymbol(deposit) }}</dd>
                 </span>
             </dl>
@@ -42,6 +44,13 @@ export default {
                 this.contractAddress,
                 tokenAddress
             );
+            // this.medicalCost = this.examination.medicalCost;
+            // this.unpaidCost = this.examination.unpaidCost;
+            let paymentStatus = await this.examination.getPaymentStatus();
+            this.deposit = paymentStatus[0];
+            this.medicalCost = paymentStatus[1];
+            this.unpaidCost = paymentStatus[2];
+            // this.isSignCompleted = paymentStatus[3];
             // イベントの購読
             this.examination.subscribeEvent(this.callBackFunc);
             // 支払い状況の取得

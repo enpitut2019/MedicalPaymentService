@@ -481,7 +481,7 @@ export let managementContractABI = [
 ];
 
 export let managementContractAddress =
-    "0x23f537c5C281A125b46d021b8c991Dae72554313";
+    "0x7Ab90F5d310c11F69be15E2a55568362990DA2d3";
 
 export let erc20tokenABI = [
     {

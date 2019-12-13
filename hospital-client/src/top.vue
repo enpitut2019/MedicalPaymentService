@@ -2,9 +2,11 @@
     <div class="page">
         <div v-if="isCameraActive" style="text-align: center; width: 100%">
             <qrcode-stream class="fullscreen" @decode="inputData">
+
                 <div v-if="isCameraActive">
                     <div class="com_note">患者のQRコードを読み取ってください。
                         <button @click="isCameraActive = false">キャンセル</button>
+
                     </div>
                 </div>
             </qrcode-stream>
@@ -45,6 +47,12 @@ export default {
     },
     methods: {
         inputData(result) {
+            console.log("QR", result);
+            // 入力がEthereumのAddressだった場合
+            if (this.$management.isAddress(result)) {
+                this.load(result, "0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7");
+                return;
+            }
             // TODO:入力チェック
             let sourceArray = result.split(",");
             this.patientPassPhrase = sourceArray[0];
