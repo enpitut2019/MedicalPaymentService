@@ -1,11 +1,6 @@
 let base = "MedicalPaymentService/hospital-client/dist/";
 //let base = "/";
 
-// webpack-dev-server利用時：Pathがトップページ以外の時トップページへ遷移
-if (location.pathname !== base) {
-    history.pushState(null, null, base);
-}
-
 import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
