@@ -1,6 +1,9 @@
-// Pathがトップページ以外の時トップページへ遷移
-if (location.pathname !== "/") {
-    history.pushState(null, null, "/");
+let base = "MedicalPaymentService/patient-client/dist/";
+//let base = "/";
+
+// webpack-dev-server利用時：Pathがトップページ以外の時トップページへ遷移
+if (location.pathname !== base) {
+    history.pushState(null, null, base);
 }
 
 import Vue from "vue";
@@ -24,7 +27,7 @@ import "./style.css";
 
 const router = new VueRouter({
     mode: "history",
-    //base: "MedicalPaymentService/patient-client/dist/",
+    base: base,
     routes: [
         { path: "/", component: Top },
         { path: "/detail", name: "detail", component: Detail },
