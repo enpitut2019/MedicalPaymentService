@@ -86,6 +86,7 @@
             </div>
         </ui-modal>
         <div id="foo">{{ contractAddress }}</div>
+        <h2>受付での再読み込み用QR</h2>
         <vue-qrcode
             :value="contractAddress"
             :options="{ width: 500 }"
@@ -140,14 +141,14 @@ export default {
         isSignCompleted: function() {
             if (this.unpaidCost == 0) {
                 this.$router.push({
-                    name: 'settlement',
+                    name: "settlement",
                     params: {
                         contractAddress: this.contractAddress,
                         tokenAddress: this.tokenAddress
                     }
                 });
-            };
-        },
+            }
+        }
     },
     methods: {
         async init() {
