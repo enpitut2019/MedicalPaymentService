@@ -19,18 +19,27 @@ export default class {
         // 秘密鍵,パスワードの読み込み
         this.myAccount = this.web3.eth.accounts.privateKeyToAccount(privateKey);
         this.passPhrase = passPhrase;
+
         // コントラクトの読み込み
         this.myContract = new this.web3.eth.Contract(
             managementContractABI,
             managementContractAddress
         );
+
+        // eventを識別するためのrandom
+        this.random = parseInt(this.web3.utils.randomHex(4), 16);
     }
 
     /** イベントの購読設定 */
     subscribeEvent(callBackFunc) {
         this.callBackFunc = callBackFunc;
         this.subscription = this.myContract.events.StartExamination(
-            { filter: { hospitalAddress: this.myAccount.address } },
+            {
+                filter: {
+                    hospitalAddress: this.myAccount.address,
+                    random: this.random
+                }
+            },
             this.processEvent.bind(this)
         );
     }
@@ -57,11 +66,21 @@ export default class {
             this.passPhrase
         ).toString();
         let encodedABI = this.myContract.methods
-            .startExamination(_patientData, _signature, patientPassPhrase)
+            .startExamination(
+                _patientData,
+                _signature,
+                patientPassPhrase,
+                this.random
+            )
             .encodeABI();
         let gasAmount =
             (await this.myContract.methods
-                .startExamination(_patientData, _signature, patientPassPhrase)
+                .startExamination(
+                    _patientData,
+                    _signature,
+                    patientPassPhrase,
+                    this.random
+                )
                 .estimateGas({ from: this.myAccount.address })) + 10000;
         let signedTx = await this.myAccount.signTransaction({
             to: this.myContract.options.address,
