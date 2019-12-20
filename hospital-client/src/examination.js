@@ -19,6 +19,7 @@ export default class {
             erc20tokenABI,
             erc20tokenAddress
         );
+        this.isSigned = false;
     }
 
     /** イベントの購読設定
@@ -37,16 +38,13 @@ export default class {
             { filter: { to: this.myContract.options.address } },
             this.processEvent.bind(this)
         );
+        // 過去のイベントを取得
+        this.getPastEvent();
     }
 
     /** Eventを処理してからcallBackFuncに渡す */
     processEvent(error, event) {
         if (error) console.log(error);
-
-        // WithDrawが実行された後は自動でRefundを実行
-        // TODO:deposit = 0 だった時は実行しない
-        if (event.event === "SignMedicalCost") this.withDraw();
-
         this.callBackFunc(event.event, event.returnValues);
     }
 

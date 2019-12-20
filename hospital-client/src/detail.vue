@@ -20,7 +20,7 @@
                         <dt>発生した手数料</dt>
                         <dd>
                             {{ Math.ceil(usedEther * ethPrice) }} JPY ({{
-                            usedEther
+                                usedEther
                             }}
                             ETH)
                         </dd>
@@ -28,14 +28,14 @@
                 </div>
                 <div style="text-align: center">
                     <ui-button
-                            @click="openModal('inputModal')"
-                            v-if="!isSignCompleted"
-                    >医療費を入力</ui-button
+                        @click="openModal('inputModal')"
+                        v-if="!isSignCompleted"
+                        >医療費を入力</ui-button
                     >
                     <ui-button
-                            @click="isCameraActive = true"
-                            v-if="!isSignCompleted"
-                    >医療費を確定（QRコード読み込み）</ui-button
+                        @click="isCameraActive = true"
+                        v-if="!isSignCompleted"
+                        >医療費を確定（QRコード読み込み）</ui-button
                     >
                 </div>
             </div>
@@ -45,14 +45,14 @@
                 </div>
                 <div class="list">
                     <dl>
-                    <span>
-                        <dt>デポジット先アドレス</dt>
-                        <dd>{{ contractAddress }}</dd>
-                    </span>
                         <span>
-                        <dt>デポジット金額</dt>
-                        <dd>{{ amountAddSymbol(deposit) }}</dd>
-                    </span>
+                            <dt>デポジット先アドレス</dt>
+                            <dd>{{ contractAddress }}</dd>
+                        </span>
+                        <span>
+                            <dt>デポジット金額</dt>
+                            <dd>{{ amountAddSymbol(deposit) }}</dd>
+                        </span>
                     </dl>
                 </div>
             </div>
@@ -62,13 +62,13 @@
                 </div>
                 <div class="list">
                     <dl>
-                    <span
+                        <span
                             v-for="(value, name, index) in patientData"
                             :key="index"
-                    >
-                        <dt>{{ name }}</dt>
-                        <dd>{{ value }}</dd>
-                    </span>
+                        >
+                            <dt>{{ name }}</dt>
+                            <dd>{{ value }}</dd>
+                        </span>
                         <dt>その他</dt>
                         <dd>リストで下にばーっと</dd>
                     </dl>
@@ -79,16 +79,16 @@
                     <h1>簡易的な診療記録</h1>
                     <div style="margin-top: 10px">
                         <ui-textbox
-                                icon="edit"
-                                floating-label
-                                label="診療記録"
-                                v-model="medLog"
+                            icon="edit"
+                            floating-label
+                            label="診療記録"
+                            v-model="medLog"
                         ></ui-textbox>
                     </div>
                     <div style=" text-align: center; margin-top: 5px">
                         <button
-                                class="button b-detLog"
-                                @click="addMedicalNote(medLog)"
+                            class="button b-detLog"
+                            @click="addMedicalNote(medLog)"
                         >
                             記録する
                         </button>
@@ -96,10 +96,15 @@
                 </div>
                 <div class="list">
                     <dl>
-                    <span v-for="(item, index) in medicalNotes" :key="index">
-                        <dt>{{ Date(item.timestamp * 1000).toString() }}</dt>
-                        <dd>{{ item.note }}</dd>
-                    </span>
+                        <span
+                            v-for="(item, index) in medicalNotes"
+                            :key="index"
+                        >
+                            <dt>
+                                {{ Date(item.timestamp * 1000).toString() }}
+                            </dt>
+                            <dd>{{ item.note }}</dd>
+                        </span>
                     </dl>
                 </div>
             </div>
@@ -108,8 +113,8 @@
                     <b>医療費の入力</b>
                 </div>
                 <ui-textbox
-                        v-model="inputMedicalCost"
-                        label="Medical Cost"
+                    v-model="inputMedicalCost"
+                    label="Medical Cost"
                 ></ui-textbox>
                 <ui-button @click="setMedicalCost">決定</ui-button>
             </ui-modal>
@@ -169,8 +174,6 @@ export default {
                 this.contractAddress,
                 tokenAddress
             );
-            // イベントの購読
-            this.examination.subscribeEvent(this.callBackFunc);
             // 支払い状況の取得
             let promise1 = this.getPaymentStatus();
             // 患者の情報を取得
@@ -191,6 +194,8 @@ export default {
                 promise5
             ]);
 
+            // イベントの購読
+            this.examination.subscribeEvent(this.callBackFunc);
             this.$emit("loading", false);
         },
         async getPatientInfo() {
@@ -239,6 +244,11 @@ export default {
             let n = await this.examination.getMedicalNotes();
             this.medicalNotes = n.slice().reverse();
         },
+        async withDraw() {
+            this.$emit("loading", true);
+            await this.examination.withDraw();
+            this.$emit("loading", false);
+        },
         /** 小数点の位置をずらしてシンボルを付加
          *  Ex. 123400000000000000000 -> 123.4 SYMBOL
          */
@@ -252,7 +262,7 @@ export default {
             );
         },
         async callBackFunc(event, value) {
-            this.$emit("loading", true);
+            this.$emit("loading", false);
             console.log(event);
             console.log(value);
             if (event === "SetMedicalCost")
@@ -261,22 +271,20 @@ export default {
                 this.unpaidCost = value["unpaidCost"];
                 this.deposit = 0;
             }
-            if (event === "Transfer") {
-                // 一瞬で変わると何が起こったか分からないロードを入れる
-                await sleep(250);
-                this.deposit = Number(this.deposit) + Number(value["value"]);
-            }
             if (event === "AddMedicalNote") {
                 // イベントが発生してもaddMedicalNoteは終了してない、少し待つ
                 await sleep(500);
                 // TODO:getMedicalNotesを呼ばずにeventの引数を復号して表示するようにする
                 await this.getMedicalNotes();
             }
-            this.$emit("loading", false);
-            // js側でさらにwithdrawを呼ぶためロード再開
             if (event === "SignMedicalCost") {
+                this.unpaidCost = this.medicalCost;
                 this.isSignCompleted = value["signed"];
-                this.$emit("loading", true);
+                await this.withDraw();
+            }
+            if (event === "Transfer") {
+                this.deposit = Number(this.deposit) + Number(value["value"]);
+                if (this.isSignCompleted) await this.withDraw();
             }
         },
         openModal(ref) {

@@ -365,47 +365,6 @@ export let managementContractABI = [
         inputs: [
             {
                 internalType: "string",
-                name: "_publicKey",
-                type: "string"
-            },
-            {
-                internalType: "address",
-                name: "_hospitaladdress",
-                type: "address"
-            }
-        ],
-        name: "setPublicKey",
-        outputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function"
-    },
-    {
-        constant: true,
-        inputs: [
-            {
-                internalType: "address",
-                name: "_hospitaladdress",
-                type: "address"
-            }
-        ],
-        name: "getPublicKey",
-        outputs: [
-            {
-                internalType: "string",
-                name: "",
-                type: "string"
-            }
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-    },
-    {
-        constant: false,
-        inputs: [
-            {
-                internalType: "string",
                 name: "_patientData",
                 type: "string"
             },
@@ -418,27 +377,17 @@ export let managementContractABI = [
                 internalType: "string",
                 name: "_patientPassPhrase",
                 type: "string"
+            },
+            {
+                internalType: "uint32",
+                name: "_random",
+                type: "uint32"
             }
         ],
         name: "startExamination",
         outputs: [],
         payable: false,
         stateMutability: "nonpayable",
-        type: "function"
-    },
-    {
-        constant: true,
-        inputs: [],
-        name: "getOwnerPublicKey",
-        outputs: [
-            {
-                internalType: "string",
-                name: "",
-                type: "string"
-            }
-        ],
-        payable: false,
-        stateMutability: "view",
         type: "function"
     },
     {
@@ -473,6 +422,12 @@ export let managementContractABI = [
                 internalType: "address",
                 name: "tokenAddress",
                 type: "address"
+            },
+            {
+                indexed: true,
+                internalType: "uint32",
+                name: "random",
+                type: "uint32"
             }
         ],
         name: "StartExamination",
@@ -481,7 +436,7 @@ export let managementContractABI = [
 ];
 
 export let managementContractAddress =
-    "0x7Ab90F5d310c11F69be15E2a55568362990DA2d3";
+    "0x9ef74f84955C47aae937D07622d1b1F88343e3fC";
 
 export let erc20tokenABI = [
     {
