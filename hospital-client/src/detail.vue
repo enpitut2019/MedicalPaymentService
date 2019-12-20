@@ -151,6 +151,19 @@ export default {
         await this.init();
         this.$emit("loading", false);
     },
+    watch: {
+        isSignCompleted: function () {
+            // if (this.unpaidCost == 0) {
+            this.$router.push({
+                name: "settlement",
+                params: {
+                    contractAddress: this.contractAddress,
+                    tokenAddress: this.tokenAddress
+                }
+            });
+            // }
+        }
+    },
     methods: {
         async init() {
             // コントラクトの読み込み

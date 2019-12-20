@@ -1,5 +1,7 @@
+
 let base = "MedicalPaymentService/hospital-client/dist/";
 //let base = "/";
+
 
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -9,6 +11,7 @@ import App from "./app.vue";
 import Top from "./top.vue";
 import Detail from "./detail.vue";
 import Confirmation from "./confirmation.vue";
+import Settlement from "./settlement.vue";
 
 // CSSリセット
 import "../node_modules/reset.css";
@@ -28,7 +31,8 @@ const router = new VueRouter({
     routes: [
         { path: "/", name: "top", component: Top },
         { path: "/detail", name: "detail", component: Detail },
-        { path: "/confirmation", name: "confirmation", component: Confirmation }
+        { path: "/confirmation", name: "confirmation", component: Confirmation },
+        { path: "/settlement", name: "settlement", component: Settlement }
     ]
 });
 
