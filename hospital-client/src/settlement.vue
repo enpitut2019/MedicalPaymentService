@@ -28,23 +28,23 @@
 
 <script>
     import Examination from "./examination.js";
-
+    const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
     export default {
-        "data": function () {
+        data: function() {
             return {
-                "examination": "",
-                "contractAddress": "0x0",
-                "tokenData": {"decimals": ""},
-                "medicalCost": 0,
-                "deposit": 0,
-                "unpaidCost": 0,
+                examination: "",
+                contractAddress: "0x0",
+                tokenData: { decimals: "" },
+                medicalCost: 0,
+                deposit: 0,
+                unpaidCost: 0,
             };
         },
-        "created": async function () {
+        created: async function() {
             await this.init();
         },
-        "methods": {
-            async "init"() {
+        methods: {
+            async init() {
                 this.contractAddress = this.$route.params.contractAddress;
                 let tokenAddress = this.$route.params.tokenAddress;
                 this.examination = new Examination(
@@ -59,50 +59,39 @@
                 this.medicalCost = paymentStatus[1];
                 this.unpaidCost = paymentStatus[2];
                 // this.isSignCompleted = paymentStatus[3];
-                // イベントの購読
-                this.examination.subscribeEvent(this.callBackFunc);
-                // 支払い状況の取得
-                let promise1 = this.getPaymentStatus();
-                // 患者の情報を取得
-                let promise2 = this.getPatientInfo();
+                // // 支払い状況の取得
+                // let promise1 = this.getPaymentStatus();
+                // // 患者の情報を取得
+                // let promise2 = this.getPatientInfo();
                 // トークン情報の取得
                 let promise3 = this.getToeknData();
+                // イベントの購読
+                this.examination.subscribeEvent(this.callBackFunc);
 
-                // 全てのプロミスを実行
-                await Promise.all([promise1, promise2, promise3]);
+                // // 全てのプロミスを実行
+                // await Promise.all([promise1, promise2, promise3]);
             },
-            async "callBackFunc"(event, value) {
-                this.$emit("loading", true);
-                // 一瞬で変わると何が起こったか分からないロードを入れる
-                await sleep(250);
-                console.log(event);
-                console.log(value);
-                if (event === "SetMedicalCost")
-                    this.medicalCost = value["medicalCost"];
-                if (event === "SignMedicalCost")
-                    this.isSignCompleted = value["signed"];
-                if (event === "WithDraw") this.unpaidCost = value["unpaidCost"];
-                if (event === "Refund") console.log("Refund" + value["amount"]);
-                if (event === "Transfer")
-                    this.deposit = Number(this.deposit) + Number(value["value"]);
-                this.$emit("loading", false);
-            },
-            async "getPaymentStatus"() {
+            async getPaymentStatus() {
                 let paymentStatus = await this.examination.getPaymentStatus();
                 this.deposit = paymentStatus[0];
                 this.medicalCost = paymentStatus[1];
                 this.unpaidCost = paymentStatus[2];
                 this.isSignCompleted = paymentStatus[3];
             },
-            async "getPatientInfo"() {
+            async getPatientInfo() {
                 let patientInfo = await this.examination.getPatientInfo();
                 this.patientAddress = patientInfo.address;
                 this.patientData = JSON.parse(patientInfo.data);
             },
-            async "getToeknData"() {
+            async getToeknData() {
                 this.tokenData = await this.examination.getTokenData();
             },
-            "amountAddSymbol"(value) {
+            async withDraw() {
+                this.$emit("loading", true);
+                await this.examination.withDraw();
+                this.$emit("loading", false);
+            },
+            amountAddSymbol(value) {
                 return (
                     String(
                         Number(value) / 10 ** Number(this.tokenData["decimals"])
@@ -110,6 +99,34 @@
                     " " +
                     this.tokenData["symbol"]
                 );
+            },
+            async callBackFunc(event, value) {
+                this.$emit("loading", true);
+                // 一瞬で変わると何が起こったか分からないロードを入れる
+                await sleep(250);
+                console.log(event);
+                console.log(value);
+                // if (event === "SetMedicalCost") {
+                //     this.medicalCost = value["medicalCost"];
+                // }
+                // if (event === "SignMedicalCost") {
+                //     this.isSignCompleted = value["signed"];
+                // }
+                if (event === "WithDraw") {
+                    this.unpaidCost = value["unpaidCost"];
+                    this.deposit = 0;
+                }
+                if (event === "Transfer") {
+                    this.deposit = Number(this.deposit) + Number(value["value"]);
+                    if (this.isSignCompleted) await this.withDraw();
+                }
+                // if (event === "AddMedicalNote") {
+                //     // イベントが発生してもaddMedicalNoteは終了してない、少し待つ
+                //     await sleep(500);
+                //     // TODO:getMedicalNotesを呼ばずにeventの引数を復号して表示するようにする
+                //     await this.getMedicalNotes();
+                // }
+                this.$emit("loading", false);
             },
         },
     };
