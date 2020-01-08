@@ -2,11 +2,12 @@
     <div class="page">
         <div v-if="isCameraActive" style="text-align: center; width: 100%">
             <qrcode-stream class="fullscreen" @decode="inputData">
-
                 <div v-if="isCameraActive">
-                    <div class="com_note">患者の決済用QRコードを読み取ってください。
-                        <button @click="isCameraActive = false">キャンセル</button>
-
+                    <div class="com_note">
+                        患者の決済用QRコードを読み取ってください。
+                        <button @click="isCameraActive = false">
+                            キャンセル
+                        </button>
                     </div>
                 </div>
             </qrcode-stream>
@@ -160,7 +161,7 @@ export default {
         this.$emit("loading", false);
     },
     watch: {
-        isSignCompleted: function () {
+        isSignCompleted: function() {
             // if (this.unpaidCost == 0) {
             this.$router.push({
                 name: "settlement",
@@ -243,6 +244,7 @@ export default {
                 result,
                 this.patientAddress
             );
+            if (this.isSignCompleted) await this.withDraw();
             this.$emit("loading", false);
         },
         async addMedicalNote(note) {
@@ -288,7 +290,7 @@ export default {
             if (event === "SignMedicalCost") {
                 this.unpaidCost = this.medicalCost;
                 this.isSignCompleted = value["signed"];
-                await this.withDraw();
+                this.$emit("loading", true);
             }
             if (event === "Transfer") {
                 this.deposit = Number(this.deposit) + Number(value["value"]);
