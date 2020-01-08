@@ -1,7 +1,15 @@
 <template>
     <div class="page">
-        <div class="fullscreen" v-if="isCameraActive">
-            <qrcode-stream @decode="signMedicalCost"></qrcode-stream>
+        <div v-if="isCameraActive" style="text-align: center; width: 100%">
+            <qrcode-stream class="fullscreen" @decode="inputData">
+
+                <div v-if="isCameraActive">
+                    <div class="com_note">患者の決済用QRコードを読み取ってください。
+                        <button @click="isCameraActive = false">キャンセル</button>
+
+                    </div>
+                </div>
+            </qrcode-stream>
         </div>
         <div v-else>
             <div class="container">

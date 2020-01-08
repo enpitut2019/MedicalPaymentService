@@ -4,7 +4,7 @@
             <qrcode-stream class="fullscreen" @decode="inputData">
 
                 <div v-if="isCameraActive">
-                    <div class="com_note">患者のQRコードを読み取ってください。
+                    <div class="com_note">患者の受付用QRコードを読み取ってください。
                         <button @click="isCameraActive = false">キャンセル</button>
 
                     </div>
