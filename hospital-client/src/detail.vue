@@ -252,7 +252,9 @@ export default {
             this.$emit("loading", false);
         },
         async addMedicalNote(note) {
+            this.$emit("loading", true);
             await this.examination.addMedicalNote(note);
+            this.$emit("loading", false);
         },
         async getMedicalNotes() {
             let n = await this.examination.getMedicalNotes();
