@@ -1,7 +1,7 @@
 <template>
     <div class="page">
         <div v-if="isCameraActive" style="text-align: center; width: 100%">
-            <qrcode-stream class="fullscreen" @decode="inputData">
+            <qrcode-stream class="fullscreen" @decode="signMedicalCost">
                 <div v-if="isCameraActive">
                     <div class="com_note">
                         患者の決済用QRコードを読み取ってください。
@@ -36,15 +36,19 @@
                     </dl>
                 </div>
                 <div style="text-align: center">
-                    <ui-button
-                        @click="openModal('inputModal')"
-                        v-if="!isSignCompleted"
-                        >医療費を入力</ui-button
+                    <button
+                            class="button b-detLog"
+                            @click="openModal('inputModal')"
+                            v-if="!isSignCompleted"
+                    >医療費を入力
+                    </button
                     >
-                    <ui-button
-                        @click="isCameraActive = true"
-                        v-if="!isSignCompleted"
-                        >医療費を確定（QRコード読み込み）</ui-button
+                    <button
+                            class="button b-detLog"
+                            @click="isCameraActive = true"
+                            v-if="!isSignCompleted"
+                    >医療費を確定（QRコード読み込み）
+                    </button
                     >
                 </div>
             </div>
