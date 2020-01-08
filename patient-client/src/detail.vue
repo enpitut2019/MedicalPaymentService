@@ -139,6 +139,8 @@ export default {
     },
     watch: {
         deposit: function() {
+            console.log("watch deposit");
+            console.log("unpaidCost:" + this.unpaidCost + ", isSignCompleted:" + this.isSignCompleted + ", deposit:" + this.deposit);
             if (this.unpaidCost == 0 && this.isSignCompleted == true && this.deposit == 0) {
                 this.$router.push({
                     name: "settlement",
