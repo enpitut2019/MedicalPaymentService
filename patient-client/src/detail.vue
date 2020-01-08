@@ -144,7 +144,10 @@ export default {
                     name: "settlement",
                     params: {
                         contractAddress: this.contractAddress,
-                        tokenAddress: this.tokenAddress
+                        tokenAddress: this.tokenAddress,
+                        medicalCost: this.medicalCost,
+                        unpaidCost: this.unpaidCost,
+                        deposit: this.deposit
                     }
                 });
             }

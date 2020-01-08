@@ -58,7 +58,7 @@ export default {
             // トークン情報の取得
             let promise3 = this.getToeknData();
             // イベントの購読
-            this.examination.subscribeEvent(this.callBackFunc);
+            // this.examination.subscribeEvent(this.callBackFunc);
 
             // // 全てのプロミスを実行
             // await Promise.all([promise1, promise2, promise3]);
