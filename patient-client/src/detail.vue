@@ -139,7 +139,7 @@ export default {
     },
     watch: {
         isSignCompleted: function() {
-            if (this.unpaidCost == 0) {
+            if (this.unpaidCost == 0 && this.deposit == 0) {
                 this.$router.push({
                     name: "settlement",
                     params: {
