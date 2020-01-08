@@ -234,6 +234,7 @@ export default {
             }
             if (event === "WithDraw") {
                 this.unpaidCost = value["unpaidCost"];
+                this.deposit = 0;
             }
             if (event === "Transfer") {
                 this.deposit = Number(this.deposit) + Number(value["value"]);
