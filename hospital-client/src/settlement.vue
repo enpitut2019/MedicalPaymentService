@@ -47,6 +47,9 @@
             async init() {
                 this.contractAddress = this.$route.params.contractAddress;
                 let tokenAddress = this.$route.params.tokenAddress;
+                this.medicalCost = this.$route.params.medicalCost;
+                this.unpaidCost = this.$route.params.unpaidCost;
+                this.deposit = this.$route.params.deposit;
                 this.examination = new Examination(
                     this.$management,
                     this.contractAddress,
@@ -54,17 +57,17 @@
                 );
                 // this.medicalCost = this.examination.medicalCost;
                 // this.unpaidCost = this.examination.unpaidCost;
-                let paymentStatus = await this.examination.getPaymentStatus();
-                this.deposit = paymentStatus[0];
-                this.medicalCost = paymentStatus[1];
-                this.unpaidCost = paymentStatus[2];
+                // let paymentStatus = await this.examination.getPaymentStatus();
+                // this.deposit = paymentStatus[0];
+                // this.medicalCost = paymentStatus[1];
+                // this.unpaidCost = paymentStatus[2];
                 // this.isSignCompleted = paymentStatus[3];
                 // // 支払い状況の取得
                 // let promise1 = this.getPaymentStatus();
                 // // 患者の情報を取得
                 // let promise2 = this.getPatientInfo();
                 // トークン情報の取得
-                let promise3 = this.getToeknData();
+                // let promise3 = this.getToeknData();
                 // イベントの購読
                 // this.examination.subscribeEvent(this.callBackFunc);  //2020/01/08コメントアウト
                 //

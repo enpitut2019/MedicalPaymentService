@@ -47,7 +47,7 @@
                             class="button b-detLog"
                             @click="isCameraActive = true"
                             v-if="!isSignCompleted"
-                    >医療費を確定（QRコード読み込み）
+                    >請求金額を確定
                     </button
                     >
                 </div>
@@ -165,16 +165,21 @@ export default {
         this.$emit("loading", false);
     },
     watch: {
-        isSignCompleted: function() {
-            // if (this.unpaidCost == 0) {
-            this.$router.push({
-                name: "settlement",
-                params: {
-                    contractAddress: this.contractAddress,
-                    tokenAddress: this.tokenAddress
-                }
-            });
-            // }
+        deposit: function() {
+            // console.log("watch deposit");
+            // console.log("unpaidCost:" + this.unpaidCost + ", isSignCompleted:" + this.isSignCompleted + ", deposit:" + this.deposit);
+            if (this.unpaidCost == 0 && this.isSignCompleted == true && this.deposit == 0) {
+                this.$router.push({
+                    name: "settlement",
+                    params: {
+                        contractAddress: this.contractAddress,
+                        tokenAddress: this.tokenAddress,
+                        medicalCost: this.medicalCost,
+                        unpaidCost: this.unpaidCost,
+                        deposit: this.deposit
+                    }
+                });
+            }
         }
     },
     methods: {
