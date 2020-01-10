@@ -8,10 +8,7 @@
 ## プロダクトの詳細
 
 詳細なスライド（随時更新）  
-https://docs.google.com/presentation/d/1sWLaGFLuqrsiLBI0XSPL6LeMlHccgU14If_yPLLHM-s
-
-Sprint6 レビュー用  
-https://docs.google.com/presentation/d/1uoOUH9xt3GtGnf1wZke-X-btjfWeIMzLQMGaeJpj7uI
+スライドこわしちゃったぁ
 
 ## メンバー
 
