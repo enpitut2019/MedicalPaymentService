@@ -67,7 +67,7 @@
                 // // 患者の情報を取得
                 // let promise2 = this.getPatientInfo();
                 // トークン情報の取得
-                let promise3 = this.getToeknData();
+                let promise3 = this.getTokenData();
                 // イベントの購読
                 // this.examination.subscribeEvent(this.callBackFunc);  //2020/01/08コメントアウト
                 //
@@ -86,7 +86,7 @@
                 this.patientAddress = patientInfo.address;
                 this.patientData = JSON.parse(patientInfo.data);
             },
-            async getToeknData() {
+            async getTokenData() {
                 this.tokenData = await this.examination.getTokenData();
             },
             async withDraw() {
