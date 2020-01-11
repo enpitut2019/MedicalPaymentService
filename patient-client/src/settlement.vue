@@ -29,7 +29,7 @@ export default {
             tokenData: { decimals: "" },
             medicalCost: 0,
             deposit: 0,
-            unpaidCost: 0,
+            unpaidCost: 0
         };
     },
     created: async function() {
@@ -122,7 +122,7 @@ export default {
             //     await this.getMedicalNotes();
             // }
             this.$emit("loading", false);
-        },
-    },
+        }
+    }
 };
 </script>

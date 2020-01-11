@@ -37,19 +37,19 @@
                 </div>
                 <div style="text-align: center">
                     <button
-                            class="button b-detLog"
-                            @click="openModal('inputModal')"
-                            v-if="!isSignCompleted"
-                    >医療費を入力
-                    </button
+                        class="button b-detLog"
+                        @click="openModal('inputModal')"
+                        v-if="!isSignCompleted"
                     >
+                        医療費を入力
+                    </button>
                     <button
-                            class="button b-detLog"
-                            @click="isCameraActive = true"
-                            v-if="!isSignCompleted"
-                    >請求金額を確定
-                    </button
+                        class="button b-detLog"
+                        @click="isCameraActive = true"
+                        v-if="!isSignCompleted"
                     >
+                        請求金額を確定
+                    </button>
                 </div>
             </div>
             <div class="container">
@@ -168,7 +168,11 @@ export default {
         deposit: function() {
             // console.log("watch deposit");
             // console.log("unpaidCost:" + this.unpaidCost + ", isSignCompleted:" + this.isSignCompleted + ", deposit:" + this.deposit);
-            if (this.unpaidCost == 0 && this.isSignCompleted == true && this.deposit == 0) {
+            if (
+                this.unpaidCost == 0 &&
+                this.isSignCompleted == true &&
+                this.deposit == 0
+            ) {
                 this.$router.push({
                     name: "settlement",
                     params: {

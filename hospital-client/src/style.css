@@ -5,7 +5,7 @@
 }
 
 html {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     font-size: 16px;
     line-height: 1.5rem;
 }
@@ -21,8 +21,8 @@ img {
     height: 100px;
 }
 
-p.shingo{
-    font-family: a-otf-ud-shin-go-pr6n,sans-serif;
+p.shingo {
+    font-family: a-otf-ud-shin-go-pr6n, sans-serif;
     font-weight: 300;
     font-style: normal;
 }
@@ -30,7 +30,7 @@ p.shingo{
 .page {
     width: 95%;
     margin-right: auto;
-    margin-left : auto;
+    margin-left: auto;
 }
 
 /*============================================
@@ -51,11 +51,11 @@ p.shingo{
     padding-top: 40px;
     padding-bottom: 40px;
     display: inline-block;
-    color: #FFF;
-    background: -moz-linear-gradient(top, #19769F, #35D8A6);
-    background: -webkit-linear-gradient(top, #19769F, #35D8A6);
-    background: linear-gradient(to left, #19769F, #35D8A6);
-    border-bottom: solid 2px #19769F; /*少し濃い目の色に*/
+    color: #fff;
+    background: -moz-linear-gradient(top, #19769f, #35d8a6);
+    background: -webkit-linear-gradient(top, #19769f, #35d8a6);
+    background: linear-gradient(to left, #19769f, #35d8a6);
+    border-bottom: solid 2px #19769f; /*少し濃い目の色に*/
     width: 70%;
 }
 
@@ -65,11 +65,11 @@ p.shingo{
     padding-top: 40px;
     padding-bottom: 40px;
     display: inline-block;
-    color: #FFF;
-    background: -moz-linear-gradient(top, #19769F, #35D8A6);
-    background: -webkit-linear-gradient(top, #19769F, #35D8A6);
-    background: linear-gradient(to left, #19769F, #35D8A6);
-    border-bottom: solid 2px #19769F; /*少し濃い目の色に*/
+    color: #fff;
+    background: -moz-linear-gradient(top, #19769f, #35d8a6);
+    background: -webkit-linear-gradient(top, #19769f, #35d8a6);
+    background: linear-gradient(to left, #19769f, #35d8a6);
+    border-bottom: solid 2px #19769f; /*少し濃い目の色に*/
     width: 70%;
 }
 
@@ -79,9 +79,9 @@ p.shingo{
     padding-top: 10px;
     padding-bottom: 10px;
     display: inline;
-    color: #19769F;
-    background: #F6F7F8; /*背景色*/
-    border-bottom: solid 2px #19769F; /*少し濃い目の色に*/
+    color: #19769f;
+    background: #f6f7f8; /*背景色*/
+    border-bottom: solid 2px #19769f; /*少し濃い目の色に*/
     width: 35%;
 }
 
@@ -93,7 +93,7 @@ p.shingo{
     display: inline;
     color: #239472;
     background: #f5f5f5; /*背景色*/
-    border-bottom: solid 2px #19769F; /*少し濃い目の色に*/
+    border-bottom: solid 2px #19769f; /*少し濃い目の色に*/
     width: 25%;
 }
 
@@ -105,17 +105,17 @@ p.shingo{
     display: inline;
     color: #239472;
     background: #f5f5f5; /*背景色*/
-    border-bottom: solid 2px #19769F; /*少し濃い目の色に*/
+    border-bottom: solid 2px #19769f; /*少し濃い目の色に*/
     width: 25%;
 }
 
 .button:active {
-    border-bottom: solid 2px #35D8A6;
+    border-bottom: solid 2px #35d8a6;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
-.b-detLog:hover{
+.b-detLog:hover {
     background: #f5f5f5; /*背景色*/
-    border-bottom: solid 2px #35D8A6;
+    border-bottom: solid 2px #35d8a6;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -176,7 +176,7 @@ QRコードリーダー
     text-align: center;
     display: table-cell;
     vertical-align: middle;
-    color: #19769F;
+    color: #19769f;
     font-size: 2rem;
     width: 100%;
     height: 247.6mm;
@@ -207,7 +207,7 @@ QRコードリーダー
     vertical-align: middle;
     background-color: rgba(0, 0, 0, 0.8);
     height: 70px;
-    color: #FFFFFF;
+    color: #ffffff;
     -webkit-border-radius: 0 0 10px 10px / 0 0 10px 10px;
     -moz-border-radius: 0 0 10px 10px / 0 0 10px 10px;
     border-radius: 0 0 10px 10px / 0 0 10px 10px;
@@ -217,7 +217,7 @@ QRコードリーダー
 }
 
 .com_note button {
-    color: #FFF;
+    color: #fff;
     transition: all 0.3s;
     position: absolute;
     font-size: 16px;
@@ -230,7 +230,7 @@ QRコードリーダー
     transition: all 0.3s;
 }
 .com_note button::before {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
@@ -243,8 +243,8 @@ QRコードリーダー
     border-bottom-width: 1px;
     border-top-style: solid;
     border-bottom-style: solid;
-    border-top-color: rgba(255,255,255,0.5);
-    border-bottom-color: rgba(255,255,255,0.5);
+    border-top-color: rgba(255, 255, 255, 0.5);
+    border-bottom-color: rgba(255, 255, 255, 0.5);
     transform: scale(0.1, 1);
 }
 .com_note button:hover span {
@@ -255,7 +255,7 @@ QRコードリーダー
     transform: scale(1, 1);
 }
 .com_note button::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
@@ -263,7 +263,7 @@ QRコードリーダー
     height: 100%;
     z-index: 1;
     transition: all 0.3s;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 .com_note button:hover::after {
     opacity: 0;
@@ -275,9 +275,9 @@ QRコードリーダー
 .header {
     display: table;
     grid-template-columns: 1fr 1fr 1fr;
-    background: -moz-linear-gradient(top, #19769F, #35D8A6);
-    background: -webkit-linear-gradient(top, #19769F, #35D8A6);
-    background: linear-gradient(to left, #19769F, #35D8A6);
+    background: -moz-linear-gradient(top, #19769f, #35d8a6);
+    background: -webkit-linear-gradient(top, #19769f, #35d8a6);
+    background: linear-gradient(to left, #19769f, #35d8a6);
     width: 100%;
     height: 75px;
     text-align: center;
