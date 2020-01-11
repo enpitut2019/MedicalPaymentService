@@ -1,5 +1,5 @@
-let base = "MedicalPaymentService/hospital-client/dist/";
-//let base = "/";
+//let base = "MedicalPaymentService/hospital-client/dist/";
+let base = "/";
 
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -59,12 +59,7 @@ let passPhrase = localStorage.getItem("hospitalPassPhrase");
 import Management from "./management.js";
 Vue.prototype.$management = new Management(privateKey, passPhrase);
 
-new Vue({
-    el: "#app",
-    router,
-    render: h => h(App)
-});
-
+// Webフォントの読込
 (function(d) {
     var config = {
             kitId: "yml0ifp",
@@ -94,3 +89,9 @@ new Vue({
     };
     s.parentNode.insertBefore(tk, s);
 })(document);
+
+new Vue({
+    el: "#app",
+    router,
+    render: h => h(App)
+});

@@ -1,22 +1,17 @@
 <template>
     <div class="app">
         <div class="header">
-            <div v-if="this.$route.path === '/'">
-                <!--グリッドレイアウト用の空div-->
-            </div>
             <div
                 class="backbutton"
                 @click="back"
-                v-if="
-                    this.$route.path === '/input' ||
-                        this.$route.path === '/detail' ||
-                        this.$route.path === '/settlement'
-                "
+                v-if="this.$route.path !== '/'"
             ></div>
-            <h1 v-if="this.$route.path === '/'">Top</h1>
-            <h1 v-if="this.$route.path === '/input'">Input</h1>
-            <h1 v-if="this.$route.path === '/detail'">Detail</h1>
-            <h1 v-if="this.$route.path === '/settlement'">Settlement</h1>
+            <h1 v-if="this.$route.path === '/'">Top / 受付</h1>
+            <h1 v-if="this.$route.path === '/input'">Input / 入力</h1>
+            <h1 v-if="this.$route.path === '/detail'">Detail / 詳細</h1>
+            <h1 v-if="this.$route.path === '/settlement'">
+                Completed / 決済完了
+            </h1>
         </div>
         <transition mode="out-in" :name="transitionName">
             <router-view @loading="loading"></router-view>

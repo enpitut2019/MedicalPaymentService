@@ -17,19 +17,8 @@
             </div>
         </div>
         <div style="text-align: center">
-            <button class="button b-mainConf" @click="deployContract">
-                アドレスを発行する</button
-            ><br />
-            <button
-                class="button b-test"
-                @click="
-                    load(
-                        '0x4CbF5aB603F48f703912733b85E61CFaEa22D9Cb',
-                        '0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7'
-                    )
-                "
-            >
-                テスト用：発行後画面へ遷移
+            <button class="button button--large" @click="deployContract">
+                アドレスを発行する
             </button>
         </div>
     </div>

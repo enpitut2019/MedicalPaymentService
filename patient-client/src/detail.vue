@@ -1,6 +1,8 @@
 <template>
     <div class="page">
-        <ui-button @click="testMethod">テスト用：秘密鍵リセット </ui-button>
+        <button class="button button--normal" @click="testMethod">
+            テスト用：秘密鍵リセット
+        </button>
         <div class="container">
             <div class="containerTitle">
                 <h1>Contract Information</h1>
@@ -16,9 +18,9 @@
                     </dd>
                 </dl>
             </div>
-            <ui-button @click="generateSignQRCode"
-                >Agree to Medical Cost</ui-button
-            >
+            <button class="button button--normal" @click="generateSignQRCode">
+                Agree to Medical Cost
+            </button>
         </div>
         <div class="container">
             <div class="containerTitle">
@@ -29,14 +31,14 @@
                     <span>
                         <dt>Remittance Address</dt>
                         <dd>
-                            <ui-button
+                            <button
                                 @click="clipboardAlert"
-                                class="copy-btn"
+                                class="button button--normal button--copy"
                                 data-clipboard-action="copy"
-                                data-clipboard-target="#foo"
+                                data-clipboard-target="#contractAddress"
                             >
-                                copy address</ui-button
-                            >
+                                copy address
+                            </button>
                         </dd>
                         <dt>Deposit Value</dt>
                         <dd>{{ amountAddSymbol(deposit) }}</dd>
@@ -85,7 +87,7 @@
                 ></vue-qrcode>
             </div>
         </ui-modal>
-        <div id="foo">{{ contractAddress }}</div>
+        <div v-show="false" id="contractAddress">{{ contractAddress }}</div>
         <h2>受付での再読み込み用QR</h2>
         <vue-qrcode
             :value="contractAddress"
@@ -135,7 +137,7 @@ export default {
         await this.init();
         this.$emit("loading", false);
         // clipboard.js の初期化
-        new ClipboardJS(".copy-btn");
+        new ClipboardJS(".button--copy");
     },
     watch: {
         deposit: function() {

@@ -1,6 +1,6 @@
 <template>
     <div class="page">
-        <div class="center under">
+        <div class="center">
             <p v-if="outputData">Please show a hospital this QR code!</p>
             <p v-if="!outputData">QR code will be displayed here!</p>
             <p v-if="!outputData">Please register your information!</p>
@@ -15,29 +15,14 @@
                 }"
             ></vue-qrcode>
         </div>
-        <div class="under_button">
-            <ui-button
-                v-if="!outputData"
-                @click="$router.push({ name: 'input' })"
-            >
-                Register Your Information
-            </ui-button>
-            <ui-button
-                v-if="outputData"
-                @click="$router.push({ name: 'input' })"
-            >
-                Edit Your Information
-            </ui-button>
-            <ui-button
-                @click="
-                    load(
-                        '0x2C466b77105fA141afe9dcF8835582AaebFe4077',
-                        '0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7'
-                    )
-                "
-                >テスト用：発行後画面へ遷移
-            </ui-button>
-        </div>
+        <button
+            class="button button--large"
+            v-if="!outputData"
+            @click="$router.push({ name: 'input' })"
+        >
+            <p v-if="!outputData">Register Your Information</p>
+            <p v-if="outputData">Edit Your Information</p>
+        </button>
     </div>
 </template>
 

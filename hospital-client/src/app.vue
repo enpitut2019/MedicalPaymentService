@@ -1,19 +1,15 @@
 <template>
     <div class="app">
         <div class="header">
-            <div v-if="this.$route.path === '/'">
-                <!--グリッドレイアウト用の空div-->
-            </div>
             <div
                 class="backbutton"
                 @click="back"
                 v-if="this.$route.path !== '/'"
             ></div>
-            <img v-bind:src="require('./static/testlogo.png')" />
-            <h1 v-if="this.$route.path === '/'">受　付</h1>
-            <h1 v-if="this.$route.path === '/confirmation'">確　認</h1>
-            <h1 v-if="this.$route.path === '/detail'">詳　細</h1>
-            <h1 v-if="this.$route.path === '/settlement'">決　済</h1>
+            <h1 v-if="this.$route.path === '/'">受 付</h1>
+            <h1 v-if="this.$route.path === '/confirmation'">確 認</h1>
+            <h1 v-if="this.$route.path === '/detail'">詳 細</h1>
+            <h1 v-if="this.$route.path === '/settlement'">決 済 完 了</h1>
         </div>
         <transition mode="out-in" :name="transitionName">
             <router-view @loading="loading"></router-view>

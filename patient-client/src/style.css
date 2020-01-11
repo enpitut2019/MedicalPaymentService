@@ -5,23 +5,16 @@
 }
 
 html {
-    background-color: #f5f5dc;
-    font-size: 50px;
+    background-color: #ffffff;
+    font-size: 16px;
     line-height: 1.5rem;
-}
-
-html,
-body,
-.app {
-    height: 100%;
 }
 
 h1 {
     font-size: 2rem;
-}
-
-img {
-    height: 100px;
+    font-family: fot-udkakugo-large-pr6n, sans-serif;
+    font-weight: 600;
+    font-style: normal;
 }
 
 .page {
@@ -31,30 +24,51 @@ img {
     position: relative;
 }
 
-button {
-    margin: 5px;
-    width: 100%;
-}
-
 .center {
     text-align: center;
 }
 
-p {
-    margin-bottom: 0.3rem;
-}
-
-#foo {
-    color: #f5f5dc;
-    word-break: break-all;
-}
-
 /*============================================
-ボタンの位置調整
+ボタン
 ============================================*/
-.under_button {
-    position: absolute;
-    bottom: 7rem;
+.button {
+    text-decoration: none;
+    font-family: fot-udkakugo-large-pr6n, sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    border-radius: 8px; /*角の丸み*/
+    margin-bottom: 20px;
+}
+
+.button--large {
+    margin-top: 200px;
+    font-size: 24pt;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    display: inline-block;
+    color: #fff;
+    background: -moz-linear-gradient(top, #19769f, #35d8a6);
+    background: -webkit-linear-gradient(top, #19769f, #35d8a6);
+    background: linear-gradient(to left, #19769f, #35d8a6);
+    border-bottom: solid 2px #19769f; /*少し濃い目の色に*/
+    width: 70%;
+}
+
+.button--normal {
+    border: solid 2px #28c49d;
+    font-size: 14pt;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: inline;
+    color: #239472;
+    background: #f5f5f5; /*背景色*/
+    border-bottom: solid 2px #19769f; /*少し濃い目の色に*/
+    width: 25%;
+}
+
+.button:active {
+    border-bottom: solid 2px #35d8a6;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
 /*============================================
@@ -72,20 +86,16 @@ p {
 }
 
 .containerTitle {
-    /* margin: 1rem; */
     border-bottom: 2px solid hsl(0, 0%, 85%);
-    margin: 0.5rem, 0rem;
+    margin: 0.5rem;
     padding-bottom: 0.5rem;
 }
 
 .list {
     display: grid;
-    /* grid-template-columns: max-content 1fr; */
-    grid-template-columns: 50% 50%;
+    grid-template-columns: max-content 1fr;
     margin: 0.5rem;
-    margin-top: 0rem;
     padding: 0.5rem;
-    width: 100%;
 }
 
 dl,
@@ -96,63 +106,49 @@ dl span {
 dt,
 dd {
     font-size: 1rem;
-    padding: 0.75em 0.5rem;
+    padding: 0.75em 1rem;
     border-bottom: 1px solid hsl(0, 0%, 90%);
-    white-space: normal;
-    margin: 0;
 }
 
-/* dt {
-    text-align: left;
-    float: left;
-    width: 70%;
-} */
+dt {
+    text-align: right;
+}
 
-/* dd {
+dd {
     text-align: left;
-    float: left;
-    width: 30%;
-} */
-
-/*============================================
-QRコードリーダー
-============================================*/
-.fullscreen {
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
 }
 
 /*============================================
 ヘッダー
 ============================================*/
 .header {
-    display: grid;
+    display: table;
     grid-template-columns: 1fr 1fr 1fr;
-    background-color: #00adb5;
+    background: -moz-linear-gradient(top, #19769f, #35d8a6);
+    background: -webkit-linear-gradient(top, #19769f, #35d8a6);
+    background: linear-gradient(to left, #19769f, #35d8a6);
     width: 100%;
-    margin-bottom: 1rem;
+    height: 75px;
+    text-align: center;
 }
 
 .header h1 {
+    display: table-cell;
+    vertical-align: middle;
     color: white;
-    font-size: 2rem;
-    text-align: center;
-    margin: 0.5rem;
+    margin: 1rem;
 }
 
 /*============================================
 バックボタン
 ============================================*/
 .backbutton {
-    margin-top: 1rem;
+    position: absolute;
+    margin-top: 1.5rem;
     margin-left: 1.5rem;
-    width: 1rem;
-    height: 1rem;
-    border: 3px solid;
+    width: 1.41rem;
+    height: 1.41rem;
+    border: 5px solid;
     border-color: transparent transparent white white;
     transform: rotate(45deg);
     cursor: pointer;
