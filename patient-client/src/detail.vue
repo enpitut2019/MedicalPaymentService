@@ -153,6 +153,7 @@ export default {
                 this.isSignCompleted == true &&
                 this.deposit == 0
             ) {
+                this.$emit("loading", false);
                 this.$router.push({
                     name: "settlement",
                     params: {

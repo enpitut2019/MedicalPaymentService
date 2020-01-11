@@ -173,6 +173,7 @@ export default {
                 this.isSignCompleted == true &&
                 this.deposit == 0
             ) {
+                this.$emit("loading", false);
                 this.$router.push({
                     name: "settlement",
                     params: {
@@ -308,8 +309,11 @@ export default {
                 this.$emit("loading", true);
             }
             if (event === "Transfer") {
+                this.$emit("loading", true);
+                await sleep(250);
                 this.deposit = Number(this.deposit) + Number(value["value"]);
                 if (this.isSignCompleted) await this.withDraw();
+                this.$emit("loading", false);
             }
         },
         openModal(ref) {
