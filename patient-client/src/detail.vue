@@ -69,7 +69,9 @@
             <div class="list">
                 <dl>
                     <span v-for="(item, index) in medicalNotes" :key="index">
-                        <dt>{{ Date(item.timestamp * 1000).toString() }}</dt>
+                        <dt>
+                            {{ formatDate(item.timestamp * 1000) }}
+                        </dt>
                         <dd>{{ item.note }}</dd>
                     </span>
                 </dl>
@@ -225,6 +227,28 @@ export default {
                 ) +
                 " " +
                 this.tokenData["symbol"]
+            );
+        },
+        formatDate(timestamp) {
+            let date = new Date(timestamp);
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            let hour = date.getHours();
+            let minute = date.getMinutes();
+            let timezone = date.getTimezoneOffset();
+            return (
+                year +
+                "/" +
+                month +
+                "/" +
+                day +
+                " " +
+                hour +
+                ":" +
+                minute +
+                " UTC" +
+                timezone / 60
             );
         },
         async callBackFunc(event, value) {
