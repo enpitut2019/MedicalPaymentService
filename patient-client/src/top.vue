@@ -1,23 +1,20 @@
 <template>
-    <div class="page">
-        <div class="center">
+    <div class="page center">
+        <div>
             <p v-if="outputData">Please show a hospital this QR code!</p>
             <p v-if="!outputData">QR code will be displayed here!</p>
             <p v-if="!outputData">Please register your information!</p>
         </div>
-        <div class="qrCode">
-            <vue-qrcode
-                v-if="outputData"
-                :value="outputData"
-                :options="{
-                    width: 500,
-                    color: { dark: '#000000ff', light: '#f5f5dc' }
-                }"
-            ></vue-qrcode>
-        </div>
+        <vue-qrcode
+            v-if="outputData"
+            :value="outputData"
+            :options="{
+                width: winodwWidth * 0.9,
+                color: { dark: '#000000ff', light: '#ffffff' }
+            }"
+        ></vue-qrcode>
         <button
             class="button button--large"
-            v-if="!outputData"
             @click="$router.push({ name: 'input' })"
         >
             <p v-if="!outputData">Register Your Information</p>
@@ -51,13 +48,13 @@ export default {
             outputData: "",
             options: {
                 yesOrNo
-            }
+            },
+            winodwWidth: window.innerWidth
         };
     },
     mounted: async function() {
         this.$management.subscribeEvent(this.callBackFunc);
         this.outputData = localStorage.getItem("qrCodeData");
-        console.log(this.outputData);
         if (this.outputData) this.$emit("loading", true);
         // 過去のイベントを読み込み
         await this.$management.getPastStartExaminationEvent();

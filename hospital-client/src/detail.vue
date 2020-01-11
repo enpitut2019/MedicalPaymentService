@@ -155,7 +155,9 @@ export default {
             inputMedicalCost: "",
             isCameraActive: false,
             medicalNotes: false,
-            medLog: ""
+            medLog: "",
+            paidToHospital: 0,
+            paidToPatient: 0
         };
     },
     created: async function() {
@@ -166,8 +168,6 @@ export default {
     },
     watch: {
         deposit: function() {
-            // console.log("watch deposit");
-            // console.log("unpaidCost:" + this.unpaidCost + ", isSignCompleted:" + this.isSignCompleted + ", deposit:" + this.deposit);
             if (
                 this.unpaidCost == 0 &&
                 this.isSignCompleted == true &&
@@ -178,10 +178,10 @@ export default {
                     name: "settlement",
                     params: {
                         contractAddress: this.contractAddress,
-                        tokenAddress: this.tokenAddress,
-                        medicalCost: this.medicalCost,
-                        unpaidCost: this.unpaidCost,
-                        deposit: this.deposit
+                        paidToHospital: this.amountAddSymbol(
+                            this.paidToHospital
+                        ),
+                        paidToPatient: this.amountAddSymbol(this.paidToPatient)
                     }
                 });
             }
@@ -232,6 +232,8 @@ export default {
             this.medicalCost = paymentStatus[1];
             this.unpaidCost = paymentStatus[2];
             this.isSignCompleted = paymentStatus[3];
+            this.paidToHospital = paymentStatus[4];
+            this.paidToPatient = paymentStatus[5];
         },
         async getToeknData() {
             this.tokenData = await this.examination.getTokenData();
@@ -295,6 +297,8 @@ export default {
                 this.medicalCost = value["medicalCost"];
             if (event === "WithDraw") {
                 this.unpaidCost = value["unpaidCost"];
+                this.paidToHospital = value["paidToHospital"];
+                this.paidToPatient = value["paidToPatient"];
                 this.deposit = 0;
             }
             if (event === "AddMedicalNote") {

@@ -141,15 +141,6 @@ export default {
     },
     watch: {
         deposit: function() {
-            console.log("watch deposit");
-            console.log(
-                "unpaidCost:" +
-                    this.unpaidCost +
-                    ", isSignCompleted:" +
-                    this.isSignCompleted +
-                    ", deposit:" +
-                    this.deposit
-            );
             if (
                 this.unpaidCost == 0 &&
                 this.isSignCompleted == true &&
@@ -160,10 +151,10 @@ export default {
                     name: "settlement",
                     params: {
                         contractAddress: this.contractAddress,
-                        tokenAddress: this.tokenAddress,
-                        medicalCost: this.medicalCost,
-                        unpaidCost: this.unpaidCost,
-                        deposit: this.deposit
+                        paidToHospital: this.amountAddSymbol(
+                            this.paidToHospital
+                        ),
+                        paidToPatient: this.amountAddSymbol(this.paidToPatient)
                     }
                 });
             }
@@ -206,6 +197,8 @@ export default {
             this.medicalCost = paymentStatus[1];
             this.unpaidCost = paymentStatus[2];
             this.isSignCompleted = paymentStatus[3];
+            this.paidToHospital = paymentStatus[4];
+            this.paidToPatient = paymentStatus[5];
         },
         async getToeknData() {
             this.tokenData = await this.examination.getTokenData();
@@ -238,6 +231,7 @@ export default {
             this.$emit("loading", true);
             // 一瞬で変わると何が起こったか分からないロードを入れる
             await sleep(250);
+            this.$emit("loading", false);
             console.log(event);
             console.log(value);
             if (event === "SetMedicalCost") {
@@ -245,9 +239,12 @@ export default {
             }
             if (event === "SignMedicalCost") {
                 this.isSignCompleted = value["signed"];
+                this.$emit("loading", true);
             }
             if (event === "WithDraw") {
                 this.unpaidCost = value["unpaidCost"];
+                this.paidToHospital = value["paidToHospital"];
+                this.paidToPatient = value["paidToPatient"];
                 this.deposit = 0;
             }
             if (event === "Transfer") {
@@ -259,7 +256,6 @@ export default {
                 // TODO:getMedicalNotesを呼ばずにeventの引数を復号して表示するようにする
                 await this.getMedicalNotes();
             }
-            this.$emit("loading", false);
         },
         back() {
             this.$router.push("/");

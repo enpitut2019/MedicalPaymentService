@@ -16,9 +16,11 @@
             v-model="patientData['other']"
             label="実際には他の情報も"
         ></ui-textbox>
-        <button class="button button--normal" @click="perocessData">
-            Save/保存
-        </button>
+        <div class="center">
+            <button class="button button--normal" @click="perocessData">
+                Save/保存
+            </button>
+        </div>
     </div>
 </template>
 

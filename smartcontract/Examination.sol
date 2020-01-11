@@ -12,6 +12,8 @@ contract Examination{
     address private patientAddress;
     uint256 private medicalCost;
     uint256 private unpaidCost;
+    uint256 private paidToHospital;
+    uint256 private paidToPatient;
     bool private signCompleted;
     string private patientData;
     string private patientPassPhrase;
@@ -26,7 +28,7 @@ contract Examination{
     
     event SetMedicalCost(uint256 medicalCost);
     event SignMedicalCost(bool signed);
-    event WithDraw(uint256 unpaidCost);
+    event WithDraw(uint256 unpaidCost, uint256 paidToHospital, uint256 paidToPatient);
     event AddMedicalNote(uint256 timestamp, string note);
     event EventFailed(string eventName, string message);
     
@@ -74,8 +76,8 @@ contract Examination{
       * @return uint256 未収金金額
       * @return bool 医療費が確定しているか
       */
-    function getPaymentStatus() public view returns (uint256, uint256, uint256, bool) {
-        return (ERC20Token.balanceOf(address(this)), medicalCost, unpaidCost, signCompleted);
+    function getPaymentStatus() public view returns (uint256, uint256, uint256, bool, uint256, uint256) {
+        return (ERC20Token.balanceOf(address(this)), medicalCost, unpaidCost, signCompleted, paidToHospital, paidToPatient);
     }
 
     /** @dev 使用しているERC20トークンの情報を取得
@@ -130,7 +132,7 @@ contract Examination{
         emit SignMedicalCost(true);
     }
 
-    /** @dev 明細登録後の医療費の引き出し
+    /** @dev 医療費の引き出し
       */
     function withDraw() public onlyOwner countUsedETH{
         if(signCompleted == false){
@@ -152,12 +154,18 @@ contract Examination{
         }
 
         // 病院側に送金
-        if(transferBalance > 0) ERC20Token.transfer(hospitalAddress, transferBalance);
-
+        if(transferBalance > 0){
+            paidToHospital += transferBalance;
+            ERC20Token.transfer(hospitalAddress, transferBalance);
+        }
+        
         // 患者側に返金
-        if(unpaidCost == 0) ERC20Token.transfer(patientAddress, tokenBalance-transferBalance);
+        if(unpaidCost == 0){
+            paidToPatient += tokenBalance-transferBalance;
+            ERC20Token.transfer(patientAddress, tokenBalance-transferBalance);
+        }
 
-        emit WithDraw(unpaidCost);
+        emit WithDraw(unpaidCost, paidToHospital, paidToPatient);
     }
 
     /** @dev 簡易的な診療記録の書き込み

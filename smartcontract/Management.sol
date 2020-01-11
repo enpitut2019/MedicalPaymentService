@@ -17,15 +17,8 @@ contract Management{
         uint256 start;
     }
 
-    modifier onlyOwner() {
-        require(owner == msg.sender);
-        _;
-    }
-    
     constructor() public {
         owner = msg.sender;
-        // string memory serverPublicKey =  "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKy8bRAXGLZmStIOYPk2vcN7WMql0YRE\nBgJzvWx+hYxGChEQhkECE1RehvC66Mn5m/sNaRAlJmSFXuOS7nvMnjUCAwEAAQ==\n-----END PUBLIC KEY-----";
-        // setPublicKey(serverPublicKey, msg.sender);
     }
     
     /** @dev 患者から署名付きの患者データを受け取ってスマートコントラクトをデプロイ
@@ -43,18 +36,4 @@ contract Management{
     function getExaminationList() public view returns(ExaminationInfo[] memory){
         return examinationList[msg.sender];
     }
-    
-    /*
-    function setPublicKey(string memory _publicKey, address _hospitaladdress) public onlyOwner{
-        publicKey[_hospitaladdress] = _publicKey;
-    }
-    
-    function getPublicKey(address _hospitaladdress)public view returns(string memory){
-        return publicKey[_hospitaladdress];
-    }
-    
-    function getOwnerPublicKey() public view returns(string memory){
-        return getPublicKey(owner);
-    }
-    */
 }

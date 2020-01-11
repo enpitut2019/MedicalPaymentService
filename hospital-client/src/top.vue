@@ -1,6 +1,6 @@
 <template>
-    <div class="page">
-        <div v-if="isCameraActive" style="text-align: center; width: 100%">
+    <div class="page center">
+        <div v-if="isCameraActive">
             <qrcode-stream class="fullscreen" @decode="inputData">
                 <div v-if="isCameraActive">
                     <div class="com-note">
@@ -12,7 +12,7 @@
                 </div>
             </qrcode-stream>
         </div>
-        <div v-else style="text-align: center; width: 100%">
+        <div v-else>
             <button @click="isCameraActive = true" class="button button--large">
                 QRコードを読み込む
             </button>
@@ -34,7 +34,6 @@ export default {
     },
     methods: {
         inputData(result) {
-            console.log("QR", result);
             // 入力がEthereumのAddressだった場合
             if (this.$management.isAddress(result)) {
                 this.load(result, "0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7");

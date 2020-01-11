@@ -1,222 +1,5 @@
 export let examinationContractABI = [
     {
-        constant: false,
-        inputs: [],
-        name: "withDraw",
-        outputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function"
-    },
-    {
-        constant: true,
-        inputs: [],
-        name: "getMedicalNotes",
-        outputs: [
-            {
-                components: [
-                    {
-                        internalType: "string",
-                        name: "note",
-                        type: "string"
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "timestamp",
-                        type: "uint256"
-                    }
-                ],
-                internalType: "struct Examination.MedicalNote[]",
-                name: "",
-                type: "tuple[]"
-            }
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-    },
-    {
-        constant: true,
-        inputs: [],
-        name: "getPatientInfo",
-        outputs: [
-            {
-                internalType: "address",
-                name: "",
-                type: "address"
-            },
-            {
-                internalType: "string",
-                name: "",
-                type: "string"
-            },
-            {
-                internalType: "string",
-                name: "",
-                type: "string"
-            }
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-    },
-    {
-        constant: true,
-        inputs: [],
-        name: "getPatientAddress",
-        outputs: [
-            {
-                internalType: "address",
-                name: "",
-                type: "address"
-            }
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-    },
-    {
-        constant: false,
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "_medicalCost",
-                type: "uint256"
-            }
-        ],
-        name: "setMedicalCost",
-        outputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function"
-    },
-    {
-        constant: false,
-        inputs: [
-            {
-                internalType: "bytes",
-                name: "_signature",
-                type: "bytes"
-            }
-        ],
-        name: "signMedicalCost",
-        outputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function"
-    },
-    {
-        constant: true,
-        inputs: [],
-        name: "getUsedEther",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256"
-            }
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-    },
-    {
-        constant: false,
-        inputs: [
-            {
-                internalType: "string",
-                name: "_note",
-                type: "string"
-            }
-        ],
-        name: "addMedicalNote",
-        outputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function"
-    },
-    {
-        constant: true,
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256"
-            }
-        ],
-        name: "medicalNotes",
-        outputs: [
-            {
-                internalType: "string",
-                name: "note",
-                type: "string"
-            },
-            {
-                internalType: "uint256",
-                name: "timestamp",
-                type: "uint256"
-            }
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-    },
-    {
-        constant: true,
-        inputs: [],
-        name: "getPaymentStatus",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256"
-            },
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256"
-            },
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256"
-            },
-            {
-                internalType: "bool",
-                name: "",
-                type: "bool"
-            }
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-    },
-    {
-        constant: true,
-        inputs: [],
-        name: "getTokenData",
-        outputs: [
-            {
-                internalType: "string",
-                name: "name",
-                type: "string"
-            },
-            {
-                internalType: "string",
-                name: "symbol",
-                type: "string"
-            },
-            {
-                internalType: "uint8",
-                name: "decimals",
-                type: "uint8"
-            }
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-    },
-    {
         inputs: [
             {
                 internalType: "string",
@@ -247,50 +30,6 @@ export let examinationContractABI = [
         payable: false,
         stateMutability: "nonpayable",
         type: "constructor"
-    },
-    {
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "fallback"
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: false,
-                internalType: "uint256",
-                name: "medicalCost",
-                type: "uint256"
-            }
-        ],
-        name: "SetMedicalCost",
-        type: "event"
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: false,
-                internalType: "bool",
-                name: "signed",
-                type: "bool"
-            }
-        ],
-        name: "SignMedicalCost",
-        type: "event"
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: false,
-                internalType: "uint256",
-                name: "unpaidCost",
-                type: "uint256"
-            }
-        ],
-        name: "WithDraw",
-        type: "event"
     },
     {
         anonymous: false,
@@ -329,29 +68,97 @@ export let examinationContractABI = [
         ],
         name: "EventFailed",
         type: "event"
-    }
-];
-
-export let managementContractABI = [
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "medicalCost",
+                type: "uint256"
+            }
+        ],
+        name: "SetMedicalCost",
+        type: "event"
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
+                internalType: "bool",
+                name: "signed",
+                type: "bool"
+            }
+        ],
+        name: "SignMedicalCost",
+        type: "event"
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "unpaidCost",
+                type: "uint256"
+            },
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "paidToHospital",
+                type: "uint256"
+            },
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "paidToPatient",
+                type: "uint256"
+            }
+        ],
+        name: "WithDraw",
+        type: "event"
+    },
+    {
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "fallback"
+    },
+    {
+        constant: false,
+        inputs: [
+            {
+                internalType: "string",
+                name: "_note",
+                type: "string"
+            }
+        ],
+        name: "addMedicalNote",
+        outputs: [],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function"
+    },
     {
         constant: true,
         inputs: [],
-        name: "getExaminationList",
+        name: "getMedicalNotes",
         outputs: [
             {
                 components: [
                     {
-                        internalType: "contract Examination",
-                        name: "examinationContract",
-                        type: "address"
+                        internalType: "string",
+                        name: "note",
+                        type: "string"
                     },
                     {
                         internalType: "uint256",
-                        name: "start",
+                        name: "timestamp",
                         type: "uint256"
                     }
                 ],
-                internalType: "struct Management.ExaminationInfo[]",
+                internalType: "struct Examination.MedicalNote[]",
                 name: "",
                 type: "tuple[]"
             }
@@ -360,6 +167,194 @@ export let managementContractABI = [
         stateMutability: "view",
         type: "function"
     },
+    {
+        constant: true,
+        inputs: [],
+        name: "getPatientAddress",
+        outputs: [
+            {
+                internalType: "address",
+                name: "",
+                type: "address"
+            }
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: "getPatientInfo",
+        outputs: [
+            {
+                internalType: "address",
+                name: "",
+                type: "address"
+            },
+            {
+                internalType: "string",
+                name: "",
+                type: "string"
+            },
+            {
+                internalType: "string",
+                name: "",
+                type: "string"
+            }
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: "getPaymentStatus",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+            },
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+            },
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+            },
+            {
+                internalType: "bool",
+                name: "",
+                type: "bool"
+            },
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+            },
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+            }
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: "getTokenData",
+        outputs: [
+            {
+                internalType: "string",
+                name: "name",
+                type: "string"
+            },
+            {
+                internalType: "string",
+                name: "symbol",
+                type: "string"
+            },
+            {
+                internalType: "uint8",
+                name: "decimals",
+                type: "uint8"
+            }
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: "getUsedEther",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+            }
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: true,
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+            }
+        ],
+        name: "medicalNotes",
+        outputs: [
+            {
+                internalType: "string",
+                name: "note",
+                type: "string"
+            },
+            {
+                internalType: "uint256",
+                name: "timestamp",
+                type: "uint256"
+            }
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
+    },
+    {
+        constant: false,
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "_medicalCost",
+                type: "uint256"
+            }
+        ],
+        name: "setMedicalCost",
+        outputs: [],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function"
+    },
+    {
+        constant: false,
+        inputs: [
+            {
+                internalType: "bytes",
+                name: "_signature",
+                type: "bytes"
+            }
+        ],
+        name: "signMedicalCost",
+        outputs: [],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function"
+    },
+    {
+        constant: false,
+        inputs: [],
+        name: "withDraw",
+        outputs: [],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function"
+    }
+];
+
+export let managementContractABI = [
     {
         constant: false,
         inputs: [
@@ -432,11 +427,38 @@ export let managementContractABI = [
         ],
         name: "StartExamination",
         type: "event"
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: "getExaminationList",
+        outputs: [
+            {
+                components: [
+                    {
+                        internalType: "contract Examination",
+                        name: "examinationContract",
+                        type: "address"
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "start",
+                        type: "uint256"
+                    }
+                ],
+                internalType: "struct Management.ExaminationInfo[]",
+                name: "",
+                type: "tuple[]"
+            }
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function"
     }
 ];
 
 export let managementContractAddress =
-    "0x9ef74f84955C47aae937D07622d1b1F88343e3fC";
+    "0xC73B3329F0f9754ae4Cf57f0227cE74C9aceda20";
 
 export let erc20tokenABI = [
     {
