@@ -1,36 +1,34 @@
 <template>
-    <div class="page center">
+    <div class="page">
         <div>
             <h2 v-if="!outputData">エレベータピッチ的なことを書く</h2>
-            <h2 v-if="outputData">
-                Show this QR code at the hospital! <br />
-                病院でQRコードを提示してください!
-            </h2>
-            <p v-if="outputData">
-                Do not share this QR code because it contains personal
-                information<br />
-                このQRコードは個人情報を含むため、公開しないでください<br />
-                TODO:英語<br />
-                入力された情報は病院での受付時ブロックチェーン上に格納されます
-                暗号化していますが、 真の情報は入力しないでください
-            </p>
-            <h2 v-if="!outputData"></h2>
+            <ui-alert :dismissible="false" v-if="outputData">
+                Show this QR code at the hospital! /
+                病院でQRコードを提示してください!</ui-alert
+            >
+            <ui-alert type="warning" :dismissible="false" v-if="outputData">
+                Do not share this QR code on the Internet because it contains
+                personal information! /
+                このQRコードは個人情報を含むため、インターネットで公開しないでください!
+            </ui-alert>
         </div>
-        <vue-qrcode
-            v-if="outputData"
-            :value="outputData"
-            :options="{
-                width: winodwWidth * 0.9,
-                color: { dark: '#000000ff', light: '#ffffff' }
-            }"
-        ></vue-qrcode>
-        <button
-            class="button button--large"
-            @click="$router.push({ name: 'input' })"
-        >
-            <p v-if="!outputData">Enter Your Information</p>
-            <p v-if="outputData">Edit Your Information</p>
-        </button>
+        <div class="center">
+            <vue-qrcode
+                v-if="outputData"
+                :value="outputData"
+                :options="{
+                    width: winodwWidth * 0.9,
+                    color: { dark: '#000000ff', light: '#ffffff' }
+                }"
+            ></vue-qrcode>
+            <button
+                class="button button--large"
+                @click="$router.push({ name: 'input' })"
+            >
+                <p v-if="!outputData">Enter Your Information</p>
+                <p v-if="outputData">Edit Your Information</p>
+            </button>
+        </div>
     </div>
 </template>
 

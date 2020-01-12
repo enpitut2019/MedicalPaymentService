@@ -2,7 +2,7 @@
     <div class="page">
         <div class="container">
             <div class="containerTitle">
-                <h1>Patient Information</h1>
+                <h1>患者の情報</h1>
             </div>
             <div class="list">
                 <dl>
