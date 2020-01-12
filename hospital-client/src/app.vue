@@ -10,7 +10,6 @@
             <h1 v-if="this.$route.path === '/'">受 付</h1>
             <h1 v-if="this.$route.path === '/confirmation'">確 認</h1>
             <h1 v-if="this.$route.path === '/detail'">詳 細</h1>
-            <h1 v-if="this.$route.path === '/settlement'">決 済 完 了</h1>
             <h1 v-if="this.$route.path === '/account'">ア カ ウ ン ト</h1>
             <div @click="account">
                 <ui-icon

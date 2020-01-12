@@ -1,5 +1,23 @@
 <template>
     <div class="page">
+        <ui-alert
+            type="success"
+            :dismissible="false"
+            v-show="isPaymentCompleted"
+        >
+            医療機関に{{ amountAddSymbol(paidToHospital) }}支払い、{{
+                amountAddSymbol(paidToPatient)
+            }}返金されました
+        </ui-alert>
+        <ui-alert
+            type="warning"
+            :dismissible="false"
+            v-show="isPaymentCompleted"
+        >
+            返金を受け取るためには任意のウォレットで秘密鍵「{{
+                privateKey
+            }}」をインポートする必要があります
+        </ui-alert>
         <div class="container">
             <div class="containerTitle">
                 <h1>Payment Information / 支払い状況</h1>
@@ -70,6 +88,11 @@
                 ></vue-qrcode>
             </div>
         </div>
+        <div class="center" v-if="isPaymentCompleted">
+            <button class="button button--wide" @click="reset">
+                診療を終了する（インポート完了後）
+            </button>
+        </div>
     </div>
 </template>
 
@@ -87,7 +110,7 @@ export default {
             examination: "",
             contractAddress: "0x0",
             tokenAddress: "0x0",
-            tokenData: { decimals: "" },
+            tokenData: {},
             tokenAddress: "",
             medicalCost: 0,
             deposit: 0,
@@ -97,7 +120,11 @@ export default {
             patientData: "",
             medicalCostSign: "",
             medicalNotes: false,
-            winodwWidth: window.innerWidth
+            winodwWidth: window.innerWidth,
+            isPaymentCompleted: false,
+            paidToHospital: 0,
+            paidToPatient: 0,
+            privateKey: localStorage.getItem("patientPrivateKey")
         };
     },
     created: async function() {
@@ -105,27 +132,6 @@ export default {
         await sleep(1000);
         await this.init();
         this.$emit("loading", false);
-    },
-    watch: {
-        deposit: function() {
-            if (
-                this.unpaidCost == 0 &&
-                this.isSignCompleted == true &&
-                this.deposit == 0
-            ) {
-                this.$emit("loading", false);
-                this.$router.push({
-                    name: "settlement",
-                    params: {
-                        contractAddress: this.contractAddress,
-                        paidToHospital: this.amountAddSymbol(
-                            this.paidToHospital
-                        ),
-                        paidToPatient: this.amountAddSymbol(this.paidToPatient)
-                    }
-                });
-            }
-        }
     },
     methods: {
         async init() {
@@ -139,17 +145,21 @@ export default {
             );
             // イベントの購読
             this.examination.subscribeEvent(this.callBackFunc);
+
+            // トークン情報の取得
+            let promise0 = this.getTokenData();
             // 支払い状況の取得
             let promise1 = this.getPaymentStatus();
             // 患者の情報を取得
             let promise2 = this.getPatientInfo();
-            // トークン情報の取得
-            let promise3 = this.getToeknData();
             // 簡易的な診療記録を取得
-            let promise4 = this.getMedicalNotes();
+            let promise3 = this.getMedicalNotes();
 
             // 全てのプロミスを実行
-            await Promise.all([promise1, promise2, promise3, promise4]);
+            await Promise.all([promise0, promise1, promise2, promise3]);
+
+            // 診察/支払いが終了済みかチェック
+            this.checkPaymentCompleted();
 
             this.$emit("loading", true);
         },
@@ -167,7 +177,7 @@ export default {
             this.paidToHospital = paymentStatus[4];
             this.paidToPatient = paymentStatus[5];
         },
-        async getToeknData() {
+        async getTokenData() {
             this.tokenData = await this.examination.getTokenData();
         },
         async getMedicalNotes() {
@@ -212,6 +222,20 @@ export default {
                 timezone / 60
             );
         },
+        checkPaymentCompleted() {
+            if (
+                this.unpaidCost == 0 &&
+                this.isSignCompleted == true &&
+                this.deposit == 0
+            ) {
+                this.isPaymentCompleted = true;
+                this.$emit("loading", false);
+            }
+        },
+        reset() {
+            localStorage.clear();
+            window.location.href = "/";
+        },
         async callBackFunc(event, value) {
             this.$emit("loading", true);
             // 一瞬で変わると何が起こったか分からないロードを入れる
@@ -225,12 +249,14 @@ export default {
             if (event === "SignMedicalCost") {
                 this.isSignCompleted = value["signed"];
                 this.$emit("loading", true);
+                this.checkPaymentCompleted();
             }
             if (event === "WithDraw") {
                 this.unpaidCost = value["unpaidCost"];
                 this.paidToHospital = value["paidToHospital"];
                 this.paidToPatient = value["paidToPatient"];
                 this.deposit = 0;
+                this.checkPaymentCompleted();
             }
             if (event === "Transfer") {
                 this.deposit = Number(this.deposit) + Number(value["value"]);

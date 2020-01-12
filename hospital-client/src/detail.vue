@@ -12,7 +12,17 @@
                 </div>
             </qrcode-stream>
         </div>
-        <div v-else>
+        <ui-alert
+            type="success"
+            :dismissible="false"
+            v-show="isPaymentCompleted"
+        >
+            患者から{{ amountAddSymbol(paidToHospital) }}受け取り、{{
+                amountAddSymbol(paidToPatient)
+            }}返金しました<br />
+            また、Blockchainの利用手数料として{{ contractFee }}支払いました
+        </ui-alert>
+        <div v-if="!isCameraActive">
             <div class="container">
                 <div class="containerTitle">
                     <h1>ステータス</h1>
@@ -30,20 +40,13 @@
                         <dd v-if="isSignCompleted">
                             {{ amountAddSymbol(unpaidCost) }}
                         </dd>
-                        <dt>発生した手数料</dt>
-                        <dd>
-                            {{ Math.ceil(usedEther * ethPrice) }} JPY ({{
-                                usedEther
-                            }}
-                            ETH)
-                        </dd>
                     </dl>
                 </div>
                 <div class="other" v-if="!isSignCompleted">
                     <ui-textbox
                         icon="attach_money"
                         v-model="inputMedicalCost"
-                        placeholder="医療費（単位USD）"
+                        placeholder="医療費（単位USD/小数点可）"
                     ></ui-textbox>
                 </div>
                 <div class="center" v-if="!isSignCompleted">
@@ -121,12 +124,10 @@ export default {
         return {
             examination: "",
             contractAddress: "0x0",
-            tokenData: { decimals: "", symbol: "" },
+            tokenData: {},
             medicalCost: 0,
             deposit: 0,
             unpaidCost: 0,
-            usedEther: 0,
-            ethPrice: 0,
             isSignCompleted: false,
             patientAddress: "0x0",
             patientData: "",
@@ -135,7 +136,9 @@ export default {
             medicalNotes: false,
             medLog: "",
             paidToHospital: 0,
-            paidToPatient: 0
+            paidToPatient: 0,
+            contractFee: 0,
+            isPaymentCompleted: false
         };
     },
     created: async function() {
@@ -143,27 +146,6 @@ export default {
         await sleep(1000);
         await this.init();
         this.$emit("loading", false);
-    },
-    watch: {
-        deposit: function() {
-            if (
-                this.unpaidCost == 0 &&
-                this.isSignCompleted == true &&
-                this.deposit == 0
-            ) {
-                this.$emit("loading", false);
-                this.$router.push({
-                    name: "settlement",
-                    params: {
-                        contractAddress: this.contractAddress,
-                        paidToHospital: this.amountAddSymbol(
-                            this.paidToHospital
-                        ),
-                        paidToPatient: this.amountAddSymbol(this.paidToPatient)
-                    }
-                });
-            }
-        }
     },
     methods: {
         async init() {
@@ -175,29 +157,27 @@ export default {
                 this.contractAddress,
                 tokenAddress
             );
+            // イベントの購読
+            this.examination.subscribeEvent(this.callBackFunc);
+
+            // トークン情報の取得
+            let promise0 = this.getTokenData();
             // 支払い状況の取得
             let promise1 = this.getPaymentStatus();
             // 患者の情報を取得
             let promise2 = this.getPatientInfo();
-            // トークン情報の取得
-            let promise3 = this.getToeknData();
-            // 手数料（使用したEther量）を取得
-            let promise4 = this.getContractFee();
             // 簡易的な診療記録を取得
-            let promise5 = this.getMedicalNotes();
+            let promise3 = this.getMedicalNotes();
 
             // 全てのプロミスを実行
-            await Promise.all([
-                promise1,
-                promise2,
-                promise3,
-                promise4,
-                promise5
-            ]);
+            await Promise.all([promise0, promise1, promise2, promise3]);
+
+            // 診察/支払いが終了済みかチェック
+            this.checkPaymentCompleted();
+
+            // 診察が終了済みでデポジットがあれば決済
             if (this.isSignCompleted && this.deposit > 0) await this.withDraw();
 
-            // イベントの購読
-            this.examination.subscribeEvent(this.callBackFunc);
             this.$emit("loading", false);
         },
         async getPatientInfo() {
@@ -206,6 +186,7 @@ export default {
             this.patientData = JSON.parse(patientInfo.data);
         },
         async getPaymentStatus() {
+            console.log("getPaymentStatus");
             let paymentStatus = await this.examination.getPaymentStatus();
             this.deposit = paymentStatus[0];
             this.medicalCost = paymentStatus[1];
@@ -214,16 +195,19 @@ export default {
             this.paidToHospital = paymentStatus[4];
             this.paidToPatient = paymentStatus[5];
         },
-        async getToeknData() {
+        async getTokenData() {
             this.tokenData = await this.examination.getTokenData();
         },
         async getContractFee() {
-            this.usedEther = await this.examination.getUsedEther();
+            let usedEther = await this.examination.getUsedEther();
             // CoinGeckoのAPIを使用して現在のEther価格を取得
             let coinGeckoApiResult = await (await fetch(
                 "https://api.coingecko.com/api/v3/coins/markets?vs_currency=jpy&ids=ethereum"
             )).json();
-            this.ethPrice = coinGeckoApiResult[0].current_price;
+            let ethPrice = coinGeckoApiResult[0].current_price;
+            return (
+                usedEther + "ETH (約" + Math.ceil(usedEther * ethPrice) + "JPY)"
+            );
         },
         async setMedicalCost() {
             this.$emit("loading", true);
@@ -240,7 +224,6 @@ export default {
                 this.patientAddress
             );
             if (this.isSignCompleted && this.deposit > 0) await this.withDraw();
-            this.$emit("loading", false);
         },
         async addMedicalNote(note) {
             this.$emit("loading", true);
@@ -251,6 +234,7 @@ export default {
             this.medicalNotes = await this.examination.getMedicalNotes();
         },
         async withDraw() {
+            console.log("withDraw");
             this.$emit("loading", true);
             await this.examination.withDraw();
             this.$emit("loading", false);
@@ -289,6 +273,17 @@ export default {
                 timezone / 60
             );
         },
+        async checkPaymentCompleted() {
+            if (
+                this.unpaidCost == 0 &&
+                this.isSignCompleted == true &&
+                this.deposit == 0
+            ) {
+                this.contractFee = await this.getContractFee();
+                this.isPaymentCompleted = true;
+                this.$emit("loading", false);
+            }
+        },
         async callBackFunc(event, value) {
             this.$emit("loading", false);
             console.log(event);
@@ -300,6 +295,7 @@ export default {
                 this.paidToHospital = value["paidToHospital"];
                 this.paidToPatient = value["paidToPatient"];
                 this.deposit = 0;
+                this.checkPaymentCompleted();
             }
             if (event === "AddMedicalNote") {
                 // イベントが発生してもaddMedicalNoteは終了してない、少し待つ
@@ -311,6 +307,7 @@ export default {
                 this.unpaidCost = this.medicalCost;
                 this.isSignCompleted = value["signed"];
                 this.$emit("loading", true);
+                this.checkPaymentCompleted();
             }
             if (event === "Transfer") {
                 this.$emit("loading", true);

@@ -10,9 +10,6 @@
             <h1 v-if="this.$route.path === '/'">Top / 受付</h1>
             <h1 v-if="this.$route.path === '/input'">Input / 入力</h1>
             <h1 v-if="this.$route.path === '/detail'">Detail / 詳細</h1>
-            <h1 v-if="this.$route.path === '/settlement'">
-                Completed / 決済完了
-            </h1>
         </div>
         <transition mode="out-in" :name="transitionName">
             <router-view @loading="loading"></router-view>
