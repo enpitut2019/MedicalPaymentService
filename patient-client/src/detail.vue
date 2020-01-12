@@ -17,7 +17,7 @@
                     </dd>
                 </dl>
             </div>
-            <div class="center">
+            <div class="center" v-if="!isSignCompleted">
                 <vue-qrcode
                     v-if="medicalCostSign"
                     :value="medicalCostSign"
@@ -181,12 +181,6 @@ export default {
             );
             this.$emit("loading", false);
         },
-        clipboardAlert() {
-            alert("アドレスをコピーできました！" + this.contractAddress);
-        },
-        /** 小数点の位置をずらしてシンボルを付加
-         *  Ex. 123400000000000000000 -> 123.4 SYMBOL
-         */
         amountAddSymbol(value) {
             return (
                 String(

@@ -38,28 +38,12 @@ export default class {
             { filter: { to: this.myContract.options.address } },
             this.processEvent.bind(this)
         );
-        // 過去のイベントを取得
-        this.getPastEvent();
     }
 
     /** Eventを処理してからcallBackFuncに渡す */
     processEvent(error, event) {
         if (error) console.log(error);
         this.callBackFunc(event.event, event.returnValues);
-    }
-
-    /* 過去のイベントを読み込んで処理する */
-    async getPastEvent() {
-        await this.myContract.getPastEvents(
-            "SignMedicalCost",
-            {
-                fromBlock: 0,
-                toBlock: "latest"
-            },
-            (error, event) => {
-                if (event.length) this.processEvent(error, event.pop());
-            }
-        );
     }
 
     /** イベントの購読解除 */

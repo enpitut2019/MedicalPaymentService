@@ -43,7 +43,7 @@
                     <ui-textbox
                         icon="attach_money"
                         v-model="inputMedicalCost"
-                        placeholder="医療費（ドル単位）"
+                        placeholder="医療費（単位USD）"
                     ></ui-textbox>
                 </div>
                 <div class="center" v-if="!isSignCompleted">
@@ -194,6 +194,7 @@ export default {
                 promise4,
                 promise5
             ]);
+            if (this.isSignCompleted && this.deposit > 0) await this.withDraw();
 
             // イベントの購読
             this.examination.subscribeEvent(this.callBackFunc);
@@ -238,7 +239,7 @@ export default {
                 result,
                 this.patientAddress
             );
-            if (this.isSignCompleted) await this.withDraw();
+            if (this.isSignCompleted && this.deposit > 0) await this.withDraw();
             this.$emit("loading", false);
         },
         async addMedicalNote(note) {
@@ -247,8 +248,7 @@ export default {
             this.$emit("loading", false);
         },
         async getMedicalNotes() {
-            let n = await this.examination.getMedicalNotes();
-            this.medicalNotes = n.slice().reverse();
+            this.medicalNotes = await this.examination.getMedicalNotes();
         },
         async withDraw() {
             this.$emit("loading", true);
