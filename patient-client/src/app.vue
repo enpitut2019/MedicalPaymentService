@@ -4,7 +4,7 @@
             <div
                 class="backbutton"
                 @click="back"
-                v-if="this.$route.path !== '/'"
+                v-if="this.$route.path === '/input'"
             ></div>
             <h1 v-if="this.$route.path === '/'">Top / 受付</h1>
             <h1 v-if="this.$route.path === '/input'">Input / 入力</h1>

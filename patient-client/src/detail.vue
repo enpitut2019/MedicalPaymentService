@@ -18,6 +18,11 @@
                 </dl>
             </div>
             <div class="center">
+                <vue-qrcode
+                    v-if="medicalCostSign"
+                    :value="medicalCostSign"
+                    :options="{ width: winodwWidth * 0.8 }"
+                ></vue-qrcode>
                 <button class="button button--wide" @click="generateSignQRCode">
                     Agree to Medical Cost / 医療費に同意
                 </button>
@@ -65,18 +70,6 @@
                 ></vue-qrcode>
             </div>
         </div>
-        <ui-modal ref="QRCodeModal" transition="scale-up">
-            <div slot="header">
-                <b>Show QRCode to Hospital</b>
-            </div>
-            <div class="popupQrCode">
-                <vue-qrcode
-                    v-if="medicalCostSign"
-                    :value="medicalCostSign"
-                    :options="{ width: winodwWidth * 0.5 }"
-                ></vue-qrcode>
-            </div>
-        </ui-modal>
     </div>
 </template>
 
@@ -180,11 +173,13 @@ export default {
         async getMedicalNotes() {
             this.medicalNotes = await this.examination.getMedicalNotes();
         },
-        generateSignQRCode() {
+        async generateSignQRCode() {
+            this.$emit("loading", true);
+            await sleep(100);
             this.medicalCostSign = this.$management.signMessage(
                 String(this.medicalCost)
             );
-            this.openModal("QRCodeModal");
+            this.$emit("loading", false);
         },
         clipboardAlert() {
             alert("アドレスをコピーできました！" + this.contractAddress);
@@ -252,15 +247,6 @@ export default {
                 // TODO:getMedicalNotesを呼ばずにeventの引数を復号して表示するようにする
                 await this.getMedicalNotes();
             }
-        },
-        back() {
-            this.$router.push("/");
-        },
-        openModal(ref) {
-            this.$refs[ref].open();
-        },
-        closeModal(ref) {
-            this.$refs[ref].close();
         }
     },
     destroyed: function() {

@@ -19,6 +19,10 @@
                 </div>
                 <div class="list">
                     <dl>
+                        <dt>専用アドレス</dt>
+                        <dd>{{ contractAddress }}</dd>
+                        <dt>入金済み金額</dt>
+                        <dd>{{ amountAddSymbol(deposit) }}</dd>
                         <dt>請求金額</dt>
                         <dd>{{ amountAddSymbol(medicalCost) }}</dd>
                         <dt>未収金金額</dt>
@@ -35,38 +39,58 @@
                         </dd>
                     </dl>
                 </div>
-                <div style="text-align: center">
-                    <button
-                        class="button button--normal"
-                        @click="openModal('inputModal')"
-                        v-if="!isSignCompleted"
-                    >
-                        医療費を入力
+                <div class="other" v-if="!isSignCompleted">
+                    <ui-textbox
+                        icon="attach_money"
+                        v-model="inputMedicalCost"
+                        placeholder="医療費（ドル単位）"
+                    ></ui-textbox>
+                </div>
+                <div class="center" v-if="!isSignCompleted">
+                    <button class="button button--wide" @click="setMedicalCost">
+                        医療費を登録
                     </button>
+                    <div class="blank"></div>
                     <button
-                        class="button button--normal"
+                        class="button button--wide"
                         @click="isCameraActive = true"
-                        v-if="!isSignCompleted"
                     >
-                        請求金額を確定
+                        決済
                     </button>
                 </div>
             </div>
             <div class="container">
                 <div class="containerTitle">
-                    <h1>デポジット情報</h1>
+                    <h1>簡易的な診療記録</h1>
                 </div>
                 <div class="list">
                     <dl>
-                        <span>
-                            <dt>デポジット先アドレス</dt>
-                            <dd>{{ contractAddress }}</dd>
-                        </span>
-                        <span>
-                            <dt>デポジット金額</dt>
-                            <dd>{{ amountAddSymbol(deposit) }}</dd>
+                        <span
+                            v-for="(item, index) in medicalNotes"
+                            :key="index"
+                        >
+                            <dt>
+                                {{ formatDate(item.timestamp * 1000) }}
+                            </dt>
+                            <dd>{{ item.note }}</dd>
                         </span>
                     </dl>
+                </div>
+                <ui-textbox
+                    icon="edit"
+                    placeholder="診療記録"
+                    v-model="medLog"
+                ></ui-textbox>
+                <div class="center">
+                    <button
+                        class="button button--wide"
+                        @click="
+                            addMedicalNote(medLog);
+                            medLog = '';
+                        "
+                    >
+                        記録する
+                    </button>
                 </div>
             </div>
             <div class="container">
@@ -85,50 +109,6 @@
                     </dl>
                 </div>
             </div>
-            <div class="container">
-                <div class="containerTitle">
-                    <h1>簡易的な診療記録</h1>
-                    <div style="margin-top: 10px">
-                        <ui-textbox
-                            icon="edit"
-                            floating-label
-                            label="診療記録"
-                            v-model="medLog"
-                        ></ui-textbox>
-                    </div>
-                    <div style=" text-align: center; margin-top: 5px">
-                        <button
-                            class="button button--normal"
-                            @click="addMedicalNote(medLog)"
-                        >
-                            記録する
-                        </button>
-                    </div>
-                </div>
-                <div class="list">
-                    <dl>
-                        <span
-                            v-for="(item, index) in medicalNotes"
-                            :key="index"
-                        >
-                            <dt>
-                                {{ formatDate(item.timestamp * 1000) }}
-                            </dt>
-                            <dd>{{ item.note }}</dd>
-                        </span>
-                    </dl>
-                </div>
-            </div>
-            <ui-modal ref="inputModal" transition="scale-up">
-                <div slot="header">
-                    <b>医療費の入力</b>
-                </div>
-                <ui-textbox
-                    v-model="inputMedicalCost"
-                    label="Medical Cost"
-                ></ui-textbox>
-                <ui-button @click="setMedicalCost">決定</ui-button>
-            </ui-modal>
         </div>
     </div>
 </template>
@@ -245,9 +225,9 @@ export default {
             this.ethPrice = coinGeckoApiResult[0].current_price;
         },
         async setMedicalCost() {
-            this.closeModal("inputModal");
             this.$emit("loading", true);
             await this.examination.setMedicalCost(this.inputMedicalCost);
+            this.inputMedicalCost = "";
             this.$emit("loading", false);
         },
         async signMedicalCost(result) {
@@ -339,12 +319,6 @@ export default {
                 if (this.isSignCompleted) await this.withDraw();
                 this.$emit("loading", false);
             }
-        },
-        openModal(ref) {
-            this.$refs[ref].open();
-        },
-        closeModal(ref) {
-            this.$refs[ref].close();
         }
     },
     destroyed: function() {

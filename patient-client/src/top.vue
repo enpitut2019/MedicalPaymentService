@@ -1,6 +1,7 @@
 <template>
     <div class="page center">
         <div>
+            <h2 v-if="!outputData">エレベータピッチ的なことを書く</h2>
             <h2 v-if="outputData">
                 Show this QR code at the hospital! <br />
                 病院でQRコードを提示してください!
