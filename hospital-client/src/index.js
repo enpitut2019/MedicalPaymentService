@@ -10,6 +10,7 @@ import Top from "./top.vue";
 import Detail from "./detail.vue";
 import Confirmation from "./confirmation.vue";
 import Settlement from "./settlement.vue";
+import Account from "./account.vue";
 
 // CSSリセット
 import "../node_modules/reset.css";
@@ -34,7 +35,8 @@ const router = new VueRouter({
             name: "confirmation",
             component: Confirmation
         },
-        { path: "/settlement", name: "settlement", component: Settlement }
+        { path: "/settlement", name: "settlement", component: Settlement },
+        { path: "/account", name: "account", component: Account }
     ]
 });
 

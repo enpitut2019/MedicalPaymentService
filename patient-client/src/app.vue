@@ -1,11 +1,12 @@
 <template>
     <div class="app">
         <div class="header">
-            <div
-                class="backbutton"
-                @click="back"
-                v-if="this.$route.path === '/input'"
-            ></div>
+            <div @click="back">
+                <ui-icon
+                    icon="keyboard_arrow_left"
+                    v-if="this.$route.path === '/input'"
+                ></ui-icon>
+            </div>
             <h1 v-if="this.$route.path === '/'">Top / 受付</h1>
             <h1 v-if="this.$route.path === '/input'">Input / 入力</h1>
             <h1 v-if="this.$route.path === '/detail'">Detail / 詳細</h1>
@@ -17,9 +18,6 @@
             <router-view @loading="loading"></router-view>
         </transition>
         <loading v-if="isLoading" :height="300" :width="300" />
-        <button class="button button--normal" @click="testMethod">
-            テスト用：秘密鍵リセット
-        </button>
     </div>
 </template>
 
@@ -41,10 +39,6 @@ export default {
         },
         back() {
             this.$router.push("/");
-        },
-        testMethod() {
-            localStorage.clear();
-            window.location.href = "/";
         }
     },
     watch: {

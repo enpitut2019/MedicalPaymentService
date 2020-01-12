@@ -135,7 +135,6 @@ dd {
 ============================================*/
 .header {
     display: table;
-    grid-template-columns: 1fr 1fr 1fr;
     background: -moz-linear-gradient(top, #19769f, #35d8a6);
     background: -webkit-linear-gradient(top, #19769f, #35d8a6);
     background: linear-gradient(to left, #19769f, #35d8a6);
@@ -154,18 +153,12 @@ dd {
 /*============================================
 バックボタン
 ============================================*/
-.backbutton {
+.keyboard_arrow_left {
     position: absolute;
-    margin-top: 1.5rem;
-    margin-left: 1.5rem;
-    width: 1.41rem;
-    height: 1.41rem;
-    border: 5px solid;
-    border-color: transparent transparent white white;
-    transform: rotate(45deg);
     cursor: pointer;
+    font-size: 75px;
+    color: white;
 }
-
 /*============================================
 アニメーション
 ============================================*/

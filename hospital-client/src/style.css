@@ -255,18 +255,22 @@ QRコードリーダー
 /*============================================
 バックボタン
 ============================================*/
-.backbutton {
+.keyboard_arrow_left {
     position: absolute;
-    margin-top: 1.5rem;
-    margin-left: 1.5rem;
-    width: 1.41rem;
-    height: 1.41rem;
-    border: 5px solid;
-    border-color: transparent transparent white white;
-    transform: rotate(45deg);
+    left: 0px;
     cursor: pointer;
+    font-size: 75px;
+    color: white;
 }
 
+.account_circle {
+    position: absolute;
+    right: 0px;
+    cursor: pointer;
+    font-size: 55px;
+    margin: 10px;
+    color: white;
+}
 /*============================================
 アニメーション
 ============================================*/

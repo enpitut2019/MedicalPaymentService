@@ -13,6 +13,11 @@
                 任意のウォレットで秘密鍵
                 {{ privateKey }} をインポートしてください
             </p>
+            <div class="center">
+                <button class="button button--wide" @click="reset">
+                    診療を終了する（インポート完了後）
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -33,6 +38,11 @@ export default {
         this.paidToPatient = this.$route.params.paidToPatient;
         this.privateKey = localStorage.getItem("patientPrivateKey");
     },
-    methods: {}
+    methods: {
+        reset() {
+            localStorage.clear();
+            window.location.href = "/";
+        }
+    }
 };
 </script>
