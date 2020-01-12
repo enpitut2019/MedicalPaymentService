@@ -17,6 +17,9 @@
             <router-view @loading="loading"></router-view>
         </transition>
         <loading v-if="isLoading" :height="300" :width="300" />
+        <button class="button button--normal" @click="testMethod">
+            テスト用：秘密鍵リセット
+        </button>
     </div>
 </template>
 
@@ -38,6 +41,10 @@ export default {
         },
         back() {
             this.$router.push("/");
+        },
+        testMethod() {
+            localStorage.clear();
+            window.location.href = "/";
         }
     },
     watch: {

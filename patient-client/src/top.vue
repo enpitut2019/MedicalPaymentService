@@ -1,9 +1,11 @@
 <template>
     <div class="page center">
         <div>
-            <p v-if="outputData">Please show a hospital this QR code!</p>
-            <p v-if="!outputData">QR code will be displayed here!</p>
-            <p v-if="!outputData">Please register your information!</p>
+            <h2 v-if="outputData">
+                Please show the QR code at the hospital! /
+                病院でQRコードを提示してください!
+            </h2>
+            <h2 v-if="!outputData">Please Enter your information!</h2>
         </div>
         <vue-qrcode
             v-if="outputData"
@@ -17,7 +19,7 @@
             class="button button--large"
             @click="$router.push({ name: 'input' })"
         >
-            <p v-if="!outputData">Register Your Information</p>
+            <p v-if="!outputData">Enter Your Information</p>
             <p v-if="outputData">Edit Your Information</p>
         </button>
     </div>

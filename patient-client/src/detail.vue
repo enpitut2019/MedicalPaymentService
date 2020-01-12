@@ -1,8 +1,5 @@
 <template>
     <div class="page">
-        <button class="button button--normal" @click="testMethod">
-            テスト用：秘密鍵リセット
-        </button>
         <div class="container">
             <div class="containerTitle">
                 <h1>Contract Information</h1>
@@ -289,10 +286,6 @@ export default {
         },
         closeModal(ref) {
             this.$refs[ref].close();
-        },
-        testMethod() {
-            localStorage.clear();
-            window.location.href = "/";
         }
     },
     destroyed: function() {

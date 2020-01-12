@@ -4,17 +4,23 @@
     box-sizing: border-box;
 }
 
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
 html {
     background-color: #ffffff;
     font-size: 16px;
+    font-family: "Noto Sans JP", sans-serif;
     line-height: 1.5rem;
 }
 
 h1 {
     font-size: 2rem;
-    font-family: fot-udkakugo-large-pr6n, sans-serif;
+    font-family: fot-udkakugo-large-pr6n;
     font-weight: 600;
     font-style: normal;
+}
+
+h2 {
+    margin-bottom: 10px;
 }
 
 .page {
@@ -41,7 +47,6 @@ h1 {
 }
 
 .button--large {
-    margin-top: 200px;
     font-size: 24pt;
     padding-top: 40px;
     padding-bottom: 40px;
@@ -65,12 +70,6 @@ h1 {
     border-bottom: solid 2px #19769f; /*少し濃い目の色に*/
     width: 25%;
 }
-
-.button:active {
-    border-bottom: solid 2px #35d8a6;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-}
-
 /*============================================
 カードっぽい奴
 ============================================*/
@@ -196,4 +195,12 @@ QRコード
 .slide-right-leave-to {
     opacity: 0;
     transform: translateX(100%);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
 }

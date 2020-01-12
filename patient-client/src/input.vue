@@ -1,41 +1,47 @@
 <template>
     <div class="page">
-        <ui-textbox v-model="patientData['Name']" label="Name"></ui-textbox>
-        <ui-textbox v-model="patientData['age']" label="Age"></ui-textbox>
-        <ui-radio-group
-            name="bloodTransfusion"
-            :options="options.yesOrNo"
-            v-model="patientData['Transfusion']"
-            >No blood transfusion</ui-radio-group
-        >
-        <ui-textbox
-            v-model="patientData['phone']"
-            label="Phone Number"
-        ></ui-textbox>
-        <ui-textbox
-            v-model="patientData['other']"
-            label="実際には他の情報も"
-        ></ui-textbox>
-        <div class="center">
-            <button class="button button--normal" @click="perocessData">
-                Save/保存
-            </button>
-        </div>
+        <h2>Enter your information! / あなたの情報を入力してください</h2>
+        <h2>Filling out is optional / 記入は任意です</h2>
+        <transition name="fade" mode="out-in">
+            <div v-if="page === 1" key="1">
+                <ui-textbox
+                    v-model="patientData['name']"
+                    label="Name / 氏名"
+                ></ui-textbox>
+                <ui-textbox
+                    v-model="patientData['age']"
+                    label="Age / 年齢"
+                ></ui-textbox>
+                <ui-textbox
+                    v-model="patientData['gender']"
+                    label="Gender / 性別"
+                ></ui-textbox>
+                <ui-textbox
+                    v-model="patientData['phone']"
+                    label="Phone Numbe / 電話番号"
+                ></ui-textbox>
+                <div class="center">
+                    <button class="button button--normal" @click="page = 2">
+                        Next / 次へ
+                    </button>
+                </div>
+            </div>
+            <div v-if="page === 2" key="2">
+                <ui-textbox
+                    v-model="patientData['religion']"
+                    label="Religion / 宗教"
+                ></ui-textbox>
+                <div class="center">
+                    <button class="button button--normal" @click="perocessData">
+                        Save / 保存
+                    </button>
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 
 <script>
-const yesOrNo = [
-    {
-        label: "YES",
-        value: "yes"
-    },
-    {
-        label: "NO",
-        value: "no"
-    }
-];
-
 import VueQrcode from "@chenfengyuan/vue-qrcode";
 export default {
     components: {
@@ -43,10 +49,8 @@ export default {
     },
     data() {
         return {
-            patientData: { Name: "", Age: "", Transfusion: "no" },
-            options: {
-                yesOrNo
-            }
+            patientData: {},
+            page: 1
         };
     },
     methods: {
