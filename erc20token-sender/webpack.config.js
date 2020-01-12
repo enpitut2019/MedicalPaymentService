@@ -1,7 +1,6 @@
 const { VueLoaderPlugin } = require("vue-loader");
 
 module.exports = {
-    mode: "development",
     entry: "./src/index.js",
     output: {
         path: `${__dirname}/dist`,
@@ -22,7 +21,7 @@ module.exports = {
     devServer: {
         open: true,
         port: 8083,
-        host: '0.0.0.0',
+        host: "0.0.0.0",
         disableHostCheck: true,
         contentBase: `${__dirname}/dist`,
         historyApiFallback: true,

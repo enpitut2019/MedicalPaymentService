@@ -18,9 +18,11 @@
             color="black"
             v-show="isLoading"
         ></ui-progress-linear>
+
         <div class="box">
             <h2>{{ tokenBalance + " " + tokenName }}</h2>
             <div class="innerBox" v-if="!isLoading">
+                <qrcode-stream @decode="inputData"> </qrcode-stream>
                 <ui-textbox
                     v-model="toAddress"
                     label="送金先アドレス"
@@ -102,6 +104,9 @@ export default {
                 this.showAlert1 = true;
                 this.isLoading = false;
             }
+        },
+        inputData(result) {
+            this.toAddress = result;
         }
     }
 };
