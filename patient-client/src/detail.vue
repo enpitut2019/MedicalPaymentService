@@ -2,10 +2,12 @@
     <div class="page">
         <div class="container">
             <div class="containerTitle">
-                <h1>Contract Information</h1>
+                <h1>Payment Information / 支払い状況</h1>
             </div>
             <div class="list">
                 <dl>
+                    <dt>Deposit Value</dt>
+                    <dd>{{ amountAddSymbol(deposit) }}</dd>
                     <dt>Medical Cost</dt>
                     <dd>{{ amountAddSymbol(medicalCost) }}</dd>
                     <dt>Unpaid Medical Cost</dt>
@@ -15,37 +17,30 @@
                     </dd>
                 </dl>
             </div>
-            <button class="button button--normal" @click="generateSignQRCode">
-                Agree to Medical Cost
-            </button>
+            <div class="center">
+                <button class="button button--wide" @click="generateSignQRCode">
+                    Agree to Medical Cost / 医療費に同意
+                </button>
+            </div>
         </div>
         <div class="container">
             <div class="containerTitle">
-                <h1>Deposit Info</h1>
+                <h1>Simple medical records / 簡易的な診療記録</h1>
             </div>
             <div class="list">
                 <dl>
-                    <span>
-                        <dt>Remittance Address</dt>
-                        <dd>
-                            <button
-                                @click="clipboardAlert"
-                                class="button button--normal button--copy"
-                                data-clipboard-action="copy"
-                                data-clipboard-target="#contractAddress"
-                            >
-                                copy address
-                            </button>
-                        </dd>
-                        <dt>Deposit Value</dt>
-                        <dd>{{ amountAddSymbol(deposit) }}</dd>
+                    <span v-for="(item, index) in medicalNotes" :key="index">
+                        <dt>
+                            {{ formatDate(item.timestamp * 1000) }}
+                        </dt>
+                        <dd>{{ item.note }}</dd>
                     </span>
                 </dl>
             </div>
         </div>
         <div class="container">
             <div class="containerTitle">
-                <h1>Patient Information</h1>
+                <h1>Your Information on Blockchain / あなたの情報</h1>
             </div>
             <div class="list">
                 <dl>
@@ -61,17 +56,13 @@
         </div>
         <div class="container">
             <div class="containerTitle">
-                <h1>簡易的な診療記録</h1>
+                <h1>Your Examination Address / 発行された専用アドレス</h1>
             </div>
-            <div class="list">
-                <dl>
-                    <span v-for="(item, index) in medicalNotes" :key="index">
-                        <dt>
-                            {{ formatDate(item.timestamp * 1000) }}
-                        </dt>
-                        <dd>{{ item.note }}</dd>
-                    </span>
-                </dl>
+            <div class="center">
+                <vue-qrcode
+                    :value="contractAddress"
+                    :options="{ width: winodwWidth * 0.5 }"
+                ></vue-qrcode>
             </div>
         </div>
         <ui-modal ref="QRCodeModal" transition="scale-up">
@@ -82,16 +73,10 @@
                 <vue-qrcode
                     v-if="medicalCostSign"
                     :value="medicalCostSign"
-                    :options="{ width: 500 }"
+                    :options="{ width: winodwWidth * 0.5 }"
                 ></vue-qrcode>
             </div>
         </ui-modal>
-        <div v-show="false" id="contractAddress">{{ contractAddress }}</div>
-        <h2>受付での再読み込み用QR</h2>
-        <vue-qrcode
-            :value="contractAddress"
-            :options="{ width: 500 }"
-        ></vue-qrcode>
     </div>
 </template>
 
@@ -118,25 +103,15 @@ export default {
             patientAddress: "0x0",
             patientData: "",
             medicalCostSign: "",
-            medicalNotes: false
+            medicalNotes: false,
+            winodwWidth: window.innerWidth
         };
-    },
-    beforeCreate: async function() {
-        // clipboard.js の読み込み
-        let recaptchaScript = document.createElement("script");
-        recaptchaScript.setAttribute(
-            "src",
-            "https://unpkg.com/clipboard@2/dist/clipboard.min.js"
-        );
-        document.head.appendChild(recaptchaScript);
     },
     created: async function() {
         this.$emit("loading", true);
         await sleep(1000);
         await this.init();
         this.$emit("loading", false);
-        // clipboard.js の初期化
-        new ClipboardJS(".button--copy");
     },
     watch: {
         deposit: function() {

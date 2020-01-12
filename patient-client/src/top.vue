@@ -2,10 +2,18 @@
     <div class="page center">
         <div>
             <h2 v-if="outputData">
-                Please show the QR code at the hospital! /
+                Show this QR code at the hospital! <br />
                 病院でQRコードを提示してください!
             </h2>
-            <h2 v-if="!outputData">Please Enter your information!</h2>
+            <p v-if="outputData">
+                Do not share this QR code because it contains personal
+                information<br />
+                このQRコードは個人情報を含むため、公開しないでください<br />
+                TODO:英語<br />
+                入力された情報は病院での受付時ブロックチェーン上に格納されます
+                暗号化していますが、 真の情報は入力しないでください
+            </p>
+            <h2 v-if="!outputData"></h2>
         </div>
         <vue-qrcode
             v-if="outputData"
@@ -26,17 +34,6 @@
 </template>
 
 <script>
-const yesOrNo = [
-    {
-        label: "YES",
-        value: "yes"
-    },
-    {
-        label: "NO",
-        value: "no"
-    }
-];
-
 import VueQrcode from "@chenfengyuan/vue-qrcode";
 export default {
     components: {
@@ -44,13 +41,7 @@ export default {
     },
     data() {
         return {
-            inputName: "",
-            inputAge: "",
-            inputBloodTransfusion: "",
             outputData: "",
-            options: {
-                yesOrNo
-            },
             winodwWidth: window.innerWidth
         };
     },

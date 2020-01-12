@@ -4,23 +4,30 @@
     box-sizing: border-box;
 }
 
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
 html {
     background-color: #ffffff;
     font-size: 16px;
+    font-family: "Noto Sans JP", sans-serif;
     line-height: 1.5rem;
 }
 
 h1 {
     font-size: 2rem;
-    font-family: fot-udkakugo-large-pr6n, sans-serif;
+    font-family: fot-udkakugo-large-pr6n;
     font-weight: 600;
     font-style: normal;
 }
 
+h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
 .page {
     width: 95%;
-    margin-right: auto;
-    margin-left: auto;
+    padding-top: 10px;
+    margin: 0 auto;
 }
 
 .center {
@@ -36,7 +43,6 @@ h1 {
     font-weight: 600;
     font-style: normal;
     border-radius: 8px; /*角の丸み*/
-    margin-bottom: 20px;
 }
 
 .button--large {
