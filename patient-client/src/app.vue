@@ -73,13 +73,14 @@ export default {
             title3: "Detail"
         },
         ja: {
-            title1: "トップ",
-            title2: "入力",
+            title1: "ト ッ プ",
+            title2: "入 力",
             title3: "詳 細"
         },
         ru: {
             title1: "топ",
-            title2: "вход"
+            title2: "вход",
+            title3: "Подробнее"
         }
     }
 };

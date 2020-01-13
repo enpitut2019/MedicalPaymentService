@@ -5,30 +5,31 @@
             :dismissible="false"
             v-show="isPaymentCompleted"
         >
-            医療機関に{{ amountAddSymbol(paidToHospital) }}支払い、{{
-                amountAddSymbol(paidToPatient)
-            }}返金されました
+            <!-- パラメータ入れられなかったので1文を分割 -->
+            {{ t("success_info_part1") }}{{ amountAddSymbol(paidToHospital)
+            }}{{ t("success_info_part2") }}{{ amountAddSymbol(paidToPatient)
+            }}{{ t("success_info_part3") }}
         </ui-alert>
         <ui-alert
             type="warning"
             :dismissible="false"
             v-show="isPaymentCompleted"
         >
-            返金を受け取るためには任意のウォレットで秘密鍵「{{
-                privateKey
-            }}」をインポートする必要があります
+            <!-- パラメータ入れられなかったので1文を分割 -->
+            {{ t("privateKey_info_part1") }}{{ privateKey
+            }}{{ t("privateKey_info_part2") }}
         </ui-alert>
         <div class="container">
             <div class="containerTitle">
-                <h1>Payment Information / 支払い状況</h1>
+                <h1>{{ t("payment_information") }}</h1>
             </div>
             <div class="list">
                 <dl>
-                    <dt>Deposit Value</dt>
+                    <dt>{{ t("deposit_value") }}</dt>
                     <dd>{{ amountAddSymbol(deposit) }}</dd>
-                    <dt>Medical Cost</dt>
+                    <dt>{{ t("medical_cost") }}</dt>
                     <dd>{{ amountAddSymbol(medicalCost) }}</dd>
-                    <dt>Unpaid Medical Cost</dt>
+                    <dt>{{ t("unpaid_medical_cost") }}</dt>
                     <dd v-if="!isSignCompleted">---</dd>
                     <dd v-if="isSignCompleted">
                         {{ amountAddSymbol(unpaidCost) }}
@@ -42,13 +43,13 @@
                     :options="{ width: winodwWidth * 0.8 }"
                 ></vue-qrcode>
                 <button class="button button--wide" @click="generateSignQRCode">
-                    Agree to Medical Cost / 医療費に同意
+                    {{ t("agree") }}
                 </button>
             </div>
         </div>
         <div class="container">
             <div class="containerTitle">
-                <h1>Simple medical records / 簡易的な診療記録</h1>
+                <h1>{{ t("medical_records") }}</h1>
             </div>
             <div class="list">
                 <dl>
@@ -63,23 +64,7 @@
         </div>
         <div class="container">
             <div class="containerTitle">
-                <h1>Your Information on Blockchain / あなたの情報</h1>
-            </div>
-            <div class="list">
-                <dl>
-                    <span
-                        v-for="(value, name, index) in patientData"
-                        :key="index"
-                    >
-                        <dt>{{ name }}</dt>
-                        <dd>{{ value }}</dd>
-                    </span>
-                </dl>
-            </div>
-        </div>
-        <div class="container">
-            <div class="containerTitle">
-                <h1>Your Examination Address / 発行された専用アドレス</h1>
+                <h1>{{ t("examination_address") }}</h1>
             </div>
             <div class="center">
                 <vue-qrcode
@@ -90,7 +75,7 @@
         </div>
         <div class="center" v-if="isPaymentCompleted">
             <button class="button button--wide" @click="reset">
-                診療を終了する（インポート完了後）
+                {{ t("exit_button_text") }}
             </button>
         </div>
     </div>
@@ -109,15 +94,11 @@ export default {
         return {
             examination: "",
             contractAddress: "0x0",
-            tokenAddress: "0x0",
             tokenData: {},
-            tokenAddress: "",
             medicalCost: 0,
             deposit: 0,
             unpaidCost: 0,
             isSignCompleted: false,
-            patientAddress: "0x0",
-            patientData: "",
             medicalCostSign: "",
             medicalNotes: false,
             winodwWidth: window.innerWidth,
@@ -126,6 +107,56 @@ export default {
             paidToPatient: 0,
             privateKey: localStorage.getItem("patientPrivateKey")
         };
+    },
+    locales: {
+        en: {
+            success_info_part1: "Paid ",
+            success_info_part2: " to medical institution and ",
+            success_info_part3: " refunded!",
+            privateKey_info_part1:
+                'In order to receive the refund, you need to import the private key "',
+            privateKey_info_part2: '" into any wallet.',
+            payment_information: "Payment Information",
+            deposit_value: "Depost Value",
+            medical_cost: "Medical Cost",
+            unpaid_medical_cost: "Unpaid Medical Cost",
+            agree: "Agree to Medical Cost",
+            medical_records: "Simple Medical Records",
+            examination_address: "Dedicated Transferring Address",
+            exit_button_text: "Completed (after privatekey import)"
+        },
+        ja: {
+            success_info_part1: "医療機関に",
+            success_info_part2: "支払い、",
+            success_info_part3: "返金されました",
+            privateKey_info_part1:
+                "返金を受け取るためには任意のウォレットで秘密鍵「",
+            privateKey_info_part2: "」をインポートする必要があります",
+            payment_information: "支払い情報",
+            deposit_value: "入金済み金額",
+            medical_cost: "医療費",
+            unpaid_medical_cost: "未払い額",
+            agree: "医療費に同意",
+            medical_records: "簡易的な診療記録",
+            examination_address: "専用の送金先アドレス",
+            exit_button_text: "完了（秘密鍵のインポート後）"
+        },
+        ru: {
+            success_info_part1: "выплачено ",
+            success_info_part2: " в медицинское учреждение, ",
+            success_info_part3: " возврат",
+            privateKey_info_part1:
+                'Чтобы получить возмещение, вам необходимо импортировать закрытый ключ "',
+            privateKey_info_part2: "с любым кошельком.",
+            payment_information: "Информация об оплате",
+            deposit_value: "Сумма депозита",
+            medical_cost: "Медицинские расходы",
+            unpaid_medical_cost: "Сумма к оплате",
+            agree: "Я согласен с медицинскими расходами",
+            medical_records: "Простые медицинские записи",
+            examination_address: "Выделенный Адрес Передачи",
+            exit_button_text: "Завершено (после импорта закрытого ключа)"
+        }
     },
     created: async function() {
         this.$emit("loading", true);
@@ -137,11 +168,11 @@ export default {
         async init() {
             // コントラクトの読み込み
             this.contractAddress = this.$route.params.contractAddress;
-            this.tokenAddress = this.$route.params.tokenAddress;
+            let tokenAddress = this.$route.params.tokenAddress;
             this.examination = new Examination(
                 this.$management,
                 this.contractAddress,
-                this.tokenAddress
+                tokenAddress
             );
             // イベントの購読
             this.examination.subscribeEvent(this.callBackFunc);
@@ -150,23 +181,16 @@ export default {
             let promise0 = this.getTokenData();
             // 支払い状況の取得
             let promise1 = this.getPaymentStatus();
-            // 患者の情報を取得
-            let promise2 = this.getPatientInfo();
             // 簡易的な診療記録を取得
-            let promise3 = this.getMedicalNotes();
+            let promise2 = this.getMedicalNotes();
 
             // 全てのプロミスを実行
-            await Promise.all([promise0, promise1, promise2, promise3]);
+            await Promise.all([promise0, promise1, promise2]);
 
             // 診察/支払いが終了済みかチェック
             this.checkPaymentCompleted();
 
             this.$emit("loading", true);
-        },
-        async getPatientInfo() {
-            let patientInfo = await this.examination.getPatientInfo();
-            this.patientAddress = patientInfo.address;
-            this.patientData = JSON.parse(patientInfo.data);
         },
         async getPaymentStatus() {
             let paymentStatus = await this.examination.getPaymentStatus();

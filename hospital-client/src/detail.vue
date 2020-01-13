@@ -33,9 +33,9 @@
                         <dd>{{ contractAddress }}</dd>
                         <dt>入金済み金額</dt>
                         <dd>{{ amountAddSymbol(deposit) }}</dd>
-                        <dt>請求金額</dt>
+                        <dt>医療費</dt>
                         <dd>{{ amountAddSymbol(medicalCost) }}</dd>
-                        <dt>未収金金額</dt>
+                        <dt>未払い額</dt>
                         <dd v-if="!isSignCompleted">---</dd>
                         <dd v-if="isSignCompleted">
                             {{ amountAddSymbol(unpaidCost) }}
