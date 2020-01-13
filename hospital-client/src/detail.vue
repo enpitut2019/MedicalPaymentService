@@ -1,5 +1,18 @@
 <template>
     <div class="page">
+        <ui-alert
+            type="success"
+            :dismissible="false"
+            v-show="isPaymentCompleted"
+        >
+            患者から{{ amountAddSymbol(paidToHospital) }}受け取り、{{
+                amountAddSymbol(paidToPatient)
+            }}返金しました<br />
+            また、Blockchainの利用手数料として{{ contractFee }}支払いました
+        </ui-alert>
+        <ui-alert type="error" v-show="signError" @dismiss="signError = false">
+            読み取るQRコードが違います
+        </ui-alert>
         <div v-if="isCameraActive" style="text-align: center; width: 100%">
             <qrcode-stream class="fullscreen" @decode="signMedicalCost">
                 <div v-if="isCameraActive">
@@ -12,16 +25,6 @@
                 </div>
             </qrcode-stream>
         </div>
-        <ui-alert
-            type="success"
-            :dismissible="false"
-            v-show="isPaymentCompleted"
-        >
-            患者から{{ amountAddSymbol(paidToHospital) }}受け取り、{{
-                amountAddSymbol(paidToPatient)
-            }}返金しました<br />
-            また、Blockchainの利用手数料として{{ contractFee }}支払いました
-        </ui-alert>
         <div v-if="!isCameraActive">
             <div class="container">
                 <div class="containerTitle">
@@ -141,7 +144,8 @@ export default {
             paidToHospital: 0,
             paidToPatient: 0,
             contractFee: 0,
-            isPaymentCompleted: false
+            isPaymentCompleted: false,
+            signError: false
         };
     },
     created: async function() {
@@ -219,6 +223,12 @@ export default {
         },
         async signMedicalCost(result) {
             this.isCameraActive = false;
+            // アドレスのQRコードを読み込んだ場合は無視
+            if (this.$management.isAddress(result)) {
+                this.signError = true;
+                return;
+            }
+            signError = false;
             this.$emit("loading", true);
             await this.examination.signMedicalCost(
                 this.medicalCost,

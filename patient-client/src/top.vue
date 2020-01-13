@@ -1,7 +1,10 @@
 <template>
     <div class="page">
         <div>
-            <ui-alert>
+            <ui-alert
+                @dismiss="showDemoMessage = false"
+                v-show="showDemoMessage"
+            >
                 デモ用メッセージ：右上のボタンから言語の変更ができます（日本語→英語→ロシア語→日本語…）
             </ui-alert>
             <h2 v-if="!outputData">エレベータピッチ的なことを書く</h2>
@@ -41,6 +44,7 @@ export default {
     data() {
         return {
             outputData: "",
+            showDemoMessage: true,
             winodwWidth: window.innerWidth
         };
     },
