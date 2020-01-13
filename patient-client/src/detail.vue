@@ -135,7 +135,7 @@ export default {
             payment_information: "支払い情報",
             deposit_value: "入金済み金額",
             medical_cost: "医療費",
-            unpaid_medical_cost: "未払い額",
+            unpaid_medical_cost: "未払い",
             agree: "医療費に同意",
             medical_records: "簡易的な診療記録",
             examination_address: "専用の送金先アドレス",

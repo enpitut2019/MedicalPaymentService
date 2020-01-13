@@ -35,7 +35,7 @@
                         <dd>{{ amountAddSymbol(deposit) }}</dd>
                         <dt>医療費</dt>
                         <dd>{{ amountAddSymbol(medicalCost) }}</dd>
-                        <dt>未払い額</dt>
+                        <dt>未収金</dt>
                         <dd v-if="!isSignCompleted">---</dd>
                         <dd v-if="isSignCompleted">
                             {{ amountAddSymbol(unpaidCost) }}
@@ -79,12 +79,14 @@
                         </span>
                     </dl>
                 </div>
-                <ui-textbox
-                    icon="edit"
-                    placeholder="診療記録"
-                    v-model="medLog"
-                ></ui-textbox>
-                <div class="center">
+                <div class="other" v-if="!isSignCompleted">
+                    <ui-textbox
+                        icon="edit"
+                        placeholder="診療記録"
+                        v-model="medLog"
+                    ></ui-textbox>
+                </div>
+                <div class="center" v-if="!isSignCompleted">
                     <button
                         class="button button--wide"
                         @click="
@@ -119,6 +121,7 @@
 <script>
 import Examination from "./examination.js";
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
+
 export default {
     data: function() {
         return {
@@ -186,7 +189,6 @@ export default {
             this.patientData = JSON.parse(patientInfo.data);
         },
         async getPaymentStatus() {
-            console.log("getPaymentStatus");
             let paymentStatus = await this.examination.getPaymentStatus();
             this.deposit = paymentStatus[0];
             this.medicalCost = paymentStatus[1];
