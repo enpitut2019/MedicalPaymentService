@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-@import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
+@import url(https://fonts.googleapis.com/earlyaccess/notosansjp.css);
 html {
     background-color: #ffffff;
     font-size: 16px;
@@ -14,7 +14,7 @@ html {
 
 h1 {
     font-size: 2rem;
-    font-family: fot-udkakugo-large-pr6n;
+    font-family: "Noto Sans JP";
     font-weight: 600;
     font-style: normal;
 }
@@ -160,6 +160,15 @@ dd {
     position: absolute;
     cursor: pointer;
     font-size: 75px;
+    color: white;
+}
+
+.language {
+    position: absolute;
+    right: 0px;
+    cursor: pointer;
+    font-size: 55px;
+    margin: 10px;
     color: white;
 }
 /*============================================

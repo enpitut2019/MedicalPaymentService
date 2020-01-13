@@ -7,9 +7,12 @@
                     v-if="this.$route.path === '/input'"
                 ></ui-icon>
             </div>
-            <h1 v-if="this.$route.path === '/'">Top / 受付</h1>
-            <h1 v-if="this.$route.path === '/input'">Input / 入力</h1>
-            <h1 v-if="this.$route.path === '/detail'">Detail / 詳細</h1>
+            <h1 v-if="this.$route.path === '/'">{{ t("title1") }}</h1>
+            <h1 v-if="this.$route.path === '/input'">{{ t("title2") }}</h1>
+            <h1 v-if="this.$route.path === '/detail'">{{ t("title3") }}</h1>
+            <div @click="changeLanguage">
+                <ui-icon icon="language"></ui-icon>
+            </div>
         </div>
         <transition mode="out-in" :name="transitionName">
             <router-view @loading="loading"></router-view>
@@ -27,8 +30,12 @@ export default {
     data: function() {
         return {
             isLoading: false,
-            transitionName: ""
+            transitionName: "",
+            langNo: 0
         };
+    },
+    mounted() {
+        this.$translate.setLang("ja");
     },
     methods: {
         loading(bool) {
@@ -36,6 +43,11 @@ export default {
         },
         back() {
             this.$router.push("/");
+        },
+        changeLanguage() {
+            let langList = ["ja", "en", "ru"];
+            this.langNo = (this.langNo + 1) % langList.length;
+            this.$translate.setLang(langList[this.langNo]);
         }
     },
     watch: {
@@ -52,6 +64,22 @@ export default {
             if (to.path === "/settlement") {
                 this.transitionName = "slide-left";
             }
+        }
+    },
+    locales: {
+        en: {
+            title1: "Top",
+            title2: "Input",
+            title3: "Detail"
+        },
+        ja: {
+            title1: "トップ",
+            title2: "入力",
+            title3: "詳 細"
+        },
+        ru: {
+            title1: "топ",
+            title2: "вход"
         }
     }
 };
