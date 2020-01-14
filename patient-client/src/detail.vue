@@ -231,7 +231,8 @@ export default {
             let day = date.getDate();
             let hour = date.getHours();
             let minute = date.getMinutes();
-            let timezone = date.getTimezoneOffset();
+            let timezone = -date.getTimezoneOffset() / 60;
+            if (timezone > 0) timezone = "+" + timezone;
             return (
                 year +
                 "/" +
@@ -243,7 +244,7 @@ export default {
                 ":" +
                 minute +
                 " UTC" +
-                timezone / 60
+                timezone
             );
         },
         checkPaymentCompleted() {

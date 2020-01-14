@@ -4,7 +4,6 @@
             <ui-alert :dismissible="false">
                 デモ用メッセージ：右上のボタンから言語の変更ができます（日本語→英語→ロシア語→日本語…）
             </ui-alert>
-            <h2>エレベータピッチ的なことを書く</h2>
             <ui-alert :dismissible="false" v-if="outputData">
                 {{ t("info_text1") }}
             </ui-alert>
@@ -12,6 +11,7 @@
                 {{ t("info_text2") }}
             </ui-alert>
         </div>
+        <h2>エレベータピッチ的なことを書く</h2>
         <div class="center">
             <vue-qrcode
                 v-if="outputData"

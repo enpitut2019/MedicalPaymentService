@@ -282,7 +282,7 @@ export default {
                 ":" +
                 minute +
                 " UTC" +
-                timezone / 60
+                -(timezone / 60)
             );
         },
         async checkPaymentCompleted() {
