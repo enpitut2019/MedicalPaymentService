@@ -23,6 +23,7 @@
                     v-model="patientData['電話番号']"
                     :label="t('phone_number')"
                 ></ui-textbox>
+                <div></div>
                 <button class="button button--normal right" @click="page = 2">
                     {{ t("next") }}
                 </button>
@@ -89,7 +90,7 @@ export default {
         },
         ja: {
             info_text1:
-                "あなたの情報を入力してください（全ての項目が任意です）",
+                "あなたの情報を入力してください（全ての項目が任意回答です）",
             name: "名前",
             gender: "性別",
             date_of_birth: "生年月日",

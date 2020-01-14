@@ -1,21 +1,27 @@
 <template>
-    <div class="page center">
-        <div v-if="isCameraActive">
-            <qrcode-stream class="fullscreen" @decode="inputData">
-                <div v-if="isCameraActive">
-                    <div class="com-note">
-                        患者の受付用QRコードを読み取ってください。
-                        <button @click="isCameraActive = false">
-                            キャンセル
-                        </button>
+    <div class="page">
+        <h2>エレベータピッチ的なことを書く</h2>
+        <div class="center">
+            <div v-if="!isCameraActive">
+                <button
+                    @click="isCameraActive = true"
+                    class="button button--large"
+                >
+                    QRコードを読み込む
+                </button>
+            </div>
+            <div v-if="isCameraActive">
+                <qrcode-stream class="fullscreen" @decode="inputData">
+                    <div v-if="isCameraActive">
+                        <div class="com-note">
+                            患者の受付用QRコードを読み取ってください。
+                            <button @click="isCameraActive = false">
+                                キャンセル
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </qrcode-stream>
-        </div>
-        <div v-else>
-            <button @click="isCameraActive = true" class="button button--large">
-                QRコードを読み込む
-            </button>
+                </qrcode-stream>
+            </div>
         </div>
     </div>
 </template>
@@ -72,17 +78,6 @@ export default {
                     tokenAddress: tokenAddress
                 }
             });
-        },
-        scroleControle() {
-            // スクロールを無効にする
-            if (this.isCameraActive) {
-                $(window).on("touchmove.noScroll", function(e) {
-                    e.preventDefault();
-                });
-            } else {
-                // スクロール無効を解除する
-                $(window).off(".noScroll");
-            }
         }
     }
 };

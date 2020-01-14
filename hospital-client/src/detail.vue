@@ -228,7 +228,7 @@ export default {
                 this.signError = true;
                 return;
             }
-            signError = false;
+            this.signError = false;
             this.$emit("loading", true);
             await this.examination.signMedicalCost(
                 this.medicalCost,

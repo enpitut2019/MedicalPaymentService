@@ -1,6 +1,8 @@
 <template>
     <div class="page">
-        <h2>Ethereumアカウントの秘密鍵を入力してください</h2>
+        <ui-alert :dismissible="false">
+            Ethereumアカウントの秘密鍵を入力してください
+        </ui-alert>
         <ui-textbox v-model="privateKey" label="秘密鍵"></ui-textbox>
         <div class="center">
             <button class="button button--normal" @click="save">

@@ -12,24 +12,21 @@ html {
     line-height: 1.5rem;
 }
 
+/* スクロールバー非表示 */
+html {
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+    display: none;
+}
+
 h1 {
     font-size: 2rem;
     font-family: "Noto Sans JP";
     font-weight: 600;
     font-style: normal;
-}
-
-h2 {
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-}
-
-.page {
-    width: 95%;
-    height: 100%;
-    padding-top: 10px;
-    margin: 0 auto;
-    position: relative;
 }
 
 .center {
@@ -44,60 +41,61 @@ h2 {
 ============================================*/
 .button {
     text-decoration: none;
-    font-family: fot-udkakugo-large-pr6n, sans-serif;
-    font-weight: 600;
     font-style: normal;
-    border-radius: 8px; /*角の丸み*/
+    border-radius: 8px;
 }
 
 .button--large {
-    font-size: 24pt;
-    padding-top: 40px;
-    padding-bottom: 40px;
+    font-size: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
     display: inline-block;
     color: #fff;
     background: -moz-linear-gradient(top, #19769f, #35d8a6);
     background: -webkit-linear-gradient(top, #19769f, #35d8a6);
     background: linear-gradient(to left, #19769f, #35d8a6);
-    border-bottom: solid 2px #19769f; /*少し濃い目の色に*/
+    border: 0px;
+    border-bottom: solid 2px #19769f;
     width: 85%;
 }
 
 .button--normal {
     border: solid 2px #28c49d;
-    font-size: 14pt;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    font-size: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     display: inline-block;
     color: #239472;
-    background: #f5f5f5; /*背景色*/
-    border-bottom: solid 2px #19769f; /*少し濃い目の色に*/
-    width: 25%;
+    background: #f5f5f5;
+    border-bottom: solid 2px #19769f;
+    width: 40%;
 }
 
 .button--wide {
     border: solid 2px #28c49d;
-    font-size: 14pt;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    font-size: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     display: inline-block;
     color: #239472;
-    background: #f5f5f5; /*背景色*/
-    border-bottom: solid 2px #19769f; /*少し濃い目の色に*/
+    background: #f5f5f5;
+    border-bottom: solid 2px #19769f;
     width: 90%;
 }
 
 .right {
-    float: right;
+    position: absolute;
+    right: 0;
 }
 
 .left {
-    float: left;
+    position: absolute;
+    left: 0;
 }
+
 /*============================================
 カードっぽい奴
 ============================================*/
-
 .container {
     border-radius: 6px;
     border: solid 1px whitesmoke;
@@ -140,6 +138,7 @@ dt {
 dd {
     text-align: left;
 }
+
 /*============================================
 ヘッダー
 ============================================*/
@@ -148,8 +147,8 @@ dd {
     background: -moz-linear-gradient(top, #19769f, #35d8a6);
     background: -webkit-linear-gradient(top, #19769f, #35d8a6);
     background: linear-gradient(to left, #19769f, #35d8a6);
-    width: 100%;
-    height: 75px;
+    width: 100vw;
+    height: 4rem;
     text-align: center;
 }
 
@@ -161,12 +160,13 @@ dd {
 }
 
 /*============================================
-バックボタン
+ヘッダーのアイコン
 ============================================*/
 .keyboard_arrow_left {
     position: absolute;
     cursor: pointer;
-    font-size: 75px;
+    font-size: 3rem;
+    margin: 0.5rem;
     color: white;
 }
 
@@ -174,12 +174,24 @@ dd {
     position: absolute;
     right: 0px;
     cursor: pointer;
-    font-size: 55px;
-    margin: 10px;
+    font-size: 2rem;
+    margin: 1rem;
     color: white;
 }
+
 /*============================================
-アニメーション
+ページ表示部
+============================================*/
+.page {
+    position: relative;
+    width: 95vw;
+    height: 100%;
+    padding-top: 1rem;
+    margin: 0 auto;
+}
+
+/*============================================
+全体のページ遷移のアニメーション
 ============================================*/
 .slide-left-enter-to,
 .slide-right-enter-to {
@@ -214,6 +226,9 @@ dd {
     transform: translateX(100%);
 }
 
+/*============================================
+入力画面のアニメーション
+============================================*/
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s;
