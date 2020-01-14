@@ -25,7 +25,7 @@ html::-webkit-scrollbar {
 h1 {
     font-size: 2rem;
     font-family: "Noto Sans JP";
-    font-weight: 600;
+    font-weight: bold;
     font-style: normal;
 }
 
@@ -36,6 +36,89 @@ h1 {
 .ui-alert {
     word-break: break-all;
 }
+
+/*============================================
+ヘッダー
+============================================*/
+.header {
+    display: table;
+    background: -moz-linear-gradient(top, #19769f, #35d8a6);
+    background: -webkit-linear-gradient(top, #19769f, #35d8a6);
+    background: linear-gradient(to left, #19769f, #35d8a6);
+    width: 100vw;
+    height: 4rem;
+    text-align: center;
+}
+
+.header h1 {
+    display: table-cell;
+    vertical-align: middle;
+    color: white;
+    margin: 1rem;
+}
+
+/*============================================
+ヘッダーのアイコン
+============================================*/
+.keyboard_arrow_left {
+    position: absolute;
+    cursor: pointer;
+    font-size: 3rem;
+    margin: 0.5rem;
+    color: white;
+}
+
+.account_circle {
+    position: absolute;
+    right: 0px;
+    cursor: pointer;
+    font-size: 2rem;
+    margin: 1rem;
+    color: white;
+}
+
+/*============================================
+ページ表示部
+============================================*/
+.page {
+    position: relative;
+    width: 95vw;
+    padding-top: 1rem;
+    margin: 0 auto;
+    padding-bottom: 1rem;
+}
+
+/*============================================
+説明書き
+============================================*/
+.box {
+    position: relative;
+    margin: 0;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: solid 3px #19769f;
+    border-radius: 8px;
+}
+
+.box .box-title {
+    position: absolute;
+    display: inline-block;
+    top: -0.6rem;
+    left: 0.5rem;
+    padding: 0 0.5rem;
+    font-size: 1rem;
+    background: #fff;
+    color: #19769f;
+    font-weight: bold;
+}
+
+.box p {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: rgba(0, 0, 0, 0.75);
+}
+
 /*============================================
 ボタン
 ============================================*/
@@ -43,6 +126,7 @@ h1 {
     text-decoration: none;
     font-style: normal;
     border-radius: 8px;
+    font-weight: bold;
 }
 
 .button--large {
@@ -229,56 +313,6 @@ QRコードリーダー
 .com-note button:hover::after {
     opacity: 0;
     transform: scale(0.1, 1);
-}
-/*============================================
-ヘッダー
-============================================*/
-.header {
-    display: table;
-    background: -moz-linear-gradient(top, #19769f, #35d8a6);
-    background: -webkit-linear-gradient(top, #19769f, #35d8a6);
-    background: linear-gradient(to left, #19769f, #35d8a6);
-    width: 100vw;
-    height: 4rem;
-    text-align: center;
-}
-
-.header h1 {
-    display: table-cell;
-    vertical-align: middle;
-    color: white;
-    margin: 1rem;
-}
-
-/*============================================
-ヘッダーのアイコン
-============================================*/
-.keyboard_arrow_left {
-    position: absolute;
-    cursor: pointer;
-    font-size: 3rem;
-    margin: 0.5rem;
-    color: white;
-}
-
-.account_circle {
-    position: absolute;
-    right: 0px;
-    cursor: pointer;
-    font-size: 2rem;
-    margin: 1rem;
-    color: white;
-}
-
-/*============================================
-ページ表示部
-============================================*/
-.page {
-    position: relative;
-    width: 95vw;
-    height: 100%;
-    padding-top: 1rem;
-    margin: 0 auto;
 }
 
 /*============================================

@@ -1,8 +1,31 @@
 <template>
     <div class="page">
-        <h2>エレベータピッチ的なことを書く</h2>
-        <div class="center">
-            <div v-if="!isCameraActive">
+        <div v-if="!isCameraActive">
+            <ui-alert :dismissible="false">
+                1.
+                QRコードを読み取ることで患者の情報を参照できます。また、既に受付を行った患者の画面下部に表示されるQRコードを読み込むことで再度詳細ページを開くことができます。
+            </ui-alert>
+            <div class="box">
+                <span class="box-title">サービスの概要（要改稿）</span>
+                <p>
+                    外国人旅行者が医療機関を受診した際に母国の親族が暗号通貨で支払いを行うことを想定したサービスです。
+                    電子カルテなど既存サービスとの共存を前提としています。
+                    暗号通貨を使う以外のメリットとしては、
+                </p>
+                <p>
+                    ①診療ごとに専用のアドレスを発行することによる病院側の管理コスト軽減
+                </p>
+                <p>
+                    ②前払い…支払い能力の確認
+                </p>
+                <p>
+                    ③言語の違いによって起こりうる伝達ミスを起因とするトラブルの客観的解決
+                </p>
+                <p>
+                    などが挙げられます。あああああああああああああああああああああああああああああああああああああああああああああ
+                </p>
+            </div>
+            <div class="center">
                 <button
                     @click="isCameraActive = true"
                     class="button button--large"
@@ -10,18 +33,18 @@
                     QRコードを読み込む
                 </button>
             </div>
-            <div v-if="isCameraActive">
-                <qrcode-stream class="fullscreen" @decode="inputData">
-                    <div v-if="isCameraActive">
-                        <div class="com-note">
-                            患者の受付用QRコードを読み取ってください。
-                            <button @click="isCameraActive = false">
-                                キャンセル
-                            </button>
-                        </div>
+        </div>
+        <div v-if="isCameraActive">
+            <qrcode-stream class="fullscreen" @decode="inputData">
+                <div v-if="isCameraActive">
+                    <div class="com-note">
+                        患者の受付用QRコードを読み取ってください。
+                        <button @click="isCameraActive = false">
+                            キャンセル
+                        </button>
                     </div>
-                </qrcode-stream>
-            </div>
+                </div>
+            </qrcode-stream>
         </div>
     </div>
 </template>

@@ -1,5 +1,18 @@
 <template>
     <div class="page">
+        <ui-alert :dismissible="false" v-if="!isSignCompleted">
+            {{ t("process3_info_text0") }}
+        </ui-alert>
+        <ui-alert :dismissible="false" v-if="!isSignCompleted">
+            {{ t("process4_info_text0") }}
+        </ui-alert>
+        <ui-alert
+            type="warning"
+            :dismissible="false"
+            v-if="isSignCompleted && !isPaymentCompleted"
+        >
+            {{ t("process5_info_text0") }}
+        </ui-alert>
         <ui-alert
             type="success"
             :dismissible="false"
@@ -110,6 +123,12 @@ export default {
     },
     locales: {
         en: {
+            process3_info_text0:
+                "4. ページ下部のQRコード宛に送金を行ってください（デモ用に送金専用のクライアントを用意してあります）",
+            process4_info_text0:
+                "5. 表示された医療費に納得した場合「医療費に同意」ボタンを押し、表示されたQRコードを提示してください",
+            process5_info_text0:
+                "6. 支払金額が不足しています 追加でページ下部のQRコード宛に送金を行ってください",
             success_info_part1: "Paid ",
             success_info_part2: " to medical institution and ",
             success_info_part3: " refunded!",
@@ -126,6 +145,12 @@ export default {
             exit_button_text: "Completed (after privatekey import)"
         },
         ja: {
+            process3_info_text0:
+                "4. ページ下部のQRコード宛に送金を行ってください（デモ用に送金専用のクライアントを用意してあります）",
+            process4_info_text0:
+                "5. 表示された医療費に納得した場合「医療費に同意」ボタンを押し、表示されたQRコードを提示してください",
+            process5_info_text0:
+                "6. 支払金額が不足しています 追加で送金を行ってください",
             success_info_part1: "医療機関に",
             success_info_part2: "支払い、",
             success_info_part3: "返金されました",
@@ -142,6 +167,12 @@ export default {
             exit_button_text: "完了（秘密鍵のインポート後）"
         },
         ru: {
+            process3_info_text0:
+                "4. ページ下部のQRコード宛に送金を行ってください（デモ用に送金専用のクライアントを用意してあります）",
+            process4_info_text0:
+                "5. 表示された医療費に納得した場合「医療費に同意」ボタンを押し、表示されたQRコードを提示してください",
+            process5_info_text0:
+                "6. 支払金額が不足しています 追加でページ下部のQRコード宛に送金を行ってください",
             success_info_part1: "выплачено ",
             success_info_part2: " в медицинское учреждение, ",
             success_info_part3: " возврат",

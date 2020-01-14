@@ -1,5 +1,21 @@
 <template>
     <div class="page">
+        <ui-alert :dismissible="false" v-if="!isSignCompleted">
+            3. 患者の入金済み金額を確認してください<br />
+            3. 医療費もしくは医療費概算を登録します（順不同）
+        </ui-alert>
+        <ui-alert :dismissible="false" v-if="!isSignCompleted">
+            4.
+            医療費に関して、患者の了承が得られれば「決済」ボタンを押しQRコードを読み取ってください
+        </ui-alert>
+        <ui-alert
+            type="warning"
+            :dismissible="false"
+            v-if="isSignCompleted && !isPaymentCompleted"
+        >
+            5.患者の支払金額が不足しています
+            追加で送金を行うよう要求してください
+        </ui-alert>
         <ui-alert
             type="success"
             :dismissible="false"

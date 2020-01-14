@@ -74,7 +74,7 @@ export default {
     },
     locales: {
         en: {
-            info_text1: "Enter your information! (Filling out is optional)",
+            info_text1: "2. Enter your information! (Filling out is optional)",
             name: "Name",
             gender: "Gender",
             date_of_birth: "Date of birth",
@@ -90,7 +90,7 @@ export default {
         },
         ja: {
             info_text1:
-                "あなたの情報を入力してください（全ての項目が任意回答です）",
+                "2. あなたの情報を入力してください（全ての項目が任意回答です）",
             name: "名前",
             gender: "性別",
             date_of_birth: "生年月日",
@@ -106,7 +106,7 @@ export default {
         },
         ru: {
             info_text1:
-                "Введите вашу информацию (все поля являются необязательными)",
+                "2. Введите вашу информацию (все поля являются необязательными)",
             name: "имя",
             gender: "пол",
             date_of_birth: "Дата рождения",

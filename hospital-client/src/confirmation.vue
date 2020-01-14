@@ -1,5 +1,9 @@
 <template>
     <div class="page">
+        <ui-alert :dismissible="false">
+            2.
+            患者の情報を確認し、入力事項に問題がなければ受付（専用アドレスの発行）を行います
+        </ui-alert>
         <div class="container">
             <div class="containerTitle">
                 <h1>患者の情報</h1>
