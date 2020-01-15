@@ -28,7 +28,7 @@
                 :dismissible="false"
                 v-if="isSignCompleted && !isPaymentCompleted && deposit === 0"
             >
-                5.患者の支払金額が不足しています
+                5.支払金額が不足しています！
                 追加で送金を行うよう要求してください
             </ui-alert>
             <ui-alert
@@ -46,7 +46,7 @@
                 v-show="signError"
                 @dismiss="signError = false"
             >
-                読み取るQRコードが違います
+                異なるQRコードを読み込んでいます！
             </ui-alert>
             <div class="container">
                 <div class="containerTitle">
@@ -248,13 +248,17 @@ export default {
                 this.signError = true;
                 return;
             }
-            this.signError = false;
             this.$emit("loading", true);
-            await this.examination.signMedicalCost(
-                this.medicalCost,
-                result,
-                this.patientAddress
-            );
+            try {
+                await this.examination.signMedicalCost(
+                    this.medicalCost,
+                    result,
+                    this.patientAddress
+                );
+                this.signError = false;
+            } catch (e) {
+                this.signError = true;
+            }
             if (this.isSignCompleted && this.deposit > 0) await this.withDraw();
             else this.$emit("loading", false);
         },

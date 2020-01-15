@@ -5,6 +5,9 @@
                 1.
                 QRコードを読み取ることで患者の情報を確認できます。また、既に受付を行った患者も再度QRコードを読み取ることで詳細ページを開くことができます。
             </ui-alert>
+            <ui-alert :dismissible="false" type="error" v-show="showErrorAlert">
+                異なるQRコードを読み込んでいます！
+            </ui-alert>
             <div class="box">
                 <span class="box-title">サービスの概要</span>
                 <p>
@@ -49,7 +52,8 @@ export default {
             encryptedPatientData: "",
             patientSign: "",
             patientPassPhrase: "",
-            patientData: ""
+            patientData: "",
+            showErrorAlert: false
         };
     },
     methods: {
@@ -59,19 +63,26 @@ export default {
                 this.load(result, "0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7");
                 return;
             }
-            // TODO:入力チェック
-            let sourceArray = result.split(",");
-            this.patientPassPhrase = sourceArray[0];
-            this.encryptedPatientData = sourceArray[1];
-            this.patientSign = sourceArray[2];
-            // 復号
-            let patientDataJson = this.$management.decrypt(
-                this.encryptedPatientData,
-                this.patientPassPhrase
-            );
-            this.patientData = JSON.parse(patientDataJson);
-            this.patientDataActive = true;
-            this.isCameraActive = false;
+
+            try {
+                let sourceArray = result.split(",");
+                this.patientPassPhrase = sourceArray[0];
+                this.encryptedPatientData = sourceArray[1];
+                this.patientSign = sourceArray[2];
+                // 復号
+                let patientDataJson = this.$management.decrypt(
+                    this.encryptedPatientData,
+                    this.patientPassPhrase
+                );
+                this.patientData = JSON.parse(patientDataJson);
+                this.patientDataActive = true;
+                this.isCameraActive = false;
+                this.showErrorAlert = false;
+            } catch (e) {
+                this.isCameraActive = false;
+                this.showErrorAlert = true;
+                return;
+            }
 
             this.$router.push({
                 name: "confirmation",

@@ -152,10 +152,8 @@ export default class {
             String(medicalCost),
             signature
         );
-        console.log("sigAddrss : " + sigAddress);
         if (patientAddress !== sigAddress) {
-            console.log("error");
-            return false;
+            throw new Error(sigAddress);
         }
         let encodedABI = this.myContract.methods
             .signMedicalCost(signature)
