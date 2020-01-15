@@ -115,11 +115,11 @@ export default {
                 this.showAlert1 = true;
                 this.isLoading = false;
             }
-            showCamera = true;
+            this.showCamera = true;
         },
         inputData(result) {
             this.toAddress = result;
-            showCamera = false;
+            this.showCamera = false;
         }
     }
 };
