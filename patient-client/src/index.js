@@ -1,5 +1,5 @@
-let base = "MedicalPaymentService/patient-client/dist/";
-//let base = "/";
+//let base = "MedicalPaymentService/patient-client/dist/";
+let base = "/";
 
 import Vue from "vue";
 import VueRouter from "vue-router";

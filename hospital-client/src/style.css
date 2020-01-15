@@ -45,6 +45,8 @@ h1 {
 ヘッダー
 ============================================*/
 .header {
+    position: fixed;
+    z-index: 5;
     display: table;
     background: -moz-linear-gradient(top, #19769f, #35d8a6);
     background: -webkit-linear-gradient(top, #19769f, #35d8a6);
@@ -86,6 +88,7 @@ h1 {
 ============================================*/
 .page {
     position: relative;
+    top: 4rem; /*headerの高さ*/
     width: 95vw;
     padding-top: 1rem;
     margin: 0 auto;

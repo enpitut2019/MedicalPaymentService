@@ -25,7 +25,7 @@
             <ui-alert
                 type="warning"
                 :dismissible="false"
-                v-if="isSignCompleted && !isPaymentCompleted"
+                v-if="isSignCompleted && !isPaymentCompleted && deposit === 0"
             >
                 5.患者の支払金額が不足しています
                 追加で送金を行うよう要求してください
@@ -232,14 +232,12 @@ export default {
         },
         async setMedicalCost() {
             this.$emit("loading", true);
-            // 数字以外の入力弾く
-            if (
-                isFinite(this.inputMedicalCost) &&
-                this.inputMedicalCost !== ""
-            ) {
-                await this.examination.setMedicalCost(this.inputMedicalCost);
-            }
+            let tmp = this.inputMedicalCost;
             this.inputMedicalCost = "";
+            // 数字以外の入力弾く
+            if (isFinite(tmp) && tmp !== "") {
+                await this.examination.setMedicalCost(tmp);
+            }
             this.$emit("loading", false);
         },
         async signMedicalCost(result) {
@@ -261,10 +259,11 @@ export default {
         },
         async addMedicalNote() {
             this.$emit("loading", true);
+            let tmp = this.medLog;
+            this.medLog = "";
             // 空文字列を弾く
-            if (this.medLog !== "") {
-                await this.examination.addMedicalNote(this.medLog);
-                this.medLog = "";
+            if (tmp !== "") {
+                await this.examination.addMedicalNote(tmp);
             }
             this.$emit("loading", false);
         },

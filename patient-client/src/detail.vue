@@ -9,7 +9,7 @@
         <ui-alert
             type="warning"
             :dismissible="false"
-            v-if="isSignCompleted && !isPaymentCompleted"
+            v-if="isSignCompleted && !isPaymentCompleted && deposit === 0"
         >
             {{ t("process5_info_text0") }}
         </ui-alert>
@@ -141,7 +141,7 @@ export default {
             unpaid_medical_cost: "Unpaid Medical Cost",
             agree: "Agree to Medical Cost",
             medical_records: "Simple Medical Records",
-            examination_address: "Dedicated Transferring Address",
+            examination_address: "Transferring Address",
             exit_button_text: "Completed (after privatekey import)"
         },
         ja: {
@@ -163,7 +163,7 @@ export default {
             unpaid_medical_cost: "未払い",
             agree: "医療費に同意",
             medical_records: "簡易的な診療記録",
-            examination_address: "専用の送金先アドレス",
+            examination_address: "送金先アドレス",
             exit_button_text: "完了（秘密鍵のインポート後）"
         },
         ru: {
@@ -185,7 +185,7 @@ export default {
             unpaid_medical_cost: "Сумма к оплате",
             agree: "Я согласен с медицинскими расходами",
             medical_records: "Простые медицинские записи",
-            examination_address: "Выделенный Адрес Передачи",
+            examination_address: "Адрес Передачи",
             exit_button_text: "Завершено (после импорта закрытого ключа)"
         }
     },
