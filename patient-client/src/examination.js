@@ -42,6 +42,12 @@ export default class {
     /** Eventを処理してからcallBackFuncに渡す */
     processEvent(error, event) {
         if (error) console.log(error);
+        // AddMedicalNoteの復号処理
+        if (event.event === "AddMedicalNote") {
+            event.returnValues.note = this.management.decryptByOwn(
+                event.returnValues.note
+            );
+        }
         this.callBackFunc(event.event, event.returnValues);
     }
 

@@ -43,6 +43,13 @@ export default class {
     /** Eventを処理してからcallBackFuncに渡す */
     processEvent(error, event) {
         if (error) console.log(error);
+        // AddMedicalNoteの復号処理
+        if (event.event === "AddMedicalNote") {
+            event.returnValues.note = this.management.decrypt(
+                event.returnValues.note,
+                this.patientPassPhrase
+            );
+        }
         this.callBackFunc(event.event, event.returnValues);
     }
 
@@ -190,7 +197,6 @@ export default class {
      *  @param note {string} 簡易的な診療記録
      */
     async addMedicalNote(note) {
-        console.log("addMedicalNote:", note);
         let encryptedNote = this.management.encrypt(
             note,
             this.patientPassPhrase

@@ -82,7 +82,7 @@
             <div class="center">
                 <vue-qrcode
                     :value="contractAddress"
-                    :options="{ width: winodwWidth * 0.5 }"
+                    :options="{ width: winodwWidth * 0.8 }"
                 ></vue-qrcode>
             </div>
         </div>
@@ -319,10 +319,7 @@ export default {
                 this.deposit = Number(this.deposit) + Number(value["value"]);
             }
             if (event === "AddMedicalNote") {
-                // イベントが発生してもaddMedicalNoteは終了してない、少し待つ
-                await sleep(500);
-                // TODO:getMedicalNotesを呼ばずにeventの引数を復号して表示するようにする
-                await this.getMedicalNotes();
+                this.medicalNotes.push(value);
             }
         }
     },

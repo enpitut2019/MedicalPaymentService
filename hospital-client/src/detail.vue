@@ -272,7 +272,6 @@ export default {
             this.medicalNotes = await this.examination.getMedicalNotes();
         },
         async withDraw() {
-            console.log("withDraw");
             this.$emit("loading", true);
             await this.examination.withDraw();
             this.$emit("loading", false);
@@ -336,10 +335,7 @@ export default {
                 this.checkPaymentCompleted();
             }
             if (event === "AddMedicalNote") {
-                // イベントが発生してもaddMedicalNoteは終了してない、少し待つ
-                await sleep(500);
-                // TODO:getMedicalNotesを呼ばずにeventの引数を復号して表示するようにする
-                await this.getMedicalNotes();
+                this.medicalNotes.push(value);
             }
             if (event === "SignMedicalCost") {
                 this.unpaidCost = this.medicalCost;
