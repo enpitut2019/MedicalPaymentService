@@ -48,6 +48,13 @@
             >
                 異なるQRコードを読み込んでいます！
             </ui-alert>
+            <ui-alert
+                type="error"
+                v-show="somethingError"
+                @dismiss="somethingError = false"
+            >
+                何らかのエラーが発生しました、詳細ページの再読み込みが必要です
+            </ui-alert>
             <div class="container">
                 <div class="containerTitle">
                     <h1>ステータス</h1>
@@ -161,7 +168,8 @@ export default {
             paidToPatient: 0,
             contractFee: 0,
             isPaymentCompleted: false,
-            signError: false
+            signError: false,
+            somethingError: false
         };
     },
     created: async function() {
@@ -237,7 +245,12 @@ export default {
             this.inputMedicalCost = "";
             // 数字以外の入力弾く
             if (isFinite(tmp) && tmp !== "") {
-                await this.examination.setMedicalCost(tmp);
+                try {
+                    this.somethingError = false;
+                    await this.examination.setMedicalCost(tmp);
+                } catch (e) {
+                    this.somethingError = true;
+                }
             }
             this.$emit("loading", false);
         },
@@ -268,7 +281,12 @@ export default {
             this.medLog = "";
             // 空文字列を弾く
             if (tmp !== "") {
-                await this.examination.addMedicalNote(tmp);
+                try {
+                    this.somethingError = false;
+                    await this.examination.addMedicalNote(tmp);
+                } catch (e) {
+                    this.somethingError = true;
+                }
             }
             this.$emit("loading", false);
         },
@@ -277,7 +295,12 @@ export default {
         },
         async withDraw() {
             this.$emit("loading", true);
-            await this.examination.withDraw();
+            try {
+                this.somethingError = false;
+                await this.examination.withDraw();
+            } catch (e) {
+                this.somethingError = true;
+            }
             this.$emit("loading", false);
         },
         /** 小数点の位置をずらしてシンボルを付加

@@ -53,7 +53,7 @@ export default {
         en: {
             service_title: "Service Overview",
             service_text:
-                "This service assumes that medical expenses will be paid using cryptocurrencies. It is premised on coexistence with existing services such as electronic medical records. Advantages of the service are: ①Reduction of management costs on the hospital side by issuing a dedicated address for each medical treatment ②Management of prepayment without a third-party organization ③Objective resolution of troubles caused by transmission errors",
+                "This service assumes that medical expenses will be paid using cryptocurrencies. It is premised on coexistence with existing services such as electronic medical records. Advantages of the service are: ①Reduction of management costs on the hospital side by issuing a dedicated address for each medical treatment ②Automatic management of cryptocurrencies without a third-party organization ③Objective resolution of troubles caused by transmission errors",
             button_text1: "Enter Your Information",
             button_text2: "Edit Your Information",
             info_text0: "1. Enter/Edit your information from the below button.",
@@ -64,7 +64,7 @@ export default {
         ja: {
             service_title: "サービスの概要",
             service_text:
-                "医療費を暗号通貨で支払うことを想定したサービスです。電子カルテなど既存サービスとの共存を前提としています。サービスのメリットとしては ①診療ごとに専用のアドレスを発行することによる病院側の管理コスト軽減 ②第三者機関を介さない前払いの管理 ③伝達ミスを原因とするトラブルの客観的解決 などが挙げられます。",
+                "医療費を暗号通貨で支払うことを想定したサービスです。電子カルテなど既存サービスとの共存を前提としています。サービスのメリットとしては ①診療ごとに専用のアドレスを発行することによる病院側の管理コスト軽減 第三者機関を介さない暗号通貨の自動管理 ③伝達ミスを原因とするトラブルの客観的解決 などが挙げられます。",
             button_text1: "受付情報の入力",
             button_text2: "入力した情報の修正",
             info_text0: "1. 下のボタンからあなたの情報を入力/編集してください",

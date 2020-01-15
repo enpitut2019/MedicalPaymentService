@@ -38,6 +38,8 @@ const router = new VueRouter({
     ]
 });
 
+// デモ用リセット
+localStorage.clear();
 // アカウントがない場合は管理画面を開く
 if (!localStorage.getItem("hospitalPrivateKey")) {
     // TODO:管理画面を開く
