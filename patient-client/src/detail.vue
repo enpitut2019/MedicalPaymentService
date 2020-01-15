@@ -303,6 +303,7 @@ export default {
                 this.medicalCost = value["medicalCost"];
             }
             if (event === "SignMedicalCost") {
+                this.unpaidCost = this.medicalCost;
                 this.isSignCompleted = value["signed"];
                 this.$emit("loading", true);
                 this.checkPaymentCompleted();

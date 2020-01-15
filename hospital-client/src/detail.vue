@@ -48,10 +48,6 @@
                 </div>
                 <div class="list">
                     <dl>
-                        <dt>専用アドレス</dt>
-                        <dd>{{ contractAddress }}</dd>
-                        <dt>入金済み金額</dt>
-                        <dd>{{ amountAddSymbol(deposit) }}</dd>
                         <dt>医療費</dt>
                         <dd>{{ amountAddSymbol(medicalCost) }}</dd>
                         <dt>未収金</dt>
@@ -72,6 +68,16 @@
                     <button class="button button--wide" @click="setMedicalCost">
                         医療費を登録
                     </button>
+                </div>
+                <div class="list">
+                    <dl>
+                        <dt>専用アドレス</dt>
+                        <dd>{{ contractAddress }}</dd>
+                        <dt>入金済み金額</dt>
+                        <dd>{{ amountAddSymbol(deposit) }}</dd>
+                    </dl>
+                </div>
+                <div class="center" v-if="!isSignCompleted">
                     <div class="blank"></div>
                     <button
                         class="button button--wide"
@@ -252,6 +258,7 @@ export default {
                 this.patientAddress
             );
             if (this.isSignCompleted && this.deposit > 0) await this.withDraw();
+            else this.$emit("loading", false);
         },
         async addMedicalNote() {
             this.$emit("loading", true);
