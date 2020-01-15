@@ -12,14 +12,9 @@
             </ui-alert>
         </div>
         <div class="box">
-            <span class="box-title">サービスの概要</span>
+            <span class="box-title">{{ t("service_title") }}</span>
             <p>
-                医療費を暗号通貨で支払うことを想定したサービスです。
-                電子カルテなど既存サービスとの共存を前提としています。
-                サービスのメリットとしては、
-                ①診療ごとに専用のアドレスを発行することによる病院側の管理コスト軽減
-                ②第三者機関を介さない前払いの管理
-                ③伝達ミスを原因とするトラブルの客観的解決 などが挙げられます。
+                {{ t("service_text") }}
             </p>
         </div>
         <div class="center">
@@ -56,6 +51,7 @@ export default {
     },
     locales: {
         en: {
+            service_title: "Service Overview",
             service_text:
                 "This service assumes that medical expenses will be paid using cryptocurrencies. It is premised on coexistence with existing services such as electronic medical records. Advantages of the service are: ①Reduction of management costs on the hospital side by issuing a dedicated address for each medical treatment ②Management of prepayment without a third-party organization ③Objective resolution of troubles caused by transmission errors",
             button_text1: "Enter Your Information",
@@ -66,6 +62,7 @@ export default {
                 "Do not share this QR code on the Internet because it contains personal information!"
         },
         ja: {
+            service_title: "サービスの概要",
             service_text:
                 "医療費を暗号通貨で支払うことを想定したサービスです。電子カルテなど既存サービスとの共存を前提としています。サービスのメリットとしては ①診療ごとに専用のアドレスを発行することによる病院側の管理コスト軽減 ②第三者機関を介さない前払いの管理 ③伝達ミスを原因とするトラブルの客観的解決 などが挙げられます。",
             button_text1: "受付情報の入力",
@@ -76,6 +73,7 @@ export default {
                 "このQRコードは個人情報を含むため、インターネットで公開しないでください!"
         },
         ru: {
+            service_title: "Обзор услуг",
             service_text:
                 "Данная услуга предполагает, что медицинские расходы будут оплачены с использованием криптовалют. Он основан на сосуществовании с существующими службами, такими как электронные медицинские карты. Преимущества услуги: edСнижение административных расходов на стороне больницы путем выдачи выделенного адреса для каждого лечения. MedicalУправление предоплатой без сторонней организации. BОбъективное решение проблем, вызванных ошибками при передаче.",
             button_text1: "Введите информацию о приеме",
