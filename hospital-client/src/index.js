@@ -46,7 +46,7 @@ if (!localStorage.getItem("hospitalPrivateKey")) {
     // テスト用に既定値をセット
     localStorage.setItem(
         "hospitalPrivateKey",
-        "0x5DF94F253908A243F9E88702F7100F93736923D3654980814A13FFAB1F42B3BF"
+        "0xB5EEB245C4E2BCA528847349DE932D159322E0873B171EA8DE51ED2B9AE34D89"
     );
     localStorage.setItem(
         "hospitalPassPhrase",
