@@ -1,6 +1,6 @@
 <template>
     <div class="centering_parent">
-        <h1>暗号通貨（ERC20）の送金</h1>
+        <h1>暗号通貨（ERC20トークン）の送金</h1>
         <ui-alert
             @dismiss="showAlert1 = false"
             type="error"
@@ -10,8 +10,12 @@
         </ui-alert>
         <div class="box">
             <div class="innerBox">
-                <h3>enpit実験用に作成したERC20トークン</h3>
-                <h3>送金先と送金額を入力するだけで送金できます</h3>
+                <h3>
+                    enpit実験用に作成した暗号通貨の送金ができるクライアントです。
+                    QRコードをかざすと送金先が自動で入力されます。その後、送金額を入力しTRANSFERボタンを押してください。
+                    "Something is
+                    wrong!!"と表示された場合はページを更新してみてください。
+                </h3>
             </div>
         </div>
         <ui-progress-linear
@@ -22,10 +26,16 @@
         <div class="box">
             <h2>{{ tokenBalance + " " + tokenName }}</h2>
             <div class="innerBox" v-if="!isLoading">
-                <qrcode-stream @decode="inputData"> </qrcode-stream>
+                <qrcode-stream
+                    class="fullscreen"
+                    @decode="inputData"
+                    v-f="showCamera"
+                >
+                </qrcode-stream>
                 <ui-textbox
                     v-model="toAddress"
                     label="送金先アドレス"
+                    v-if="!showCamera"
                 ></ui-textbox>
                 <ui-textbox
                     v-model="transferValue"
@@ -68,7 +78,8 @@ export default {
             toAddress: "",
             transferValue: "",
             showAlert1: false,
-            isLoading: false
+            isLoading: false,
+            showCamera: true
         };
     },
     mounted: async function() {
@@ -104,9 +115,11 @@ export default {
                 this.showAlert1 = true;
                 this.isLoading = false;
             }
+            showCamera = true;
         },
         inputData(result) {
             this.toAddress = result;
+            showCamera = false;
         }
     }
 };
