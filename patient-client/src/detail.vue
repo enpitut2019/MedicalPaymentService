@@ -9,7 +9,7 @@
         <ui-alert
             type="warning"
             :dismissible="false"
-            v-if="isSignCompleted && !isPaymentCompleted && deposit === 0"
+            v-if="isSignCompleted && !isPaymentCompleted && deposit == 0"
         >
             {{ t("process5_info_text0") }}
         </ui-alert>
@@ -300,6 +300,9 @@ export default {
                 this.isPaymentCompleted = true;
                 this.$emit("loading", false);
             }
+            if (this.unpaidCost > 0 && this.deposit == 0) {
+                this.$emit("loading", false);
+            }
         },
         reset() {
             localStorage.clear();
@@ -314,11 +317,12 @@ export default {
             console.log(value);
             if (event === "SetMedicalCost") {
                 this.medicalCost = value["medicalCost"];
+                this.medicalCostSign = "";
             }
             if (event === "SignMedicalCost") {
                 this.unpaidCost = this.medicalCost;
                 this.isSignCompleted = value["signed"];
-                this.$emit("loading", true);
+                await this.$emit("loading", true);
                 this.checkPaymentCompleted();
             }
             if (event === "WithDraw") {

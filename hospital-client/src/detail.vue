@@ -26,7 +26,7 @@
             <ui-alert
                 type="warning"
                 :dismissible="false"
-                v-if="isSignCompleted && !isPaymentCompleted && deposit === 0"
+                v-if="isSignCompleted && !isPaymentCompleted && deposit == 0"
             >
                 5.支払金額が不足しています！
                 追加で送金を行うよう要求してください
@@ -343,8 +343,8 @@ export default {
                 this.isSignCompleted == true &&
                 this.deposit == 0
             ) {
-                this.contractFee = await this.getContractFee();
                 this.isPaymentCompleted = true;
+                this.contractFee = await this.getContractFee();
                 this.$emit("loading", false);
             }
         },
