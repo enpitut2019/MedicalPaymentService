@@ -248,6 +248,7 @@ export default {
                 this.signError = true;
                 return;
             }
+            this.signError = false;
             this.$emit("loading", true);
             try {
                 await this.examination.signMedicalCost(
@@ -255,7 +256,6 @@ export default {
                     result,
                     this.patientAddress
                 );
-                this.signError = false;
             } catch (e) {
                 this.signError = true;
             }

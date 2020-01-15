@@ -14,6 +14,12 @@
             {{ t("process5_info_text0") }}
         </ui-alert>
         <ui-alert
+            :dismissible="false"
+            v-if="isSignCompleted && !isPaymentCompleted && deposit > 0"
+        >
+            {{ t("waiting_info_text0") }}
+        </ui-alert>
+        <ui-alert
             type="success"
             :dismissible="false"
             v-show="isPaymentCompleted"
@@ -123,6 +129,8 @@ export default {
     },
     locales: {
         en: {
+            waiting_info_text0:
+                "Waiting for the hospital to complete the operation",
             process3_info_text0:
                 "4. Transfer the specified cryptocurrency using QR code at the bottom of the page (we have a transference client for the demo)",
             process4_info_text0:
@@ -145,6 +153,7 @@ export default {
             exit_button_text: "Completed (after privatekey import)"
         },
         ja: {
+            waiting_info_text0: "病院側の操作の完了を待っています",
             process3_info_text0:
                 "4. ページ下部のQRコード宛に指定された暗号通貨を送金してください（デモ用に送金専用のクライアントを用意してあります）",
             process4_info_text0:
@@ -167,6 +176,7 @@ export default {
             exit_button_text: "完了（秘密鍵のインポート後）"
         },
         ru: {
+            waiting_info_text0: "В ожидании больницы для завершения операции",
             process3_info_text0:
                 "4. Пожалуйста, отправьте указанную криптовалюту в QR-код внизу страницы (у нас есть специальный клиент для перевода)",
             process4_info_text0:

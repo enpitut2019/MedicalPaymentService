@@ -67,9 +67,9 @@ export default {
     },
     data() {
         return {
-            tokenAddress: "0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7",
+            tokenAddress: "0x3776d2930DC3A7fEd95aaA40dd5A11c9cf189317",
             privateKey:
-                "0x0D274BD5D6DC605137D958AC2DB9C9BD189FF86338150A04C7DB4B3E942FAC0C",
+                "0x5DF94F253908A243F9E88702F7100F93736923D3654980814A13FFAB1F42B3BF",
             address: "",
             tokenName: "",
             tokenDecimals: 0,

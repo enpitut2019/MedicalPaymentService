@@ -59,8 +59,9 @@ export default class {
      *  @param _patientData 患者データを暗号化した物
      *  @param _signature _patientDataに対する患者の署名
      *  @param _patientPassPhrase 患者の暗号鍵
+     *  @param _tokenAddress 使用するERC20トークン
      */
-    async deploy(_patientData, _signature, _patientPassPhrase) {
+    async deploy(_patientData, _signature, _patientPassPhrase, _tokenAddress) {
         let patientPassPhrase = CryptoJS.AES.encrypt(
             _patientPassPhrase,
             this.passPhrase
@@ -70,6 +71,7 @@ export default class {
                 _patientData,
                 _signature,
                 patientPassPhrase,
+                _tokenAddress,
                 this.random
             )
             .encodeABI();
@@ -79,6 +81,7 @@ export default class {
                     _patientData,
                     _signature,
                     patientPassPhrase,
+                    _tokenAddress,
                     this.random
                 )
                 .estimateGas({ from: this.myAccount.address })) + 10000;

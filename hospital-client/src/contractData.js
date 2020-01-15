@@ -374,6 +374,11 @@ export let managementContractABI = [
                 type: "string"
             },
             {
+                internalType: "address",
+                name: "_tokenAddress",
+                type: "address"
+            },
+            {
                 internalType: "uint32",
                 name: "_random",
                 type: "uint32"
@@ -458,7 +463,7 @@ export let managementContractABI = [
 ];
 
 export let managementContractAddress =
-    "0xC73B3329F0f9754ae4Cf57f0227cE74C9aceda20";
+    "0x784E422EaF65Fd8BEfcF2A6EA8fe651047c343E5";
 
 export let erc20tokenABI = [
     {

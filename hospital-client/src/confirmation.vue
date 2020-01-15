@@ -51,7 +51,8 @@ export default {
             await this.$management.deploy(
                 this.encryptedPatientData,
                 this.patientSign,
-                this.patientPassPhrase
+                this.patientPassPhrase,
+                "0x3776d2930DC3A7fEd95aaA40dd5A11c9cf189317"
             );
         },
         async load(contractAddress, tokenAddress) {

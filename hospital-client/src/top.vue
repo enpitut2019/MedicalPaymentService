@@ -64,7 +64,7 @@ export default {
         inputData(result) {
             // 入力がEthereumのAddressだった場合
             if (this.$management.isAddress(result)) {
-                this.load(result, "0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7");
+                this.load(result, "0x3776d2930DC3A7fEd95aaA40dd5A11c9cf189317");
                 return;
             }
 
