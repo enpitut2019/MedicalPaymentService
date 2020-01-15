@@ -29,7 +29,7 @@
                 <qrcode-stream
                     class="fullscreen"
                     @decode="inputData"
-                    v-f="showCamera"
+                    v-if="showCamera"
                 >
                 </qrcode-stream>
                 <ui-textbox
