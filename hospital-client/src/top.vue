@@ -3,26 +3,26 @@
         <div v-if="!isCameraActive">
             <ui-alert :dismissible="false">
                 1.
-                QRコードを読み取ることで患者の情報を参照できます。また、既に受付を行った患者の画面下部に表示されるQRコードを読み込むことで再度詳細ページを開くことができます。
+                QRコードを読み取ることで患者の情報を確認できます。また、既に受付を行った患者も再度QRコードを読み取ることで詳細ページを開くことができます。
             </ui-alert>
             <div class="box">
-                <span class="box-title">サービスの概要（要改稿）</span>
+                <span class="box-title">サービスの概要</span>
                 <p>
-                    外国人旅行者が医療機関を受診した際に母国の親族が暗号通貨で支払いを行うことを想定したサービスです。
+                    医療費を暗号通貨で支払うことを想定したサービスです。
                     電子カルテなど既存サービスとの共存を前提としています。
-                    暗号通貨を使う以外のメリットとしては、
+                    サービスのメリットとしては、
                 </p>
                 <p>
                     ①診療ごとに専用のアドレスを発行することによる病院側の管理コスト軽減
                 </p>
                 <p>
-                    ②前払い…支払い能力の確認
+                    ②第三者機関を介さない前払いのプログラム的管理
                 </p>
                 <p>
-                    ③言語の違いによって起こりうる伝達ミスを起因とするトラブルの客観的解決
+                    ③伝達ミスを起因とするトラブルの客観的解決
                 </p>
                 <p>
-                    などが挙げられます。あああああああああああああああああああああああああああああああああああああああああああああ
+                    などが挙げられます。
                 </p>
             </div>
             <div class="center">
@@ -30,7 +30,7 @@
                     @click="isCameraActive = true"
                     class="button button--large"
                 >
-                    QRコードを読み込む
+                    QRコードを読み取る
                 </button>
             </div>
         </div>
@@ -38,7 +38,7 @@
             <qrcode-stream class="fullscreen" @decode="inputData">
                 <div v-if="isCameraActive">
                     <div class="com-note">
-                        患者の受付用QRコードを読み取ってください。
+                        QRコードを読み取ってください
                         <button @click="isCameraActive = false">
                             キャンセル
                         </button>

@@ -2,7 +2,7 @@
     <div class="page">
         <ui-alert :dismissible="false">{{ t("info_text1") }}</ui-alert>
         <ui-alert type="warning" :dismissible="false">
-            デモ用メッセージ：情報はパブリックなブロックチェーンに書き込まれます。暗号化しているので第三者は閲覧できませんが、念の為、正しい情報は入力しないでください。
+            {{ t("demo_text1") }}
         </ui-alert>
         <transition name="fade" mode="out-in">
             <!-- 1ページ目 -->
@@ -74,6 +74,8 @@ export default {
     },
     locales: {
         en: {
+            demo_text1:
+                "デモ用メッセージ：情報はパブリックなブロックチェーンに書き込まれます。暗号化しているので第三者は閲覧できませんが、念の為、正しい情報は入力しないでください。",
             info_text1: "2. Enter your information! (Filling out is optional)",
             name: "Name",
             gender: "Gender",
@@ -89,6 +91,8 @@ export default {
             save: "Save"
         },
         ja: {
+            demo_text1:
+                "デモ用メッセージ：情報はパブリックなブロックチェーンに書き込まれます。暗号化しているので第三者は閲覧できませんが、念の為、正しい情報は入力しないでください。",
             info_text1:
                 "2. あなたの情報を入力してください（全ての項目が任意回答です）",
             name: "名前",
@@ -105,6 +109,8 @@ export default {
             save: "保存"
         },
         ru: {
+            demo_text1:
+                "デモ用メッセージ：情報はパブリックなブロックチェーンに書き込まれます。暗号化しているので第三者は閲覧できませんが、念の為、正しい情報は入力しないでください。",
             info_text1:
                 "2. Введите вашу информацию (все поля являются необязательными)",
             name: "имя",

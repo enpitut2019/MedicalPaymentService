@@ -1,34 +1,5 @@
 <template>
     <div class="page">
-        <ui-alert :dismissible="false" v-if="!isSignCompleted">
-            3. 患者の入金済み金額を確認してください<br />
-            3. 医療費もしくは医療費概算を登録します（順不同）
-        </ui-alert>
-        <ui-alert :dismissible="false" v-if="!isSignCompleted">
-            4.
-            医療費に関して、患者の了承が得られれば「決済」ボタンを押しQRコードを読み取ってください
-        </ui-alert>
-        <ui-alert
-            type="warning"
-            :dismissible="false"
-            v-if="isSignCompleted && !isPaymentCompleted"
-        >
-            5.患者の支払金額が不足しています
-            追加で送金を行うよう要求してください
-        </ui-alert>
-        <ui-alert
-            type="success"
-            :dismissible="false"
-            v-show="isPaymentCompleted"
-        >
-            患者から{{ amountAddSymbol(paidToHospital) }}受け取り、{{
-                amountAddSymbol(paidToPatient)
-            }}返金しました<br />
-            また、Blockchainの利用手数料として{{ contractFee }}支払いました
-        </ui-alert>
-        <ui-alert type="error" v-show="signError" @dismiss="signError = false">
-            読み取るQRコードが違います
-        </ui-alert>
         <div v-if="isCameraActive" style="text-align: center; width: 100%">
             <qrcode-stream class="fullscreen" @decode="signMedicalCost">
                 <div v-if="isCameraActive">
@@ -42,6 +13,40 @@
             </qrcode-stream>
         </div>
         <div v-if="!isCameraActive">
+            <ui-alert :dismissible="false" v-if="!isSignCompleted">
+                3.
+                患者の入金済み金額を確認してください/医療費を登録してください/現実世界で診療等を行ってください（順不同）
+            </ui-alert>
+            <ui-alert :dismissible="false" v-if="!isSignCompleted">
+                4.
+                医療費に関して患者の了承が得られれば「医療費を確定」ボタンを押しQRコードを読み取ってください
+                医療費の確定後、自動で決済が行われます
+            </ui-alert>
+            <ui-alert
+                type="warning"
+                :dismissible="false"
+                v-if="isSignCompleted && !isPaymentCompleted"
+            >
+                5.患者の支払金額が不足しています
+                追加で送金を行うよう要求してください
+            </ui-alert>
+            <ui-alert
+                type="success"
+                :dismissible="false"
+                v-show="isPaymentCompleted"
+            >
+                患者から{{ amountAddSymbol(paidToHospital) }}受け取り、{{
+                    amountAddSymbol(paidToPatient)
+                }}返金しました<br />
+                また、Blockchainの利用手数料として{{ contractFee }}支払いました
+            </ui-alert>
+            <ui-alert
+                type="error"
+                v-show="signError"
+                @dismiss="signError = false"
+            >
+                読み取るQRコードが違います
+            </ui-alert>
             <div class="container">
                 <div class="containerTitle">
                     <h1>ステータス</h1>
@@ -50,6 +55,8 @@
                     <dl>
                         <dt>医療費</dt>
                         <dd>{{ amountAddSymbol(medicalCost) }}</dd>
+                        <dt>入金済み金額</dt>
+                        <dd>{{ amountAddSymbol(deposit) }}</dd>
                         <dt>未収金</dt>
                         <dd v-if="!isSignCompleted">---</dd>
                         <dd v-if="isSignCompleted">
@@ -68,22 +75,12 @@
                     <button class="button button--wide" @click="setMedicalCost">
                         医療費を登録
                     </button>
-                </div>
-                <div class="list">
-                    <dl>
-                        <dt>専用アドレス</dt>
-                        <dd>{{ contractAddress }}</dd>
-                        <dt>入金済み金額</dt>
-                        <dd>{{ amountAddSymbol(deposit) }}</dd>
-                    </dl>
-                </div>
-                <div class="center" v-if="!isSignCompleted">
                     <div class="blank"></div>
                     <button
                         class="button button--wide"
                         @click="isCameraActive = true"
                     >
-                        決済
+                        医療費を確定
                     </button>
                 </div>
             </div>
@@ -123,6 +120,8 @@
                 </div>
                 <div class="list">
                     <dl>
+                        <dt>専用アドレス</dt>
+                        <dd>{{ contractAddress }}</dd>
                         <span
                             v-for="(value, name, index) in patientData"
                             :key="index"

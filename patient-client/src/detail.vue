@@ -124,11 +124,11 @@ export default {
     locales: {
         en: {
             process3_info_text0:
-                "4. ページ下部のQRコード宛に送金を行ってください（デモ用に送金専用のクライアントを用意してあります）",
+                "4. Transfer the specified cryptocurrency using QR code at the bottom of the page (we have a transference client for the demo)",
             process4_info_text0:
-                "5. 表示された医療費に納得した場合「医療費に同意」ボタンを押し、表示されたQRコードを提示してください",
+                "5. If you accept the displayed medical expenses, please press the 'Agree to Medical Cost' button and show the displayed QR code",
             process5_info_text0:
-                "6. 支払金額が不足しています 追加でページ下部のQRコード宛に送金を行ってください",
+                "6. Out of payment amount! Please transfer additionally",
             success_info_part1: "Paid ",
             success_info_part2: " to medical institution and ",
             success_info_part3: " refunded!",
@@ -146,11 +146,11 @@ export default {
         },
         ja: {
             process3_info_text0:
-                "4. ページ下部のQRコード宛に送金を行ってください（デモ用に送金専用のクライアントを用意してあります）",
+                "4. ページ下部のQRコード宛に指定された暗号通貨を送金してください（デモ用に送金専用のクライアントを用意してあります）",
             process4_info_text0:
-                "5. 表示された医療費に納得した場合「医療費に同意」ボタンを押し、表示されたQRコードを提示してください",
+                "5. 表示された医療費に了承した場合「医療費に同意」ボタンを押し、表示されたQRコードを提示してください",
             process5_info_text0:
-                "6. 支払金額が不足しています 追加で送金を行ってください",
+                "6. 支払金額が不足しています！追加で送金を行ってください",
             success_info_part1: "医療機関に",
             success_info_part2: "支払い、",
             success_info_part3: "返金されました",
@@ -168,11 +168,11 @@ export default {
         },
         ru: {
             process3_info_text0:
-                "4. ページ下部のQRコード宛に送金を行ってください（デモ用に送金専用のクライアントを用意してあります）",
+                "4. Пожалуйста, отправьте указанную криптовалюту в QR-код внизу страницы (у нас есть специальный клиент для перевода)",
             process4_info_text0:
-                "5. 表示された医療費に納得した場合「医療費に同意」ボタンを押し、表示されたQRコードを提示してください",
+                "5. Если вы принимаете отображаемые медицинские расходы, нажмите кнопку «Я согласен на медицинские расходы» и покажите отображаемый QR-код.",
             process5_info_text0:
-                "6. 支払金額が不足しています 追加でページ下部のQRコード宛に送金を行ってください",
+                "6. Из суммы платежа! Пожалуйста, перешлите на QR-код внизу страницы дополнительно",
             success_info_part1: "выплачено ",
             success_info_part2: " в медицинское учреждение, ",
             success_info_part3: " возврат",
