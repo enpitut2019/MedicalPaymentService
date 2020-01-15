@@ -71,6 +71,7 @@ export default {
     },
     destroyed: function() {
         this.$management.unload();
+        this.$emit("loading", false);
     }
 };
 </script>

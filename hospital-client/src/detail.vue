@@ -14,8 +14,9 @@
         </div>
         <div v-if="!isCameraActive">
             <ui-alert :dismissible="false" v-if="!isSignCompleted">
-                3.
-                患者の入金済み金額を確認してください/医療費を登録してください/現実世界で診療等を行ってください（順不同）
+                3. 患者の入金済み金額を確認してください /
+                医療費を登録してください /
+                現実世界で診療等を行ってください（順不同）
             </ui-alert>
             <ui-alert :dismissible="false" v-if="!isSignCompleted">
                 4.
@@ -353,6 +354,7 @@ export default {
     },
     destroyed: function() {
         this.examination.unload();
+        this.$emit("loading", false);
     }
 };
 </script>

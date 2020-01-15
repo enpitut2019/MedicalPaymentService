@@ -325,6 +325,7 @@ export default {
     },
     destroyed: function() {
         this.examination.unload();
+        this.$emit("loading", false);
     }
 };
 </script>
