@@ -44,7 +44,7 @@ export default {
     height: 100vh;
     background-color: #000000;
     opacity: 0.75;
-    z-index: 2;
+    z-index: 22;
 }
 
 .animationLayer {
@@ -53,6 +53,6 @@ export default {
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    z-index: 3;
+    z-index: 23;
 }
 </style>
