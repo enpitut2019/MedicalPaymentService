@@ -38,10 +38,10 @@
             </div>
             <div class="list">
                 <dl>
-                    <dt>{{ t("deposit_value") }}</dt>
-                    <dd>{{ amountAddSymbol(deposit) }}</dd>
                     <dt>{{ t("medical_cost") }}</dt>
                     <dd>{{ amountAddSymbol(medicalCost) }}</dd>
+                    <dt>{{ t("deposit_value") }}</dt>
+                    <dd>{{ amountAddSymbol(deposit) }}</dd>
                     <dt>{{ t("unpaid_medical_cost") }}</dt>
                     <dd v-if="!isSignCompleted">---</dd>
                     <dd v-if="isSignCompleted">
@@ -53,7 +53,7 @@
                 <vue-qrcode
                     v-if="medicalCostSign"
                     :value="medicalCostSign"
-                    :options="{ width: winodwWidth * 0.8 }"
+                    :options="{ width: winodwWidth * 0.85 }"
                 ></vue-qrcode>
                 <button class="button button--wide" @click="generateSignQRCode">
                     {{ t("agree") }}
@@ -82,7 +82,7 @@
             <div class="center">
                 <vue-qrcode
                     :value="contractAddress"
-                    :options="{ width: winodwWidth * 0.8 }"
+                    :options="{ width: winodwWidth * 0.85 }"
                 ></vue-qrcode>
             </div>
         </div>
@@ -160,7 +160,7 @@ export default {
             payment_information: "支払い情報",
             deposit_value: "入金済み金額",
             medical_cost: "医療費",
-            unpaid_medical_cost: "未払い",
+            unpaid_medical_cost: "未払い金額",
             agree: "医療費に同意",
             medical_records: "簡易的な診療記録",
             examination_address: "送金先アドレス",
@@ -194,6 +194,9 @@ export default {
         await sleep(1000);
         await this.init();
         this.$emit("loading", false);
+    },
+    mounted: function() {
+        window.addEventListener("resize", this.handleResize);
     },
     methods: {
         async init() {
@@ -321,9 +324,13 @@ export default {
             if (event === "AddMedicalNote") {
                 this.medicalNotes.push(value);
             }
+        },
+        handleResize: function() {
+            this.winodwWidth = window.innerWidth;
         }
     },
     destroyed: function() {
+        window.removeEventListener("resize", this.handleResize);
         this.examination.unload();
         this.$emit("loading", false);
     }

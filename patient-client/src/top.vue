@@ -92,6 +92,7 @@ export default {
         // 過去のイベントを読み込み
         await this.$management.getPastStartExaminationEvent();
         this.$emit("loading", false);
+        window.addEventListener("resize", this.handleResize);
     },
     methods: {
         async load(contractAddress, tokenAddress) {
@@ -106,9 +107,13 @@ export default {
         },
         callBackFunc(event, value) {
             this.load(value.contractAddress, value.tokenAddress);
+        },
+        handleResize: function() {
+            this.winodwWidth = window.innerWidth;
         }
     },
     destroyed: function() {
+        window.removeEventListener("resize", this.handleResize);
         this.$management.unload();
     }
 };
