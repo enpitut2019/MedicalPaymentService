@@ -106,13 +106,7 @@
                     ></ui-textbox>
                 </div>
                 <div class="center" v-if="!isSignCompleted">
-                    <button
-                        class="button button--wide"
-                        @click="
-                            addMedicalNote(medLog);
-                            medLog = '';
-                        "
-                    >
+                    <button class="button button--wide" @click="addMedicalNote">
                         記録する
                     </button>
                 </div>
@@ -233,7 +227,13 @@ export default {
         },
         async setMedicalCost() {
             this.$emit("loading", true);
-            await this.examination.setMedicalCost(this.inputMedicalCost);
+            // 数字以外の入力弾く
+            if (
+                isFinite(this.inputMedicalCost) &&
+                this.inputMedicalCost !== ""
+            ) {
+                await this.examination.setMedicalCost(this.inputMedicalCost);
+            }
             this.inputMedicalCost = "";
             this.$emit("loading", false);
         },
@@ -253,9 +253,13 @@ export default {
             );
             if (this.isSignCompleted && this.deposit > 0) await this.withDraw();
         },
-        async addMedicalNote(note) {
+        async addMedicalNote() {
             this.$emit("loading", true);
-            await this.examination.addMedicalNote(note);
+            // 空文字列を弾く
+            if (this.medLog !== "") {
+                await this.examination.addMedicalNote(this.medLog);
+                this.medLog = "";
+            }
             this.$emit("loading", false);
         },
         async getMedicalNotes() {
