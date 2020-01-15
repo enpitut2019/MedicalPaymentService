@@ -290,7 +290,7 @@ export default {
         },
         reset() {
             localStorage.clear();
-            window.location.href = "/";
+            window.location.reload();
         },
         async callBackFunc(event, value) {
             this.$emit("loading", true);
