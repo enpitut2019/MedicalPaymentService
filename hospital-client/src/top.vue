@@ -5,7 +5,11 @@
                 1.
                 QRコードを読み取ることで患者の情報を確認できます。また、既に受付を行った患者も再度QRコードを読み取ることで詳細ページを開くことができます。
             </ui-alert>
-            <ui-alert :dismissible="false" type="error" v-show="showErrorAlert">
+            <ui-alert
+                @dismiss="showQRErrorAlert = false"
+                type="error"
+                v-show="showQRErrorAlert"
+            >
                 異なるQRコードを読み込んでいます！
             </ui-alert>
             <div class="box">
@@ -53,7 +57,7 @@ export default {
             patientSign: "",
             patientPassPhrase: "",
             patientData: "",
-            showErrorAlert: false
+            showQRErrorAlert: false
         };
     },
     methods: {
@@ -77,10 +81,10 @@ export default {
                 this.patientData = JSON.parse(patientDataJson);
                 this.patientDataActive = true;
                 this.isCameraActive = false;
-                this.showErrorAlert = false;
+                this.showQRErrorAlert = false;
             } catch (e) {
                 this.isCameraActive = false;
-                this.showErrorAlert = true;
+                this.showQRErrorAlert = true;
                 return;
             }
 
