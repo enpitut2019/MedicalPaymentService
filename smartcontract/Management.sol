@@ -1,4 +1,4 @@
-pragma solidity ^0.5.11;
+pragma solidity 0.5.16;
 pragma experimental ABIEncoderV2;
 
 import "./Examination.sol";
@@ -7,10 +7,9 @@ contract Management{
 
     event StartExamination(address contractAddress, address indexed hospitalAddress, address indexed patientAddress, address tokenAddress, uint32 indexed random);
     
-    address tokenAddress = 0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7; // TestUSD
-    address owner;
-    mapping (address => ExaminationInfo[]) examinationList;
-    mapping (address => string) publicKey;
+    address private tokenAddress = 0xBF8AC0D55453C6d240273404c11FfBbD33E65aF7; // TestUSD
+    address private owner;
+    mapping (address => ExaminationInfo[]) private examinationList;
 
     struct ExaminationInfo{
         Examination examinationContract;
