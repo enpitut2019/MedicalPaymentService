@@ -53,7 +53,7 @@
                 v-show="somethingError"
                 @dismiss="somethingError = false"
             >
-                何らかのエラーが発生しました、詳細ページの再読み込みが必要です
+                デモ用に秘密鍵を共有してるため、操作が衝突してる可能性があります。30秒程度空けてから再度操作するか、それでもエラーが表示される場合ページを更新してください。
             </ui-alert>
             <div class="container">
                 <div class="containerTitle">
